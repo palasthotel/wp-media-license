@@ -27,6 +27,12 @@ class AssetLicenses {
 	const META_AUTHOR = "asset_license_author";
 	
 	/**
+	 * modify caption filter
+	 */
+	const FILTER_EDIT_CAPTION_NAME = "asset_license_edit_caption";
+	const FILTER_EDIT_CAPTION_NUM_ARGS = 3;
+	
+	/**
 	 * AssetLicenses constructor.
 	 */
 	public function __construct() {
@@ -38,12 +44,18 @@ class AssetLicenses {
 		/**
 		 * save custom meta field values
 		 */
-		add_action( 'save_post_attachment', array($this, 'edit_attachment'));
+//		add_action( 'save_post_attachment', array($this, 'edit_attachment'));
+		add_action( 'edit_attachment', array($this, 'edit_attachment'));
 		
 		/**
 		 * filter is called by shortcode_atts
 		 */
 		add_filter('shortcode_atts_caption', array($this, 'shortcode_atts_caption'), 10, 4);
+		
+		/**
+		 * edit caption filter
+		 */
+		add_filter(self::FILTER_EDIT_CAPTION_NAME, array($this, 'edit_caption'), 10, self::FILTER_EDIT_CAPTION_NUM_ARGS);
 		
 	}
 	
@@ -79,9 +91,22 @@ class AssetLicenses {
 	 * @param $attachment_id integer
 	 */
 	function edit_attachment($attachment_id) {
-		if( isset($_POST[self::META_LICENSE]) ){
-			update_post_meta($attachment_id, self::META_LICENSE, sanitize_text_field($_POST[self::META_LICENSE]) );
+		if(
+			isset($_POST["attachments"]) &&
+			isset($_POST["attachments"][$attachment_id])
+		){
+			$attachment_meta = $_POST["attachments"][$attachment_id];
+			
+			if( isset($attachment_meta[self::META_LICENSE]) ){
+				update_post_meta($attachment_id, self::META_LICENSE, sanitize_text_field($attachment_meta[self::META_LICENSE]) );
+			}
+			
+			if( isset($attachment_meta[self::META_AUTHOR]) ){
+				update_post_meta($attachment_id, self::META_AUTHOR, sanitize_text_field($attachment_meta[self::META_AUTHOR]) );
+			}
 		}
+		
+		
 	}
 	
 	/**
@@ -95,19 +120,47 @@ class AssetLicenses {
 	 * @return array
 	 */
 	public function shortcode_atts_caption($out, $pairs, $atts, $shortcode ){
-		// TODO: only handle if there is license information
-		// TODO: use an template thats overrideable in theme
-		$media_id = get_the_ID();
-		$license = get_post_meta($media_id,self::META_LICENSE, true);
 		
-		if( !empty($license) ){
-			$out['caption'] = $out['caption'].$license;
+		$attachment_id = (int)str_replace("attachment_","",$out["id"]);
+		
+		if($attachment_id > 0){
+			$license = get_post_meta($attachment_id,self::META_LICENSE, true);
+			$author = get_post_meta($attachment_id,self::META_AUTHOR, true);
+			
+			$original = $out['caption'];
+			
+			$info = (object)array(
+				'license' => (empty($license))? null: $license,
+				'author' => (empty($author))? null: $author,
+			);
+			
+			$out['caption'] = apply_filters( 'asset_license_edit_caption', $original, $original, $info);
 		}
 		
 		/**
 		 * return output object which is modified atts
 		 */
 		return $out;
+	}
+	
+	/**
+	 * @param $caption string modified caption
+	 * @param $original string unmodified caption
+	 * @param $info object asset license info
+	 *
+	 * @return string modified caption
+	 */
+	public function edit_caption($caption, $original, $info){
+		
+		if( $info->author != null){
+			$caption.= " by ".$info->author;
+		}
+		
+		if( $info->license != null){
+			$caption.= " ".$info->license;
+		}
+		
+		return $caption;
 	}
 	
 }
