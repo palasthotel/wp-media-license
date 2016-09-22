@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Asset Licenses
- * Plugin URI: https://github.com/palasthotel/asset-licenses
- * Description: Advanced caption with license for assets
+ * Plugin Name: Media License
+ * Plugin URI: https://github.com/palasthotel/media-license
+ * Description: Advanced caption with license for media files
  * Version: 1.0
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock)
  * Author URI: http://www.palasthotel.de
@@ -10,7 +10,7 @@
  * Tested up to: 4.6
  * License: http://www.gnu.org/licenses/gpl-2.0.html GPLv2
  * @copyright Copyright (c) 2014, Palasthotel
- * @package Palasthotel\AssetLicenses
+ * @package Palasthotel\MediaLicense
  */
 
 // If this file is called directly, abort.
@@ -18,22 +18,22 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class AssetLicenses {
+class MediaLicense {
 	
 	/**
 	 * meta field key names
 	 */
-	const META_LICENSE = "asset_license_info";
-	const META_AUTHOR = "asset_license_author";
+	const META_LICENSE = "media_license_info";
+	const META_AUTHOR = "media_license_author";
 	
 	/**
 	 * modify caption filter
 	 */
-	const FILTER_EDIT_CAPTION_NAME = "asset_license_edit_caption";
+	const FILTER_EDIT_CAPTION_NAME = "media_license_edit_caption";
 	const FILTER_EDIT_CAPTION_NUM_ARGS = 3;
 	
 	/**
-	 * AssetLicenses constructor.
+	 * MediaLicenses constructor.
 	 */
 	public function __construct() {
 		/**
@@ -134,7 +134,7 @@ class AssetLicenses {
 				'author' => (empty($author))? null: $author,
 			);
 			
-			$out['caption'] = apply_filters( 'asset_license_edit_caption', $original, $original, $info);
+			$out['caption'] = apply_filters( self::FILTER_EDIT_CAPTION_NAME, $original, $original, $info);
 		}
 		
 		/**
@@ -146,7 +146,7 @@ class AssetLicenses {
 	/**
 	 * @param $caption string modified caption
 	 * @param $original string unmodified caption
-	 * @param $info object asset license info
+	 * @param $info object media license info
 	 *
 	 * @return string modified caption
 	 */
@@ -164,4 +164,4 @@ class AssetLicenses {
 	}
 	
 }
-new AssetLicenses();
+new MediaLicense();
