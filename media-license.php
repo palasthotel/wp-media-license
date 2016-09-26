@@ -117,16 +117,16 @@ class MediaLicense {
 	 */
 	public function add_fields($fields){
 		$fields[self::META_LICENSE] = array(
-			'label' => __('Lizense text','media_license'),
+			'label' => __('Lizense','media_license'),
 			'input' => 'text',
 			'value' => '',
-			'helps' => __('If provided, add license to caption.','media_license'),
+			'helps' => __('Add license to caption if provided','media_license'),
 		);
 		$fields[self::META_AUTHOR] = array(
 			'label' => __('Author','media_license'),
 			'input' => 'text',
 			'value' => '',
-			'helps' => __('If provided, add author to caption.','media_license'),
+			'helps' => __('Add author to caption if provided','media_license'),
 		);
 		return $fields;
 	}
