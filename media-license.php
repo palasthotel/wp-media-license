@@ -64,6 +64,11 @@ class MediaLicense {
 		$this->dir = plugin_dir_path(__FILE__);
 		
 		/**
+		 * load translations
+		 */
+		load_plugin_textdomain( 'media_license', false, $this->dir . '/languages' );
+		
+		/**
 		 * meta fields array for iteration
 		 */
 		$this->meta_fields = array();
@@ -112,16 +117,16 @@ class MediaLicense {
 	 */
 	public function add_fields($fields){
 		$fields[self::META_LICENSE] = array(
-			'label' => 'Lizense text',
+			'label' => __('Lizense text','media_license'),
 			'input' => 'text',
 			'value' => '',
-			'helps' => 'If provided, add license to caption.',
+			'helps' => __('If provided, add license to caption.','media_license'),
 		);
 		$fields[self::META_AUTHOR] = array(
-			'label' => 'Author',
+			'label' => __('Author','media_license'),
 			'input' => 'text',
 			'value' => '',
-			'helps' => 'If provided, add author to caption.',
+			'helps' => __('If provided, add author to caption.','media_license'),
 		);
 		return $fields;
 	}
