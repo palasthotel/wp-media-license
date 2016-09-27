@@ -18,6 +18,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+use MediaLicense\CreativeCommon;
+
 /**
  * Class MediaLicense
  */
@@ -62,6 +64,11 @@ class MediaLicense {
 		 * plugin directory
 		 */
 		$this->dir = plugin_dir_path(__FILE__);
+		
+		/**
+		 * creative common object
+		 */
+		require_once $this->dir."/creative-common.inc";
 		
 		/**
 		 * load translations
@@ -116,12 +123,29 @@ class MediaLicense {
 	 * @return array
 	 */
 	public function add_fields($fields){
+		
+		/**
+		 * lizenses selection
+		 */
+		$list = CreativeCommon::getList();
+		$selections = array();
+		foreach($list as $slug => $item){
+			$selections[] = array(
+				"value" => $slug,
+				"label" => $item['label'],
+			);
+		}
 		$fields[self::META_LICENSE] = array(
 			'label' => __('Lizense','media_license'),
-			'input' => 'text',
+			'input' => 'select',
 			'value' => '',
 			'helps' => __('Add license to caption if provided','media_license'),
+			'selections' => $selections,
 		);
+		
+		/**
+		 * author field
+		 */
 		$fields[self::META_AUTHOR] = array(
 			'label' => __('Author','media_license'),
 			'input' => 'text',
@@ -146,7 +170,24 @@ class MediaLicense {
 		foreach($this->meta_fields as $meta_key => $form_definition){
 			$fd = $form_definition;
 			$value = get_post_meta( $post->ID, $meta_key, true );
-			$fd['value'] = (empty($value))? '': $value;
+			switch ($fd['input']){
+				case "select":
+					$fd['type'] = "html";
+					$fd['html'] = "<select name='attachments[{$post->ID}][{$meta_key}]' id='attachments[{$post->ID}][{$meta_key}]'>";
+					foreach($fd['selections'] as $selection){
+						$_value = $selection["value"];
+						$label = $selection['label'];
+						$fd['input'] = 'html';
+						$fd['html'].= "<option value='{$_value}' ".(($_value == $value)? "selected='selected'": "").">{$label}</option>";
+					}
+					break;
+				default:
+					
+					$fd['value'] = (empty($value))? '': $value;
+					break;
+			}
+			
+			
 			$form_fields[$meta_key] = $fd;
 		}
 		
@@ -190,24 +231,24 @@ class MediaLicense {
 		if($attachment_id > 0){
 			
 			/**
-			 * collect all license info
-			 */
-			$info = array();
-			foreach ($this->meta_fields as $meta_key => $field_definition){
-				$value = get_post_meta( $attachment_id, $meta_key, true );
-				$info[$meta_key] = (empty($value))? '': $value;
-			}
-			
-			/**
 			 * edit caption by filters
 			 */
-			$out['caption'] = apply_filters( self::FILTER_EDIT_CAPTION_NAME, $out['caption'], $out['caption'], $info);
+			$out['caption'] = apply_filters( self::FILTER_EDIT_CAPTION_NAME, $out['caption'], $out['caption'], $this->get_caption_info($attachment_id));
 		}
 		
 		/**
 		 * return output object which is modified atts
 		 */
 		return $out;
+	}
+	
+	public function get_caption_info($attachment_id){
+		$info = array();
+		foreach ($this->meta_fields as $meta_key => $field_definition){
+			$value = get_post_meta( $attachment_id, $meta_key, true );
+			$info[$meta_key] = (empty($value))? '': $value;
+		}
+		return $info;
 	}
 	
 	/**
@@ -218,11 +259,15 @@ class MediaLicense {
 	 * @return string modified caption
 	 */
 	public function edit_caption($caption, $original_caption, $info){
-		
 		/**
 		 * dynamic varaibles
 		 */
 		extract($info, EXTR_PREFIX_SAME, "ml");
+		
+		
+		$license = new CreativeCommon($info["media_license_info"]);
+		
+		
 		
 		/**
 		 * get template contents
@@ -239,5 +284,16 @@ class MediaLicense {
 		return $caption;
 	}
 	
+	public function get_licensed_caption($caption, $attachment_id){
+		
+	}
+	
 }
-new MediaLicense();
+global $media_license;
+$media_license = new MediaLicense();
+
+function media_license_get_caption($attachment_id){
+	global $media_license;
+	$post = get_post($attachment_id);
+	return apply_filters( MediaLicense::FILTER_EDIT_CAPTION_NAME,  $post->post_excerpt,  $post->post_excerpt, $media_license->get_caption_info($attachment_id));
+}
