@@ -242,6 +242,13 @@ class MediaLicense {
 		return $out;
 	}
 	
+	/**
+	 * get all meta info for attachment
+	 *
+	 * @param $attachment_id
+	 *
+	 * @return array
+	 */
 	public function get_caption_info($attachment_id){
 		$info = array();
 		foreach ($this->meta_fields as $meta_key => $field_definition){
@@ -284,16 +291,28 @@ class MediaLicense {
 		return $caption;
 	}
 	
-	public function get_licensed_caption($caption, $attachment_id){
-		
-	}
-	
 }
+
+/**
+ * save to global
+ * @var $media_license MediaLicense
+ */
 global $media_license;
 $media_license = new MediaLicense();
 
+/**
+ * get caption with info template
+ * @param $attachment_id
+ *
+ * @return mixed|void
+ */
 function media_license_get_caption($attachment_id){
 	global $media_license;
 	$post = get_post($attachment_id);
-	return apply_filters( MediaLicense::FILTER_EDIT_CAPTION_NAME,  $post->post_excerpt,  $post->post_excerpt, $media_license->get_caption_info($attachment_id));
+	return apply_filters(
+		MediaLicense::FILTER_EDIT_CAPTION_NAME,
+		$post->post_excerpt,
+		$post->post_excerpt,
+		$media_license->get_caption_info($attachment_id)
+	);
 }
