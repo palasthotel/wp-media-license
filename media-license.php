@@ -34,9 +34,9 @@ class MediaLicense {
 	/**
 	 * meta field key names
 	 */
-	const META_REPLACE_PREFIX = "media_license_";
 	const META_LICENSE = "media_license_info";
 	const META_AUTHOR = "media_license_author";
+	const META_URL = "media_license_url";
 	
 	/**
 	 * edit caption filter
@@ -152,6 +152,17 @@ class MediaLicense {
 			'value' => '',
 			'helps' => __('Add author to caption if provided','media_license'),
 		);
+		
+		/**
+		 * url field
+		 */
+		$fields[self::META_URL] = array(
+			'label' => __('Author URL','media_license'),
+			'input' => 'text',
+			'value' => '',
+			'helps' => __('Link author if url is provided','media_license'),
+		);
+		
 		return $fields;
 	}
 	
@@ -182,7 +193,6 @@ class MediaLicense {
 					}
 					break;
 				default:
-					
 					$fd['value'] = (empty($value))? '': $value;
 					break;
 			}

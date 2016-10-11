@@ -7,7 +7,48 @@
  * @var $info array
  * @var $media_license_author string
  * @var $media_license_info
+ * @var $media_license_url
  * ... key of fields are dynamic variables
  */
 
-echo $caption." by ".$media_license_author." ".$license->getLink($license->getImage());
+
+$output = "";
+
+/**
+ * if there is a caption save it to output
+ */
+if ( "" != $caption )
+{
+	$output = $caption;
+}
+
+/**
+ * if author is set
+ */
+if ( "" != $media_license_author )
+{
+	/**
+	 * if url is set
+	 */
+	$pre_link = "";
+	$post_link = "";
+	if($media_license_url != "")
+	{
+		$pre_link = "<a href=\"{$media_license_url}\" >";
+		$post_link = "</a>";
+	}
+	
+	$output .= __(" by ", "media-license" ) . $pre_link . $media_license_author . $post_link . " ";
+}
+
+/**
+ * if we have a license selected
+ */
+if( "" != $license->getLink( $license->getImage() )){
+	$output .= $license->getLink( $license->getImage());
+}
+
+/**
+ * shout it out!
+ */
+echo $output;
