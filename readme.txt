@@ -4,7 +4,7 @@ Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -33,6 +33,9 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.0.2 =
+ * If no license selected no output in template
 
 = 1.0.1 =
  * Linkable author
