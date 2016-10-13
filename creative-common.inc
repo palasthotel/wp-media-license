@@ -165,6 +165,14 @@ class CreativeCommon {
 	}
 	
 	/**
+	 * check if license is chosen
+	 * @return bool
+	 */
+	public function hasLicense(){
+		return ($this->license != null && $this->license['path'] != '');
+	}
+	
+	/**
 	 * @param $slug
 	 * @param $content
 	 * @param array $classes
@@ -172,7 +180,7 @@ class CreativeCommon {
 	 * @return string
 	 */
 	public function getLink($content, $classes = array()){
-		if($this->license == null) return $content;
+		if(!$this->hasLicense()) return $content;
 		return '<a class="'.implode(" ", $classes).'" rel="license" target="_blank" href="'.$this->getUrl() . '">' . $content . '</a>';
 	}
 	
@@ -182,7 +190,7 @@ class CreativeCommon {
 	 * @return string
 	 */
 	public function getImage( $classes = array()){
-		if($this->license == null) return '';
+		if(!$this->hasLicense()) return '';
 		return '<img class="'.implode(" ", $classes).'" alt="'.__("Creative Commons License logo").'" src="'.$this->getImageUrl().'" />';
 	}
 	
@@ -192,7 +200,7 @@ class CreativeCommon {
 	 * @return string url to license
 	 */
 	public function getUrl(){
-		if($this->license == null) return '';
+		if(!$this->hasLicense()) return '';
 		return "http://creativecommons.org/licenses/".$this->license['path']."/deed.de";
 	}
 	
@@ -202,7 +210,7 @@ class CreativeCommon {
 	 * @return mixed
 	 */
 	public function getImageUrl(){
-		if($this->license == null) return '';
+		if(!$this->hasLicense()) return '';
 		return "https://i.creativecommons.org/l/".$this->license['path']."/80x15.png";
 	}
 	
@@ -212,7 +220,7 @@ class CreativeCommon {
 	 * @return string
 	 */
 	public function getLabel( ) {
-		if($this->license == null) return '';
+		if(!$this->hasLicense()) return '';
 		return $this->license['label'];
 	}
 	
