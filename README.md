@@ -7,7 +7,7 @@ Captions are automatically added to images in post content. Elsewhere you can us
 
 ## Templates
 
-You can copy the default templates from plugins "templates" folder.
+You can copy the default templates from plugins "templates" folder to "%theme%/plugin-parts/*".
 
 ### media-license-caption.tpl.php
 
@@ -39,7 +39,11 @@ Available filters for media license plugin.
 ### Mainupate caption text
 
 ```php
-add_filter( 'media_license_edit_caption', 'your_function', 10, 3);
+add_filter( 'media_license_edit_caption', 'myplugin_media_license_edit_caption', 10, 3);
+function myplugin_media_license_edit_caption($caption, $original_caption, $info){
+	// manipulate $caption
+	return $caption;
+}
 ```
 
 **Parameters:**
@@ -57,7 +61,11 @@ _manipulated_caption_ ===> Manipulate the $caption and return the result
 ### Add even more info fields
 
 ```php
-add_filter( 'media_license_add_fields', 'your_function');
+add_filter( 'media_license_add_fields', 'myplugin_media_license_add_fields');
+function myplugin_media_license_add_fields($fields){
+	// manipulate $fields
+	return $fields;
+}
 ```
 
 **Parameters:**
