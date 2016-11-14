@@ -32,11 +32,10 @@ class MediaLicense {
 	public $dir;
 	
 	/**
-	 * meta field key names
+	 * theme template parts
 	 */
-	const META_LICENSE = "media_license_info";
-	const META_AUTHOR = "media_license_author";
-	const META_URL = "media_license_url";
+	const THEME_FOLDER = "plugin-parts";
+	const TEMPLATE_FILE_CAPTION = "media-license-caption.tpl.php";
 	
 	/**
 	 * edit caption filter
@@ -51,9 +50,13 @@ class MediaLicense {
 	const FILTER_ADD_FIELDS_NUM_ARGS = 1;
 	
 	/**
-	 * caption template file
+	 * meta field key names
 	 */
-	const TEMPLATE_FILE_CAPTION = "media-license-caption.php";
+	const META_LICENSE = "media_license_info";
+	const META_AUTHOR = "media_license_author";
+	const META_URL = "media_license_url";
+	
+	
 	
 	/**
 	 * MediaLicenses constructor.
@@ -287,7 +290,7 @@ class MediaLicense {
 		 * get template contents
 		 */
 		ob_start();
-		if ( $overridden_template = locate_template( self::TEMPLATE_FILE_CAPTION ) ) {
+		if ( $overridden_template = locate_template( self::THEME_FOLDER."/".self::TEMPLATE_FILE_CAPTION ) ) {
 			include $overridden_template;
 		} else {
 			include $this->dir . '/templates/'.self::TEMPLATE_FILE_CAPTION;

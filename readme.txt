@@ -34,6 +34,10 @@ Yes you can with the filter function "media_license_add_fields".
 
 == Changelog ==
 
+= 1.1.0 =
+ * Theme template location changed to plugin-parts subfolder.
+ * Template part file ending is now .tpl.php
+
 = 1.0.2 =
  * If no license selected no output in template
 
