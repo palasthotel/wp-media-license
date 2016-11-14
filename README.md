@@ -2,7 +2,7 @@
 
 Allows you to add media license info to your media files. Plugin is available at [WordPress.org](https://wordpress.org/plugins/media-license/)
 
-Captions are automatically added 
+Captions are automatically added to images in post content. Elsewhere you can use [media_license_get_caption](#get-license-caption-by-attachment-id) function.
 
 
 ## Templates
@@ -95,7 +95,7 @@ $fields['my_select_field'] = array(
 
 Public plugin function. Always use ```php function_exists(...)``` before using an function.
  
- ### Get license caption by attachment ID
+### Get license caption by attachment ID
 
 ```php
 $caption = media_license_get_caption($attachment_id)
