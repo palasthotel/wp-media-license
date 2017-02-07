@@ -21,6 +21,7 @@ class CreativeCommon {
 	 */
 	public function __construct($slug) {
 		$list = self::getList();
+		$this->slug = $slug;
 		if(!isset($list[$slug]) || empty($list[$slug])){
 			$this->license = null;
 			return;
@@ -37,12 +38,12 @@ class CreativeCommon {
 		
 		$licenses['nil'] = array(
 			'label'     => __('-- Choose license --', 'media_license'),
-			'path'      => '',
+			'cc_path'      => '',
 		);
 		
 		$licenses['copyright'] = array(
 			'label'     => __('All rights reserved', 'media_license'),
-			'path'      => '',
+			'cc_path'      => '',
 		);
 		
 		/**
@@ -50,17 +51,17 @@ class CreativeCommon {
 		 */
 		$licenses['cc-by'] = array(
 			'label'     => 'CC-BY 2.0',
-			'path'      => 'by/2.0',
+			'cc_path'      => 'by/2.0',
 		);
 		
 		$licenses['cc-by-3'] = array(
 			'label'     => 'CC-BY 3.0',
-			'path'      => 'by/3.0',
+			'cc_path'      => 'by/3.0',
 		);
 		
 		$licenses['cc-by-4'] = array(
 			'label'     => 'CC-BY 4.0',
-			'path'      => 'by/4.0',
+			'cc_path'      => 'by/4.0',
 		);
 		
 		/**
@@ -68,17 +69,17 @@ class CreativeCommon {
 		 */
 		$licenses['cc-by-sa'] = array(
 			'label'     => 'CC-BY-SA 2.0',
-			'path'      => 'by-sa/2.0',
+			'cc_path'      => 'by-sa/2.0',
 		);
 		
 		$licenses['cc-by-sa-3'] = array(
 			'label'     => 'CC-BY-SA 3.0',
-			'path'      => 'by-sa/3.0',
+			'cc_path'      => 'by-sa/3.0',
 		);
 		
 		$licenses['cc-by-sa-4'] = array(
 			'label'     => 'CC-BY-SA 4.0',
-			'path'      => 'by-sa/4.0',
+			'cc_path'      => 'by-sa/4.0',
 		);
 		
 		/**
@@ -86,17 +87,17 @@ class CreativeCommon {
 		 */
 		$licenses['cc-by-nc'] = array(
 			'label'     => 'CC-BY-NC 2.0',
-			'path'      => 'by-nc/2.0',
+			'cc_path'      => 'by-nc/2.0',
 		);
 		
 		$licenses['cc-by-nc-3'] = array(
 			'label'     => 'CC-BY-NC 3.0',
-			'path'      => 'by-nc/3.0',
+			'cc_path'      => 'by-nc/3.0',
 		);
 		
 		$licenses['cc-by-nc-4'] = array(
 			'label'     => 'CC-BY-NC 4.0',
-			'path'      => 'by-nc/4.0',
+			'cc_path'      => 'by-nc/4.0',
 		);
 		
 		/**
@@ -104,17 +105,17 @@ class CreativeCommon {
 		 */
 		$licenses['cc-by-nd'] = array(
 			'label'     => 'CC-BY-ND 2.0',
-			'path'      => 'by-nd/2.0',
+			'cc_path'      => 'by-nd/2.0',
 		);
 		
 		$licenses['cc-by-nd-3'] = array(
 			'label'     => 'CC-BY-ND 3.0',
-			'path'      => 'by-nd/3.0',
+			'cc_path'      => 'by-nd/3.0',
 		);
 		
 		$licenses['cc-by-nd-4'] = array(
 			'label'     => 'CC-BY-ND 4.0',
-			'path'      => 'by-nd/4.0',
+			'cc_path'      => 'by-nd/4.0',
 		);
 		
 		/**
@@ -122,17 +123,17 @@ class CreativeCommon {
 		 */
 		$licenses['cc-by-nc-sa'] = array(
 			'label'     => 'CC-BY-NC-SA 2.0',
-			'path'      => 'by-nc-sa/2.0',
+			'cc_path'      => 'by-nc-sa/2.0',
 		);
 		
 		$licenses['cc-by-nc-sa-3'] = array(
 			'label'     => 'CC-BY-NC-SA 3.0',
-			'path'      => 'by-nc-sa/3.0',
+			'cc_path'      => 'by-nc-sa/3.0',
 		);
 		
 		$licenses['cc-by-nc-sa-4'] = array(
 			'label'     => 'CC-BY-NC-SA 4.0',
-			'path'      => 'by-nc-sa/4.0',
+			'cc_path'      => 'by-nc-sa/4.0',
 		);
 		
 		/**
@@ -140,17 +141,17 @@ class CreativeCommon {
 		 */
 		$licenses['cc-by-nc-nd'] = array(
 			'label'     => 'CC-BY-NC-SA 2.0',
-			'path'      => 'by-nc-nd/2.0',
+			'cc_path'      => 'by-nc-nd/2.0',
 		);
 		
 		$licenses['cc-by-nc-nd-3'] = array(
 			'label'     => 'CC-BY-NC-SA 3.0',
-			'path'      => 'by-nc-nd/3.0',
+			'cc_path'      => 'by-nc-nd/3.0',
 		);
 		
 		$licenses['cc-by-nc-nd-4'] = array(
 			'label'     => 'CC-BY-NC-SA 4.0',
-			'path'      => 'by-nc-nd/4.0',
+			'cc_path'      => 'by-nc-nd/4.0',
 		);
 		
 		/**
@@ -158,7 +159,7 @@ class CreativeCommon {
 		 */
 		$licenses['public-domain'] = array(
 			'label'     => __('Public Domain', 'media_license'),
-			'path'      => '',
+			'cc_path'      => '',
 		);
 		
 		return $licenses;
@@ -169,7 +170,15 @@ class CreativeCommon {
 	 * @return bool
 	 */
 	public function hasLicense(){
-		return ($this->license != null && $this->license['path'] != '');
+		return ($this->license != null && $this->slug != 'nil');
+	}
+	
+	/**
+	 * check if license has path to creative commons
+	 * @return bool
+	 */
+	public function hasLicensePath(){
+		return ($this->license != null && $this->license['cc_path'] != '');
 	}
 	
 	/**
@@ -180,38 +189,41 @@ class CreativeCommon {
 	 * @return string
 	 */
 	public function getLink($content, $classes = array()){
-		if(!$this->hasLicense()) return $content;
+		if(!$this->hasLicensePath()) return $content;
 		return '<a class="'.implode(" ", $classes).'" rel="license" target="_blank" href="'.$this->getUrl() . '">' . $content . '</a>';
 	}
 	
 	/**
+	 * Get Creative Commons image tag
 	 * @param array $classes
 	 *
 	 * @return string
 	 */
 	public function getImage( $classes = array()){
-		if(!$this->hasLicense()) return '';
-		return '<img class="'.implode(" ", $classes).'" alt="'.__("Creative Commons License logo").'" src="'.$this->getImageUrl().'" />';
+		if(!$this->hasLicensePath()) return '';
+		return '<img class="'.implode(" ", $classes).'" alt="'.__("Creative Commons License logo", 'media_license').'" src="'.$this->getImageUrl().'" />';
 	}
 	
 	/**
+	 * Get Creative Commons license page url
 	 * @param $slug
 	 *
 	 * @return string url to license
 	 */
 	public function getUrl(){
-		if(!$this->hasLicense()) return '';
-		return "http://creativecommons.org/licenses/".$this->license['path']."/deed.de";
+		if(!$this->hasLicensePath()) return '';
+		return "http://creativecommons.org/licenses/".$this->license['cc_path']."/deed.de";
 	}
 	
 	/**
+	 * Create Commons image url
 	 * @param $slug
 	 *
 	 * @return mixed
 	 */
 	public function getImageUrl(){
-		if(!$this->hasLicense()) return '';
-		return "https://i.creativecommons.org/l/".$this->license['path']."/80x15.png";
+		if(!$this->hasLicensePath()) return '';
+		return "https://i.creativecommons.org/l/".$this->license['cc_path']."/80x15.png";
 	}
 	
 	/**

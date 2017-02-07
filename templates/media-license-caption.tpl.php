@@ -44,8 +44,10 @@ if ( "" != $media_license_author )
 /**
  * if we have a license selected
  */
-if( "" != $license->getLink( $license->getImage() )){
+if( $license->hasLicensePath() && "" != $license->getLink( $license->getImage() )){
 	$output .= $license->getLink( $license->getImage());
+} else if($license->hasLicense()){
+	$output .= " ".$license->getLabel();
 }
 
 /**
