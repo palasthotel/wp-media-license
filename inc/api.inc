@@ -26,7 +26,12 @@ class API {
 	}
 
 	function register(){
-		wp_register_script(Plugin::API_JS_HANDLE, $this->plugin->url."/js/api.js", array("jquery"));
+		wp_register_script(
+			Plugin::API_JS_HANDLE,
+			$this->plugin->url."/js/api.js",
+			array("jquery"),
+			filemtime($this->plugin->dir."/js/api.js")
+		);
 		$obj =  array(
 			"ajaxurl" => admin_url( 'admin-ajax.php' ),
 			"params" => array(
