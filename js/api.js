@@ -18,6 +18,8 @@
 			}
 		});
 
+		if(ids.length < 1) return;
+
 		api.get_licenses(ids).done(function(result){
 
 			if(result.error){

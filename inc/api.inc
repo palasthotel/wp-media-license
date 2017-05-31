@@ -44,6 +44,8 @@ class API {
 
 	function ajax(){
 
+		if(empty($_POST["ids"])) exit;
+
 		if(!is_array($_POST["ids"])){
 			wp_send_json(array(
 				"error" => true,
