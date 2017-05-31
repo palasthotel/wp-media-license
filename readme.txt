@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
-Tested up to: 4.7.3
-Stable tag: 1.1.1
+Tested up to: 4.7.5
+Stable tag: 1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -33,6 +33,12 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.2 =
+ * Ajax API
+ * global $media_license not available anymore
+ * singleton pattern plugin now
+ * autoload async licenses filter added
 
 = 1.1.1 =
  * Bugfix: Rendering of Public Domain and All rights reserved
