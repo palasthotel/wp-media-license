@@ -22,7 +22,7 @@ class API {
 		$this->plugin = $plugin;
 		add_action('init', array($this, 'register'), 1);
 		add_action('wp_ajax_'.self::AJAX_ACTION, array($this, "ajax"));
-		add_action('wp_ajax_no_priv_'.self::AJAX_ACTION, array($this, "ajax"));
+		add_action('wp_ajax_nopriv_'.self::AJAX_ACTION, array($this, "ajax"));
 	}
 
 	function register(){
@@ -43,10 +43,9 @@ class API {
 	}
 
 	function ajax(){
+		if(empty($_GET["ids"])) exit;
 
-		if(empty($_POST["ids"])) exit;
-
-		if(!is_array($_POST["ids"])){
+		if(!is_array($_GET["ids"])){
 			wp_send_json(array(
 				"error" => true,
 				"msg" => "no valid request",
@@ -57,8 +56,8 @@ class API {
 
 		$map = array();
 
-		for($i = 0; $i < count($_POST["ids"]); $i++){
-			$id = intval($_POST["ids"][$i]);
+		for($i = 0; $i < count($_GET["ids"]); $i++){
+			$id = intval($_GET["ids"][$i]);
 
 			$map[$id] = media_license_get_caption($id);
 

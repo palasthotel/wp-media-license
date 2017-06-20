@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
-Tested up to: 4.7.5
-Stable tag: 1.2.1
+Tested up to: 4.8
+Stable tag: 1.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -33,6 +33,11 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.2.2 =
+ * Ajax NoPriv typo fix
+ * API JS Get Requests with paging
+ * API JS flexibility
 
 = 1.2.1 =
  * No images on page fix
