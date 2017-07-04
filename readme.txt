@@ -4,7 +4,7 @@ Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -33,6 +33,10 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.2.3 =
+ * Bugfix JavaScript
+ * Same picture twice fix
 
 = 1.2.2 =
  * Ajax NoPriv typo fix

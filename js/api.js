@@ -17,12 +17,15 @@
 			if(id){
 				if(!$(img).closest(".wp-caption").length){
 					ids.push(id);
-					map[id] = img;
+					if(typeof map[id] === typeof undefined){
+						map[id] = [];
+					}
+					map[id].push(img);
 				}
 			}
 		});
 
-		api.get_licenses(_ids).then(_got_licenses);
+		api.get_licenses(ids).then(_got_licenses);
 
 		/**
 		 * build dom from results
@@ -41,29 +44,39 @@
 
 				for(var id in result.captions){
 					if(!result.captions.hasOwnProperty(id)) continue;
-
-					var $img = $(map[id]);
-
-					var $figure = $("<figure></figure>")
-					.addClass("wp-caption media-license__figure");
-
-					if($img.hasClass("alignright")){
-						$figure.addClass("alignright");
-						$img.removeClass("alignright");
+					for(var i in map[id]){
+						process_image(map[id][i], result.captions[id]);
 					}
-					if($img.hasClass("alignleft")){
-						$figure.addClass("alignleft");
-						$img.removeClass("alignleft");
-					}
-					$img.wrap($figure);
-
-					var $caption = $("<figcaption>"+result.captions[id]+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
-					$img.after($caption);
 				}
 
 			} else {
 				console.error("captions was no array", result);
 			}
+		}
+
+		/**
+		 * process image element with caption
+		 * @param element
+		 * @param caption
+		 */
+		function process_image(element, caption){
+			var $img = $(element);
+
+			var $figure = $("<figure></figure>")
+			.addClass("wp-caption media-license__figure");
+
+			if($img.hasClass("alignright")){
+				$figure.addClass("alignright");
+				$img.removeClass("alignright");
+			}
+			if($img.hasClass("alignleft")){
+				$figure.addClass("alignleft");
+				$img.removeClass("alignleft");
+			}
+			$img.wrap($figure);
+
+			var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
+			$img.after($caption);
 		}
 
 	};
