@@ -73,10 +73,21 @@
 				$figure.addClass("alignleft");
 				$img.removeClass("alignleft");
 			}
-			$img.wrap($figure);
+			// check parent -
+			if( ! $img.parent("figure" ) ) {
+				$img.wrap($figure);
+			} else {
+				$img.parent().addClass("media-license__figure");
+			}
 
-			var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
-			$img.after($caption);
+			if( ! $img.parent().has("figcaption") ) {
+				var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
+				$img.after($caption);
+			} else {
+				$img.parent().find("figcaption").addClass("media-license__figcaption").text( caption );
+			}
+
+
 		}
 
 	};
