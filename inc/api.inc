@@ -37,9 +37,12 @@ class API {
 			"params" => array(
 				"action" => self::AJAX_ACTION,
 			),
-			"autoload" => apply_filters(Plugin::FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE, false),
+			"autoload" => apply_filters(Plugin::FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE, true),
 		);
 		wp_localize_script(Plugin::API_JS_HANDLE, "MediaLicense_API", $obj);
+
+		// enqueue it
+		wp_enqueue_script(Plugin::API_JS_HANDLE);
 	}
 
 	function ajax(){
