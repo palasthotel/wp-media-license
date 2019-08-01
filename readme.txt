@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
-Tested up to: 4.8
-Stable tag: 1.2.3
+Tested up to: 5.2.2
+Stable tag: 1.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -33,6 +33,11 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.3.0 =
+ * Bugfix: Gutenberg support
+ * Optimization: Changed default value for filter media_license_autoload_async_image_license
+ * Optimization: Automatically enqueue api.js script
 
 = 1.2.3 =
  * Bugfix JavaScript
@@ -68,3 +73,7 @@ Yes you can with the filter function "media_license_add_fields".
 = 1.0.0 =
  * First release
 
+== Upgrade Notice ==
+
+= 1.3.0 =
+Default behaviors changed. See changelog.
