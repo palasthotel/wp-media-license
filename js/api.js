@@ -84,7 +84,7 @@
 				var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
 				$img.after($caption);
 			} else {
-				$img.parent().find("figcaption").addClass("media-license__figcaption").text( caption );
+				$img.parent().find("figcaption").addClass("media-license__figcaption").html( caption );
 			}
 
 
