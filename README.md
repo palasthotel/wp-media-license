@@ -36,7 +36,7 @@ _$media_license_url_ ===> License url.
 
 Available filters for media license plugin.
 
-### Mainupate caption text
+### Manipulate caption text
 
 ```php
 add_filter( 'media_license_edit_caption', 'myplugin_media_license_edit_caption', 10, 3);
@@ -98,6 +98,24 @@ $fields['my_select_field'] = array(
 ```
 
 ---
+
+### Autoload captions
+
+```php
+add_filter( 'media_license_autoload_async_image_license', 'myplugin_media_license_autoload_async_image_license', 10, 3);
+function myplugin_media_license_autoload_async_image_license($autoload){
+	// disable autoload 
+	return false;
+}
+```
+
+**Parameters:**
+
+_$autoload_ ==> boolean.
+
+**Return**
+
+_autoload_ ===> if captions should be autoloaded in post content
 
 ## Functions
 
