@@ -82,7 +82,12 @@
 
 			if( ! $img.parent().has("figcaption") ) {
 				var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
-				$img.after($caption);
+				// image is wrapped with link
+				if( $img.parent("a").length == 1 ) {
+				    $img.next("figure").append($caption);
+				} else {
+				    $img.after($caption);
+				}
 			} else {
 				$img.parent().find("figcaption").addClass("media-license__figcaption").html( caption );
 			}
