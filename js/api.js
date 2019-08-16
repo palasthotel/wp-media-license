@@ -73,8 +73,15 @@
 				$figure.addClass("alignleft");
 				$img.removeClass("alignleft");
 			}
+			if($img.hasClass("aligncenter")){
+				$figure.addClass("aligncenter");
+				$img.removeClass("aligncenter");
+			}
+
 			// check parent -
-			if( ! $img.parent("figure" ) ) {
+
+			console.log( $img, $img.parent("figure" ), $img.parent("figure" ).length );
+			if( ! $img.parent("figure" ).length ) {
 				$img.wrap($figure);
 			} else {
 				$img.parent().addClass("media-license__figure");
