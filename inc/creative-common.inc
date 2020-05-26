@@ -161,6 +161,8 @@ class CreativeCommon {
 			'label'     => __('Public Domain', 'media_license'),
 			'cc_path'      => '',
 		);
+
+        $licenses = apply_filters(Plugin::FILTER_EDIT_LICENSE_NAME, $licenses);
 		
 		return $licenses;
 	}
