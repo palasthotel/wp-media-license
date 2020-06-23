@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: media-license.php:120
-msgid "Lizense"
+msgid "License"
 msgstr "Lizenz"
 
 #: media-license.php:123
