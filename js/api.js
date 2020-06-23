@@ -76,8 +76,31 @@
 		 * @param caption
 		 */
 		function process_image(element, caption) {
+      
+      var $img = $(element);
 
-		    var $img = $(element);
+
+			if($img.hasClass("alignright")){
+				$figure.addClass("alignright");
+				$img.removeClass("alignright");
+			}
+			if($img.hasClass("alignleft")){
+				$figure.addClass("alignleft");
+				$img.removeClass("alignleft");
+			}
+			if($img.hasClass("aligncenter")){
+				$figure.addClass("aligncenter");
+				$img.removeClass("aligncenter");
+			}
+
+			// check parent -
+
+			console.log( $img, $img.parent("figure" ), $img.parent("figure" ).length );
+			if( ! $img.parent("figure" ).length ) {
+				$img.wrap($figure);
+			} else {
+				$img.parent().addClass("media-license__figure");
+			}
 
 		    var $figure = $("<figure></figure>")
 			.addClass("wp-caption media-license__figure");
