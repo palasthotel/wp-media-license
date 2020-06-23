@@ -17,9 +17,8 @@ $output = "";
 /**
  * if there is a caption save it to output
  */
-if ( "" != $caption )
-{
-	$output = $caption;
+if ( "" != $caption ) {
+	$output = "<span class='media-license__caption'>" . strip_tags($output) . "</span>";
 }
 
 /**
@@ -37,8 +36,10 @@ if ( "" != $media_license_author )
 		$pre_link = "<a href=\"{$media_license_url}\" >";
 		$post_link = "</a>";
 	}
-	
+
+	$output .= "<span class='media-license__author'>";
 	$output .= __(" by ", "media-license" ) . $pre_link . $media_license_author . $post_link . " ";
+	$output .= "</span>";
 }
 
 /**
