@@ -15,7 +15,17 @@
 
 			var id = api.get_image_id(img);
 			if(id){
-				if(!$(img).closest(".wp-caption").length){
+				var $figCaption = $(img).closest("figure").find("figcaption");
+				if(
+					(
+						$figCaption.length === 0
+						||
+						$figCaption.text().length === 0
+					)
+					&&
+					!$(img).closest(".wp-caption").length
+				){
+					// if image has no caption try to find one
 					ids.push(id);
 					if(typeof map[id] === typeof undefined){
 						map[id] = [];
@@ -45,7 +55,13 @@
 				for(var id in result.captions){
 					if(!result.captions.hasOwnProperty(id)) continue;
 					for(var i in map[id]){
-						process_image(map[id][i], result.captions[id]);
+						if(!map[id].hasOwnProperty(i)) continue;
+
+						var caption = result.captions[id];
+						if(caption.length > 0){
+							var element = map[id][i];
+							process_image(element, caption);
+						}
 					}
 				}
 
