@@ -1,5 +1,5 @@
 === Media License ===
-Contributors: palasthotel, edwardbock
+Contributors: palasthotel, edwardbock, kroppenstedt
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
