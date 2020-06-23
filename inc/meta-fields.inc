@@ -56,7 +56,7 @@ class MetaFields {
 	public function add_fields($fields){
 
 		/**
-		 * lizenses selection
+		 * licenses selection
 		 */
 		$list = CreativeCommon::getList();
 		$selections = array();
@@ -67,7 +67,7 @@ class MetaFields {
 			);
 		}
 		$fields[Plugin::META_LICENSE] = array(
-			'label' => __('Lizense','media_license'),
+			'label' => __('License','media_license'),
 			'input' => 'select',
 			'value' => '',
 			'helps' => __('Add license to caption if provided','media_license'),

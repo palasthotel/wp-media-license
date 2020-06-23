@@ -3,11 +3,11 @@
  * Plugin Name: Media License
  * Plugin URI: https://github.com/palasthotel/media-license
  * Description: Advanced caption with license for media files
- * Version: 1.3.0
+ * Version: 1.3.1
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock)
  * Author URI: http://www.palasthotel.de
  * Requires at least: 4.0
- * Tested up to: 5.2.2
+ * Tested up to: 5.3.2
  * License: http://www.gnu.org/licenses/gpl-2.0.html GPLv2
  * @copyright Copyright (c) 2014, Palasthotel
  * @package Palasthotel\MediaLicense
@@ -44,6 +44,12 @@ class Plugin {
 	 */
 	const FILTER_ADD_FIELDS_NAME = "media_license_add_fields";
 	const FILTER_ADD_FIELDS_NUM_ARGS = 1;
+
+    /**
+     * add license filter
+     */
+    const FILTER_EDIT_LICENSE_NAME = "media_license_edit_licenses";
+    const FILTER_EDIT_LICENSE_NUM_ARGS = 1;
 
 	const FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE = "media_license_autoload_async_image_license";
 	

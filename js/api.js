@@ -15,7 +15,17 @@
 
 			var id = api.get_image_id(img);
 			if(id){
-				if(!$(img).closest(".wp-caption").length){
+				var $figCaption = $(img).closest("figure").find("figcaption");
+				if(
+					(
+						$figCaption.length === 0
+						||
+						$figCaption.text().length === 0
+					)
+					&&
+					!$(img).closest(".wp-caption").length
+				){
+					// if image has no caption try to find one
 					ids.push(id);
 					if(typeof map[id] === typeof undefined){
 						map[id] = [];
@@ -45,7 +55,13 @@
 				for(var id in result.captions){
 					if(!result.captions.hasOwnProperty(id)) continue;
 					for(var i in map[id]){
-						process_image(map[id][i], result.captions[id]);
+						if(!map[id].hasOwnProperty(i)) continue;
+
+						var caption = result.captions[id];
+						if(caption.length > 0){
+							var element = map[id][i];
+							process_image(element, caption);
+						}
 					}
 				}
 
@@ -59,11 +75,10 @@
 		 * @param element
 		 * @param caption
 		 */
-		function process_image(element, caption){
-			var $img = $(element);
+		function process_image(element, caption) {
+      
+      var $img = $(element);
 
-			var $figure = $("<figure></figure>")
-			.addClass("wp-caption media-license__figure");
 
 			if($img.hasClass("alignright")){
 				$figure.addClass("alignright");
@@ -87,13 +102,33 @@
 				$img.parent().addClass("media-license__figure");
 			}
 
-			if( ! $img.parent().has("figcaption") ) {
-				var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
-				$img.after($caption);
-			} else {
-				$img.parent().find("figcaption").addClass("media-license__figcaption").html( caption );
-			}
+		    var $figure = $("<figure></figure>")
+			.addClass("wp-caption media-license__figure");
 
+		    if ($img.hasClass("alignright")) {
+			$figure.addClass("alignright");
+			$img.removeClass("alignright");
+		    }
+		    if ($img.hasClass("alignleft")) {
+			$figure.addClass("alignleft");
+			$img.removeClass("alignleft");
+		    }
+		    // check parent -
+		    if (!$img.parent("figure")) {
+			$img.wrap($figure);
+		    } else {
+			$img.parent().addClass("media-license__figure");
+		    }
+
+		    if ($img.parent().find("figcaption").length == 0) {
+			// we need a empty figcaption and fill with data from api
+			var $caption = $("<figcaption>" + caption + "</figcaption>").addClass("wp-caption-text media-license__figcaption");
+			$img.after($caption);
+		    } else {
+			// add author information to existing figcaption
+			var $current_caption = $(caption).filter(".media-license__author").get(0);
+			$img.parent().find("figcaption").addClass("media-license__figcaption").append($current_caption);
+		    }
 
 		}
 
