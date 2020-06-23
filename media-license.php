@@ -45,6 +45,12 @@ class Plugin {
 	const FILTER_ADD_FIELDS_NAME = "media_license_add_fields";
 	const FILTER_ADD_FIELDS_NUM_ARGS = 1;
 
+    /**
+     * add license filter
+     */
+    const FILTER_EDIT_LICENSE_NAME = "media_license_edit_licenses";
+    const FILTER_EDIT_LICENSE_NUM_ARGS = 1;
+
 	const FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE = "media_license_autoload_async_image_license";
 	
 	/**
