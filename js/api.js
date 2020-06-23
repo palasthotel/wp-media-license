@@ -78,6 +78,8 @@
 		function process_image(element, caption) {
       
       var $img = $(element);
+      var $figure = $("<figure></figure>")
+			.addClass("wp-caption media-license__figure");
 
 
 			if($img.hasClass("alignright")){
@@ -102,8 +104,17 @@
 				$img.parent().addClass("media-license__figure");
 			}
 
-		    var $figure = $("<figure></figure>")
-			.addClass("wp-caption media-license__figure");
+			if( ! $img.parent().has("figcaption") ) {
+				var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
+				// image is wrapped with link
+				if( $img.parent("a").length == 1 ) {
+				    $img.next("figure").append($caption);
+				} else {
+				    $img.after($caption);
+				}
+			} else {
+				$img.parent().find("figcaption").addClass("media-license__figcaption").html( caption );
+			}
 
 		    if ($img.hasClass("alignright")) {
 			$figure.addClass("alignright");
