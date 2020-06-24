@@ -28,24 +28,24 @@ class CreativeCommon {
 		}
 		$this->license = $list[$slug];
 	}
-	
+
 	/**
 	 * get list of all licenses
 	 * @return array
 	 */
 	public static function getList(){
 		$licenses = array();
-		
+
 		$licenses['nil'] = array(
-			'label'     => __('-- Choose license --', 'media_license'),
+			'label'     => __('-- No license information --', Plugin::DOMAIN),
 			'cc_path'      => '',
 		);
-		
+
 		$licenses['copyright'] = array(
-			'label'     => __('All rights reserved', 'media_license'),
+			'label'     => __('All rights reserved', Plugin::DOMAIN),
 			'cc_path'      => '',
 		);
-		
+
 		/**
 		 * CC-BY
 		 */
@@ -53,17 +53,17 @@ class CreativeCommon {
 			'label'     => 'CC-BY 2.0',
 			'cc_path'      => 'by/2.0',
 		);
-		
+
 		$licenses['cc-by-3'] = array(
 			'label'     => 'CC-BY 3.0',
 			'cc_path'      => 'by/3.0',
 		);
-		
+
 		$licenses['cc-by-4'] = array(
 			'label'     => 'CC-BY 4.0',
 			'cc_path'      => 'by/4.0',
 		);
-		
+
 		/**
 		 * CC-BY-SA
 		 */
@@ -71,17 +71,17 @@ class CreativeCommon {
 			'label'     => 'CC-BY-SA 2.0',
 			'cc_path'      => 'by-sa/2.0',
 		);
-		
+
 		$licenses['cc-by-sa-3'] = array(
 			'label'     => 'CC-BY-SA 3.0',
 			'cc_path'      => 'by-sa/3.0',
 		);
-		
+
 		$licenses['cc-by-sa-4'] = array(
 			'label'     => 'CC-BY-SA 4.0',
 			'cc_path'      => 'by-sa/4.0',
 		);
-		
+
 		/**
 		 * CC-BY-NC
 		 */
@@ -89,17 +89,17 @@ class CreativeCommon {
 			'label'     => 'CC-BY-NC 2.0',
 			'cc_path'      => 'by-nc/2.0',
 		);
-		
+
 		$licenses['cc-by-nc-3'] = array(
 			'label'     => 'CC-BY-NC 3.0',
 			'cc_path'      => 'by-nc/3.0',
 		);
-		
+
 		$licenses['cc-by-nc-4'] = array(
 			'label'     => 'CC-BY-NC 4.0',
 			'cc_path'      => 'by-nc/4.0',
 		);
-		
+
 		/**
 		 * CC-BY-ND
 		 */
@@ -107,17 +107,17 @@ class CreativeCommon {
 			'label'     => 'CC-BY-ND 2.0',
 			'cc_path'      => 'by-nd/2.0',
 		);
-		
+
 		$licenses['cc-by-nd-3'] = array(
 			'label'     => 'CC-BY-ND 3.0',
 			'cc_path'      => 'by-nd/3.0',
 		);
-		
+
 		$licenses['cc-by-nd-4'] = array(
 			'label'     => 'CC-BY-ND 4.0',
 			'cc_path'      => 'by-nd/4.0',
 		);
-		
+
 		/**
 		 * CC-BY-NC-SA
 		 */
@@ -125,17 +125,17 @@ class CreativeCommon {
 			'label'     => 'CC-BY-NC-SA 2.0',
 			'cc_path'      => 'by-nc-sa/2.0',
 		);
-		
+
 		$licenses['cc-by-nc-sa-3'] = array(
 			'label'     => 'CC-BY-NC-SA 3.0',
 			'cc_path'      => 'by-nc-sa/3.0',
 		);
-		
+
 		$licenses['cc-by-nc-sa-4'] = array(
 			'label'     => 'CC-BY-NC-SA 4.0',
 			'cc_path'      => 'by-nc-sa/4.0',
 		);
-		
+
 		/**
 		 * CC-BY-NC-ND
 		 */
@@ -143,30 +143,30 @@ class CreativeCommon {
 			'label'     => 'CC-BY-NC-SA 2.0',
 			'cc_path'      => 'by-nc-nd/2.0',
 		);
-		
+
 		$licenses['cc-by-nc-nd-3'] = array(
 			'label'     => 'CC-BY-NC-SA 3.0',
 			'cc_path'      => 'by-nc-nd/3.0',
 		);
-		
+
 		$licenses['cc-by-nc-nd-4'] = array(
 			'label'     => 'CC-BY-NC-SA 4.0',
 			'cc_path'      => 'by-nc-nd/4.0',
 		);
-		
+
 		/**
 		 * public domain
 		 */
 		$licenses['public-domain'] = array(
-			'label'     => __('Public Domain', 'media_license'),
+			'label'     => __('Public Domain', Plugin::DOMAIN),
 			'cc_path'      => '',
 		);
 
         $licenses = apply_filters(Plugin::FILTER_EDIT_LICENSE_NAME, $licenses);
-		
+
 		return $licenses;
 	}
-	
+
 	/**
 	 * check if license is chosen
 	 * @return bool
@@ -174,7 +174,7 @@ class CreativeCommon {
 	public function hasLicense(){
 		return ($this->license != null && $this->slug != 'nil');
 	}
-	
+
 	/**
 	 * check if license has path to creative commons
 	 * @return bool
@@ -182,7 +182,7 @@ class CreativeCommon {
 	public function hasLicensePath(){
 		return ($this->license != null && $this->license['cc_path'] != '');
 	}
-	
+
 	/**
 	 * @param $slug
 	 * @param $content
@@ -194,7 +194,7 @@ class CreativeCommon {
 		if(!$this->hasLicensePath()) return $content;
 		return '<a class="'.implode(" ", $classes).'" rel="license" target="_blank" href="'.$this->getUrl() . '">' . $content . '</a>';
 	}
-	
+
 	/**
 	 * Get Creative Commons image tag
 	 * @param array $classes
@@ -203,9 +203,9 @@ class CreativeCommon {
 	 */
 	public function getImage( $classes = array()){
 		if(!$this->hasLicensePath()) return '';
-		return '<img class="'.implode(" ", $classes).'" alt="'.__("Creative Commons License logo", 'media_license').'" src="'.$this->getImageUrl().'" />';
+		return '<img class="'.implode(" ", $classes).'" alt="'.__("Creative Commons License logo", Plugin::DOMAIN).'" src="'.$this->getImageUrl().'" />';
 	}
-	
+
 	/**
 	 * Get Creative Commons license page url
 	 * @param $slug
@@ -216,7 +216,7 @@ class CreativeCommon {
 		if(!$this->hasLicensePath()) return '';
 		return "http://creativecommons.org/licenses/".$this->license['cc_path']."/deed.de";
 	}
-	
+
 	/**
 	 * Create Commons image url
 	 * @param $slug
@@ -227,7 +227,7 @@ class CreativeCommon {
 		if(!$this->hasLicensePath()) return '';
 		return "https://i.creativecommons.org/l/".$this->license['cc_path']."/80x15.png";
 	}
-	
+
 	/**
 	 * get license label
 	 *
@@ -237,5 +237,5 @@ class CreativeCommon {
 		if(!$this->hasLicense()) return '';
 		return $this->license['label'];
 	}
-	
+
 }

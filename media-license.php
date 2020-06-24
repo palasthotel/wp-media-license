@@ -3,7 +3,7 @@
  * Plugin Name: Media License
  * Plugin URI: https://github.com/palasthotel/media-license
  * Description: Advanced caption with license for media files
- * Version: 1.3.2
+ * Version: 1.3.3
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock)
  * Author URI: http://www.palasthotel.de
  * Requires at least: 4.0
@@ -22,6 +22,11 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Class MediaLicense
+ * @property string dir
+ * @property string url
+ * @property MetaFields meta_fields
+ * @property Shortcode shortcode
+ * @property API api
  */
 class Plugin {
 
@@ -83,20 +88,24 @@ class Plugin {
 		/**
 		 * load translations
 		 */
-		load_plugin_textdomain( self::DOMAIN, false, $this->dir . '/languages' );
+		load_plugin_textdomain(
+			self::DOMAIN,
+			false,
+			plugin_basename( dirname( __FILE__ ) ) . '/languages'
+		);
 
 		/**
 		 * creative common object
 		 */
-		require_once dirname(__FILE__)."/inc/creative-common.inc";
+		require_once dirname(__FILE__)."/inc/creative-common.php";
 
-		require_once dirname(__FILE__)."/inc/meta-fields.inc";
+		require_once dirname(__FILE__)."/inc/meta-fields.php";
 		$this->meta_fields = new MetaFields($this);
 
-		require_once dirname(__FILE__)."/inc/shortcode.inc";
+		require_once dirname(__FILE__)."/inc/shortcode.php";
 		$this->shortcode = new Shortcode($this);
 
-		require_once dirname(__FILE__)."/inc/api.inc";
+		require_once dirname(__FILE__)."/inc/api.php";
 		$this->api = new API($this);
 
 	}

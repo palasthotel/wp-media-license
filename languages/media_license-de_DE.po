@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Media License\n"
-"POT-Creation-Date: 2020-06-24 13:49+0200\n"
-"PO-Revision-Date: 2020-06-24 13:49+0200\n"
+"POT-Creation-Date: 2020-06-24 14:48+0200\n"
+"PO-Revision-Date: 2020-06-24 14:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -20,13 +20,53 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
+#: inc/creative-common.php:40
+msgid "-- No license information --"
+msgstr "-- Keine Lizenzinformationen --"
+
+#: inc/creative-common.php:45
+msgid "All rights reserved"
+msgstr "Alle Rechte vorbehalten"
+
+#: inc/creative-common.php:161
+msgid "Public Domain"
+msgstr ""
+
+#: inc/creative-common.php:206
+msgid "Creative Commons License logo"
+msgstr "Creative Commons Lizenzlogo"
+
+#: inc/meta-fields.php:70
+msgid "License"
+msgstr "Lizenz"
+
+#: inc/meta-fields.php:73
+msgid "Add license to caption if provided"
+msgstr "Füge Lizenz and die Bildunterschrift an."
+
+#: inc/meta-fields.php:81
+msgid "Author"
+msgstr "Autor"
+
+#: inc/meta-fields.php:84
+msgid "Add author to caption if provided"
+msgstr "Füge Autor an die Bildunterschrift an, wenn vorhanden."
+
+#: inc/meta-fields.php:91
+msgid "Author URL"
+msgstr "URL des Autors"
+
+#: inc/meta-fields.php:94
+msgid "Link author if url is provided"
+msgstr "Autor wird verlinkt, wenn URL angegeben ist"
+
 #: templates/media-license-caption.tpl.php:41
 msgid " by "
 msgstr " von "
 
 #. Plugin Name of the plugin/theme
 msgid "Media License"
-msgstr "Medien Lizenz"
+msgstr "Medienlizenz"
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/palasthotel/media-license"
@@ -43,15 +83,3 @@ msgstr "Palasthotel <rezeption@palasthotel.de> (in Person: Edward Bock)"
 #. Author URI of the plugin/theme
 msgid "http://www.palasthotel.de"
 msgstr "http://www.palasthotel.de"
-
-#~ msgid "License"
-#~ msgstr "Lizenz"
-
-#~ msgid "Add license to caption if provided"
-#~ msgstr "Füge Lizenz and die Bildunterschrift an."
-
-#~ msgid "Author"
-#~ msgstr "Autor"
-
-#~ msgid "Add author to caption if provided"
-#~ msgstr "Füge Autor an die Bildunterschrift an, wenn vorhanden."
