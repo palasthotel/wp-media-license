@@ -3,11 +3,11 @@
  * Plugin Name: Media License
  * Plugin URI: https://github.com/palasthotel/media-license
  * Description: Advanced caption with license for media files
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock)
  * Author URI: http://www.palasthotel.de
  * Requires at least: 4.0
- * Tested up to: 5.3.2
+ * Tested up to: 5.4.2
  * License: http://www.gnu.org/licenses/gpl-2.0.html GPLv2
  * @copyright Copyright (c) 2014, Palasthotel
  * @package Palasthotel\MediaLicense
@@ -24,21 +24,21 @@ if ( ! defined( 'WPINC' ) ) {
  * Class MediaLicense
  */
 class Plugin {
-	
+
 	const DOMAIN = 'media_license';
-	
+
 	/**
 	 * theme template parts
 	 */
 	const THEME_FOLDER = "plugin-parts";
 	const TEMPLATE_FILE_CAPTION = "media-license-caption.tpl.php";
-	
+
 	/**
 	 * edit caption filter
 	 */
 	const FILTER_EDIT_CAPTION_NAME = "media_license_edit_caption";
 	const FILTER_EDIT_CAPTION_NUM_ARGS = 3;
-	
+
 	/**
 	 * add fields filter
 	 */
@@ -52,7 +52,7 @@ class Plugin {
     const FILTER_EDIT_LICENSE_NUM_ARGS = 1;
 
 	const FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE = "media_license_autoload_async_image_license";
-	
+
 	/**
 	 * meta field key names
 	 */
@@ -73,7 +73,7 @@ class Plugin {
 	 * MediaLicenses constructor.
 	 */
 	private function __construct() {
-		
+
 		/**
 		 * plugin directory
 		 */
@@ -84,7 +84,7 @@ class Plugin {
 		 * load translations
 		 */
 		load_plugin_textdomain( self::DOMAIN, false, $this->dir . '/languages' );
-		
+
 		/**
 		 * creative common object
 		 */
@@ -98,9 +98,9 @@ class Plugin {
 
 		require_once dirname(__FILE__)."/inc/api.inc";
 		$this->api = new API($this);
-		
+
 	}
-	
+
 }
 Plugin::instance();
 
