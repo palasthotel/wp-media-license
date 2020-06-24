@@ -3,21 +3,21 @@
  */
 'use strict';
 
-(function($, api){
+(function ($, api) {
 
 	/**
 	 * load license information to core image elements
 	 */
-	api.load_licenses = function(){
+	api.load_licenses = function () {
 		var map = {};
 		var ids = [];
-		$("img").each(function(i, img){
+		$("img").each(function (i, img) {
 
 			var id = api.get_image_id(img);
-			if(id){
+			if (id) {
 				// always check caption
 				ids.push(id);
-				if(typeof map[id] === typeof undefined){
+				if (typeof map[id] === typeof undefined) {
 					map[id] = [];
 				}
 				map[id].push(img);
@@ -31,23 +31,23 @@
 		 * @param result
 		 * @private
 		 */
-		function _got_licenses(result){
+		function _got_licenses(result) {
 
-			if(result.error){
+			if (result.error) {
 				console.error(result);
 				return;
 			}
 
 
-			if(typeof result.captions === typeof []){
+			if (typeof result.captions === typeof []) {
 
-				for(var id in result.captions){
-					if(!result.captions.hasOwnProperty(id)) continue;
-					for(var i in map[id]){
-						if(!map[id].hasOwnProperty(i)) continue;
+				for (var id in result.captions) {
+					if (!result.captions.hasOwnProperty(id)) continue;
+					for (var i in map[id]) {
+						if (!map[id].hasOwnProperty(i)) continue;
 
 						var caption = result.captions[id];
-						if(caption.length > 0){
+						if (caption.length > 0) {
 							var element = map[id][i];
 							process_image(element, caption);
 						}
@@ -66,11 +66,16 @@
 		 */
 		function process_image(element, caption) {
 
+
+			var $img = $(element);
+			var $figure = $("<figure></figure>")
+				.addClass("wp-caption media-license__figure");
+
 			var $img = $(element);
 			var $figure = $("<figure></figure>")
 
 			// check parent -
-			if( ! $img.parent("figure" ).length ) {
+			if (!$img.parent("figure").length) {
 				$img.wrap($figure);
 			} else {
 				$figure = $img.parent()
@@ -81,35 +86,73 @@
 			// ✅ $figure now exists
 
 			// take over alignment
-			if($img.hasClass("alignright")){
+			if ($img.hasClass("alignright")) {
 				$figure.addClass("alignright");
 				$img.removeClass("alignright");
 			}
-			if($img.hasClass("alignleft")){
+			if ($img.hasClass("alignleft")) {
 				$figure.addClass("alignleft");
 				$img.removeClass("alignleft");
 			}
-			if($img.hasClass("aligncenter")){
+			if ($img.hasClass("aligncenter")) {
 				$figure.addClass("aligncenter");
 				$img.removeClass("aligncenter");
 			}
 
 			const $originalCaption = $figure.find("figcaption");
 
-			if( $figure.find("figcaption").length === 0) {
-				var $caption = $("<figcaption>"+caption+"</figcaption>").addClass("wp-caption-text media-license__figcaption");
+			if ($figure.find("figcaption").length === 0) {
+				var $caption = $("<figcaption>" + caption + "</figcaption>").addClass("wp-caption-text media-license__figcaption");
 				// image is wrapped with link
-				if( $img.parent("a").length === 1 ) {
+				if ($img.parent("a").length === 1) {
 					$img.next("figure").append($caption);
 				} else {
 					$img.after($caption);
 				}
 			} else {
-				const $wrappedOriginal = $("<span>"+$originalCaption.html()+"</span>").addClass("media-license__original-figcaption")
+				const $wrappedOriginal = $("<span>" + $originalCaption.html() + "</span>").addClass("media-license__original-figcaption")
 				$originalCaption.addClass("media-license__figcaption")
 					.empty()
 					.append($wrappedOriginal)
 					.append(caption);
+			}
+
+
+			if (!$img.parent().has("figcaption")) {
+				var $caption = $("<figcaption>" + caption + "</figcaption>").addClass("wp-caption-text media-license__figcaption");
+				// image is wrapped with link
+				if ($img.parent("a").length == 1) {
+					$img.next("figure").append($caption);
+				} else {
+					$img.after($caption);
+				}
+			} else {
+				$img.parent().find("figcaption").addClass("media-license__figcaption").html(caption);
+			}
+
+			if ($img.hasClass("alignright")) {
+				$figure.addClass("alignright");
+				$img.removeClass("alignright");
+			}
+			if ($img.hasClass("alignleft")) {
+				$figure.addClass("alignleft");
+				$img.removeClass("alignleft");
+			}
+			// check parent -
+			if (!$img.parent("figure")) {
+				$img.wrap($figure);
+			} else {
+				$img.parent().addClass("media-license__figure");
+			}
+
+			if ($img.parent().find("figcaption").length == 0) {
+				// we need a empty figcaption and fill with data from api
+				var $caption = $("<figcaption>" + caption + "</figcaption>").addClass("wp-caption-text media-license__figcaption");
+				$img.after($caption);
+			} else {
+				// add author information to existing figcaption
+				var $current_caption = $(caption).filter(".media-license__author").get(0);
+				$img.parent().find("figcaption").addClass("media-license__figcaption").append($current_caption);
 			}
 
 		}
@@ -117,15 +160,14 @@
 	};
 
 
-
 	/**
 	 * get attachment id from wp-image-{id} class
 	 * @param img_element
 	 * @return {*}
 	 */
-	api.get_image_id = function(img_element){
+	api.get_image_id = function (img_element) {
 		var matches = null;
-		if( matches = /wp-image-([0-9]+)/g.exec(img_element.className) ){
+		if (matches = /wp-image-([0-9]+)/g.exec(img_element.className)) {
 			return parseInt(matches[1]);
 		}
 		return false;
@@ -136,18 +178,21 @@
 	 * @param attachment_ids
 	 * @return {{then, trigger}} register a callback with then method. could be called several times.
 	 */
-	api.get_licenses = function(attachment_ids){
+	api.get_licenses = function (attachment_ids) {
 
-		var promise = function(){
+		var promise = function () {
 			var _cbs = [];
-			function _then(cb){
+
+			function _then(cb) {
 				_cbs.push(cb);
 			}
-			function _trigger(result){
-				for(var i = 0; i < _cbs.length; i++){
+
+			function _trigger(result) {
+				for (var i = 0; i < _cbs.length; i++) {
 					_cbs[i](result);
 				}
 			}
+
 			return {
 				then: _then,
 				trigger: _trigger,
@@ -155,9 +200,9 @@
 		}();
 
 
-		while(attachment_ids.length){
+		while (attachment_ids.length) {
 			// get 10 attachment captions per call
-			var _ids = attachment_ids.splice(0,10);
+			var _ids = attachment_ids.splice(0, 10);
 			$.ajax({
 				method: "GET",
 				url: api.ajaxurl,
@@ -165,7 +210,7 @@
 					action: api.params.action,
 					ids: _ids,
 				},
-			}).done(function(result){
+			}).done(function (result) {
 				promise.trigger(result);
 			});
 		}
@@ -173,9 +218,9 @@
 		return promise;
 	};
 
-	if(api.autoload){
+	if (api.autoload) {
 		// auto load license
-		$(function(){
+		$(function () {
 			api.load_licenses();
 		});
 	}
