@@ -34,6 +34,9 @@ Yes you can with the filter function "media_license_add_fields".
 
 == Changelog ==
 
+= 1.3.3 =
+ * Translations: CH
+
 = 1.3.2 =
  * Feature: Filter for extending list of licenses
  * Optimization: template translation
