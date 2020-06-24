@@ -18,7 +18,7 @@ $output = "";
  * if there is a caption save it to output
  */
 if ( "" != $caption ) {
-	$output = "<span class='media-license__caption'>" . strip_tags($output) . "</span>";
+	$output = "<span class='media-license__caption'>" . strip_tags($caption) . "</span>";
 }
 
 /**
