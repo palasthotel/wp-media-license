@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock, kroppenstedt
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
-Tested up to: 5.2.2
-Stable tag: 1.3.1
+Tested up to: 5.4.2
+Stable tag: 1.3.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -33,6 +33,11 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.3.2 =
+ * Feature: Filter for extending list of licenses
+ * Optimization: template translation
+ * Bugfix: Gutenberg captions were not handled in every case
 
 = 1.3.1 =
  * Bugfix: Do not do anything on empty caption

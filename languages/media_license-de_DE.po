@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Media License\n"
-"POT-Creation-Date: 2016-09-26 15:15+0200\n"
-"PO-Revision-Date: 2016-09-26 15:16+0200\n"
+"POT-Creation-Date: 2020-06-24 13:49+0200\n"
+"PO-Revision-Date: 2020-06-24 13:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: media-license.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -20,21 +20,9 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: media-license.php:120
-msgid "License"
-msgstr "Lizenz"
-
-#: media-license.php:123
-msgid "Add license to caption if provided"
-msgstr "Füge Lizenz and die Bildunterschrift an."
-
-#: media-license.php:126
-msgid "Author"
-msgstr "Autor"
-
-#: media-license.php:129
-msgid "Add author to caption if provided"
-msgstr "Füge Autor an die Bildunterschrift an, wenn vorhanden."
+#: templates/media-license-caption.tpl.php:41
+msgid " by "
+msgstr " von "
 
 #. Plugin Name of the plugin/theme
 msgid "Media License"
@@ -55,3 +43,15 @@ msgstr "Palasthotel <rezeption@palasthotel.de> (in Person: Edward Bock)"
 #. Author URI of the plugin/theme
 msgid "http://www.palasthotel.de"
 msgstr "http://www.palasthotel.de"
+
+#~ msgid "License"
+#~ msgstr "Lizenz"
+
+#~ msgid "Add license to caption if provided"
+#~ msgstr "Füge Lizenz and die Bildunterschrift an."
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Add author to caption if provided"
+#~ msgstr "Füge Autor an die Bildunterschrift an, wenn vorhanden."
