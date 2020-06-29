@@ -6,9 +6,12 @@
  * Time: 16:59
  */
 
-namespace MediaLicense;
+namespace Palasthotel\MediaLicense;
 
 
+/**
+ * @property Plugin plugin
+ */
 class API {
 
 	const AJAX_ACTION = "media-license";

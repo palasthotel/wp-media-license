@@ -27,12 +27,17 @@ Extend your media files with license information. Customizable and themable.
 
 Yes you can with the filter function "media_license_add_fields".
 
-
 == Screenshots ==
 
 
 
 == Changelog ==
+
+= 1.4.0 =
+ * Breaking change: Namespace of plugin has changed due to unification.
+ * Feature: New filter to provide templates with plugins
+ * Optimizations: General refactorings
+ * Optimizations: deprecated some functions and constants
 
 = 1.3.3 =
  * Translations: CH
@@ -87,6 +92,12 @@ Yes you can with the filter function "media_license_add_fields".
  * First release
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+
+Plugin PHP namespace has changed due to unification.
+
+Deprecated some constants and functions. Please consider refactoring custom code in your project.
 
 = 1.3.0 =
 Default behaviors changed. See changelog.

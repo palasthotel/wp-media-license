@@ -1,15 +1,18 @@
 <?php
+
+namespace Palasthotel\MediaLicense;
+
+
 /**
- * Created by PhpStorm.
- * User: edward
- * Date: 31.05.17
- * Time: 17:11
+ * @property Plugin plugin
  */
-
-namespace MediaLicense;
-
-
 class Shortcode {
+
+	/**
+	 * Shortcode constructor.
+	 *
+	 * @param Plugin $plugin
+	 */
 	function __construct(Plugin $plugin) {
 
 		$this->plugin = $plugin;
@@ -22,7 +25,7 @@ class Shortcode {
 		/**
 		 * edit caption filter
 		 */
-		add_filter(Plugin::FILTER_EDIT_CAPTION_NAME, array($this, 'edit_caption'), 10, Plugin::FILTER_EDIT_CAPTION_NUM_ARGS);
+		add_filter(Plugin::FILTER_EDIT_CAPTION, array($this, 'edit_caption'), 10, 3);
 
 	}
 
@@ -46,7 +49,7 @@ class Shortcode {
 			/**
 			 * edit caption by filters
 			 */
-			$out['caption'] = apply_filters( Plugin::FILTER_EDIT_CAPTION_NAME, $out['caption'], $out['caption'], $this->get_caption_info($attachment_id));
+			$out['caption'] = apply_filters( Plugin::FILTER_EDIT_CAPTION, $out['caption'], $out['caption'], $this->get_caption_info($attachment_id));
 		}
 
 		/**
@@ -64,7 +67,7 @@ class Shortcode {
 	 */
 	public function get_caption_info($attachment_id){
 		$info = array();
-		foreach ($this->plugin->meta_fields->meta_fields as $meta_key => $field_definition){
+		foreach ($this->plugin->meta_fields->getMetaFields() as $meta_key => $field_definition){
 			$value = get_post_meta( $attachment_id, $meta_key, true );
 			$info[$meta_key] = (empty($value))? '': $value;
 		}
@@ -90,11 +93,7 @@ class Shortcode {
 		 * get template contents
 		 */
 		ob_start();
-		if ( $overridden_template = locate_template( Plugin::THEME_FOLDER."/".Plugin::TEMPLATE_FILE_CAPTION ) ) {
-			include $overridden_template;
-		} else {
-			include $this->plugin->dir . '/templates/'.Plugin::TEMPLATE_FILE_CAPTION;
-		}
+		include $this->plugin->render->get_template_path(Plugin::TEMPLATE_FILE_CAPTION );
 		$caption = ob_get_contents();
 		ob_end_clean();
 

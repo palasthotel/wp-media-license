@@ -36,6 +36,19 @@ _$media_license_url_ ===> License url.
 
 Available filters for media license plugin.
 
+### Provide custom template path
+
+Add the following filter in your custom plugins code and provide a path that exists in your plugin.
+
+```php
+if(class_exists("\MediaLicense\Plugin::FILTER_TEMPLATE_PATHS")){
+	add_filter(\MediaLicense\Plugin::FILTER_TEMPLATE_PATHS, function($paths){
+		$paths[] = dirname(__FILE__)."/templates";
+		return $paths;
+	});
+}
+```
+
 ### Manipulate caption text
 
 ```php

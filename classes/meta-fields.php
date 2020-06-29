@@ -6,27 +6,28 @@
  * Time: 17:06
  */
 
-namespace MediaLicense;
+namespace Palasthotel\MediaLicense;
 
 
 class MetaFields {
+
+	/**
+	 * meta fields array for iteration
+	 * @var null|array $meta_fields
+	 */
+	private $meta_fields = null;
+
 	/**
 	 * MetaFields constructor.
 	 *
 	 * @param Plugin $plugin
 	 */
-	function __construct(Plugin $plugin) {
-		/**
-		 * meta fields array for iteration
-		 */
-		$this->meta_fields = array();
+	function __construct($plugin) {
 
 		/**
-		 * after initialize wordpress system
+		 * plugin default fields
 		 */
-		add_action('init', array($this, 'init'));
-
-		add_filter(Plugin::FILTER_ADD_FIELDS_NAME, array($this, "add_fields" ), 10, Plugin::FILTER_ADD_FIELDS_NUM_ARGS);
+		add_filter(Plugin::FILTER_ADD_FIELDS, array($this, "add_fields" ));
 
 		/**
 		 * add fields to attachments
@@ -43,8 +44,20 @@ class MetaFields {
 	 * init plugin when wordpress is ready
 	 */
 	public function init(){
-		$this->meta_fields = apply_filters(Plugin::FILTER_ADD_FIELDS_NAME, $this->meta_fields);
+		$this->meta_fields = apply_filters(Plugin::FILTER_ADD_FIELDS, $this->meta_fields);
 	}
+
+	/**
+	 * access registered meta fields
+	 * @return array
+	 */
+	public function getMetaFields(){
+		if(null == $this->meta_fields){
+			$this->meta_fields = apply_filters(Plugin::FILTER_ADD_FIELDS, array());
+		}
+		return $this->meta_fields;
+	}
+
 
 	/**
 	 * add fields fields
@@ -110,7 +123,7 @@ class MetaFields {
 		/**
 		 * get values and append to form fields
 		 */
-		foreach($this->meta_fields as $meta_key => $form_definition){
+		foreach($this->getMetaFields() as $meta_key => $form_definition){
 			$fd = $form_definition;
 			$value = get_post_meta( $post->ID, $meta_key, true );
 			switch ($fd['input']){
@@ -146,13 +159,12 @@ class MetaFields {
 		){
 			$attachment_meta = $_POST["attachments"][$attachment_id];
 
-			foreach ($this->meta_fields as $meta_key => $field_definition){
+			foreach ($this->getMetaFields() as $meta_key => $field_definition){
 				if( isset($attachment_meta[$meta_key]) ){
 					update_post_meta($attachment_id, $meta_key, sanitize_text_field($attachment_meta[$meta_key]) );
 				}
 			}
 		}
-
 
 	}
 

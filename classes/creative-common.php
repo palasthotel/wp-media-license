@@ -6,18 +6,19 @@
  * Time: 14:41
  */
 
-namespace MediaLicense;
+namespace Palasthotel\MediaLicense;
 
 
 class CreativeCommon {
+
 	private $slug;
 	private $license;
+
 	/**
 	 * CreativeCommon constructor.
 	 *
 	 * @param $slug
 	 *
-	 * @throws \Exception
 	 */
 	public function __construct($slug) {
 		$list = self::getList();
@@ -162,7 +163,7 @@ class CreativeCommon {
 			'cc_path'      => '',
 		);
 
-        $licenses = apply_filters(Plugin::FILTER_EDIT_LICENSE_NAME, $licenses);
+        $licenses = apply_filters(Plugin::FILTER_EDIT_LICENSE, $licenses);
 
 		return $licenses;
 	}
@@ -184,7 +185,6 @@ class CreativeCommon {
 	}
 
 	/**
-	 * @param $slug
 	 * @param $content
 	 * @param array $classes
 	 *
@@ -208,7 +208,6 @@ class CreativeCommon {
 
 	/**
 	 * Get Creative Commons license page url
-	 * @param $slug
 	 *
 	 * @return string url to license
 	 */
@@ -219,7 +218,6 @@ class CreativeCommon {
 
 	/**
 	 * Create Commons image url
-	 * @param $slug
 	 *
 	 * @return mixed
 	 */
