@@ -34,7 +34,7 @@ Yes you can with the filter function "media_license_add_fields".
 == Changelog ==
 
 = 1.4.0 =
- * Breaking change: Namespace of plugin has changed due to unification.
+ * Breaking change: Namespace of plugin has changed due to unification
  * Feature: New filter to provide templates with plugins
  * Optimizations: General refactorings
  * Optimizations: deprecated some functions and constants
