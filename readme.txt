@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock, kroppenstedt
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 4.0
-Tested up to: 5.4.2
-Stable tag: 1.4.0
+Tested up to: 5.5.3
+Stable tag: 1.4.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -32,6 +32,9 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.4.1 =
+ * Bugfix: Enqueue script fix
 
 = 1.4.0 =
  * Breaking change: Namespace of plugin has changed due to unification

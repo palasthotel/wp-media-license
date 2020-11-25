@@ -33,7 +33,8 @@ class API {
 			Plugin::API_JS_HANDLE,
 			$this->plugin->url."/js/api.js",
 			array("jquery"),
-			filemtime($this->plugin->dir."/js/api.js")
+			filemtime($this->plugin->dir."/js/api.js"),
+			true
 		);
 		$obj =  array(
 			"ajaxurl" => admin_url( 'admin-ajax.php' ),
@@ -43,8 +44,9 @@ class API {
 			"autoload" => apply_filters(Plugin::FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE, true),
 		);
 		wp_localize_script(Plugin::API_JS_HANDLE, "MediaLicense_API", $obj);
+	}
 
-		// enqueue it
+	function enqueue_script(){
 		wp_enqueue_script(Plugin::API_JS_HANDLE);
 	}
 

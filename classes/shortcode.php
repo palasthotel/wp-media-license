@@ -46,6 +46,8 @@ class Shortcode {
 
 		if($attachment_id > 0){
 
+			$this->plugin->api->enqueue_script();
+
 			/**
 			 * edit caption by filters
 			 */
