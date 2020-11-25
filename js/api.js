@@ -67,7 +67,7 @@
 		function process_image(element, caption) {
 
 			var $img = $(element);
-			var $figure = $("<figure></figure>")
+			var $figure = $("<figure></figure>");
 
 			// check parent -
 			if($img.parent("figure").length === 1){
@@ -105,7 +105,8 @@
 				} else {
 					$img.after($caption);
 				}
-			} else {
+			} else if($originalCaption.text() !== $(caption).text()){
+
 				const $wrappedOriginal = $("<span>" + $originalCaption.html() + "</span>").addClass("media-license__local-figcaption")
 				$originalCaption.addClass("media-license__figcaption")
 					.empty()

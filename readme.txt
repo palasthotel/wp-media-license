@@ -35,6 +35,7 @@ Yes you can with the filter function "media_license_add_fields".
 
 = 1.4.1 =
  * Bugfix: Enqueue script fix
+ * Bugfix: Do not render same captions twice.
 
 = 1.4.0 =
  * Breaking change: Namespace of plugin has changed due to unification
