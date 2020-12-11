@@ -12,6 +12,9 @@ mkdir -p "$DEST_PATH"
 echo "Syncing files..."
 rsync -rL "$PROJECT_PATH/public/" "$DEST_PATH/"
 
+echo "Cleanup files..."
+rm "$DEST_PATH/composer.json"
+
 echo "Generating zip file..."
 cd "$BUILD_PATH" || exit
 zip -q -r "${PLUGIN_SLUG}.zip" "$PLUGIN_SLUG/"

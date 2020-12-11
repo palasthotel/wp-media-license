@@ -1,6 +1,7 @@
 import {useSelect} from '@wordpress/data';
 import {useEffect} from "@wordpress/element";
-import isEqual from 'lodash/isEqual'
+import isEqual from 'lodash/isEqual.js'
+import flatten from 'lodash/flatten.js'
 
 const useBlocks = (deps = [])=> useSelect( select =>{
     const store = select('core/block-editor');
@@ -18,7 +19,16 @@ const ListOfLicenses = ({block: id})=>{
         if(typeof b.attributes !== typeof [] || typeof b.attributes.id === typeof undefined) return false;
         return true;
     });
-    globalImageIds = [...new Set(validImageBlocks.map(b=>b.attributes.id))];
+    const validGalleryBlocks = blocks.filter(g=>{
+       if(g.name !== "core/gallery") return false;
+       if(typeof g.attributes !== typeof [] || typeof g.attributes.ids !== typeof []) return false;
+       return true;
+    });
+
+
+    globalImageIds = [
+        ...new Set([...validImageBlocks.map(b=>b.attributes.id), ...flatten(validGalleryBlocks.map(b=>b.attributes.ids))]),
+    ];
 
     useEffect(()=>{
         if( !isEqual(globalImageIds, block.dirtyState.imageIds) ){
