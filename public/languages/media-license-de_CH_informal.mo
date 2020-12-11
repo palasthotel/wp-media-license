@@ -1,1 +1,1 @@
-media_license-de_DE.mo
+media-license-de_DE.mo

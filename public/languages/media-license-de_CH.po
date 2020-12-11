@@ -1,1 +1,1 @@
-media_license-de_DE.po
+media-license-de_DE.po
