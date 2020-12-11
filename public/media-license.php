@@ -22,16 +22,17 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Class MediaLicense
- * @property string dir
+ * @property string $path
  * @property string url
  * @property MetaFields meta_fields
  * @property Shortcode shortcode
- * @property API api
+ * @property Ajax $ajax
  * @property Render render
+ * @property Gutenberg gutenberg
  */
 class Plugin {
 
-	const DOMAIN = 'media_license';
+	const DOMAIN = 'media-license';
 
 	/**
 	 * theme template parts
@@ -58,7 +59,8 @@ class Plugin {
 	/**
 	 * handle of javascript asset
 	 */
-	const API_JS_HANDLE = "media-license-js";
+	const HANDLE_API_JS = "media-license-js";
+	const HANDLE_GUTENBERG_JS = "media-license-gutenberg";
 
 	/**
 	 * MediaLicenses constructor.
@@ -68,8 +70,8 @@ class Plugin {
 		/**
 		 * plugin directory
 		 */
-		$this->dir = plugin_dir_path(__FILE__);
-		$this->url = plugin_dir_url(__FILE__);
+		$this->path = plugin_dir_path( __FILE__ );
+		$this->url  = plugin_dir_url( __FILE__ );
 
 		/**
 		 * load translations
@@ -80,37 +82,36 @@ class Plugin {
 			plugin_basename( dirname( __FILE__ ) ) . '/languages'
 		);
 
-		/**
-		 * creative common object
-		 */
-		require_once dirname(__FILE__)."/classes/creative-common.php";
+		require_once dirname( __FILE__ ) . "/vendor/autoload.php";
 
-		require_once dirname(__FILE__)."/classes/Render.php";
-		$this->render = new Render($this);
-
-		require_once dirname(__FILE__)."/classes/meta-fields.php";
-		$this->meta_fields = new MetaFields($this);
-
-		require_once dirname(__FILE__)."/classes/shortcode.php";
-		$this->shortcode = new Shortcode($this);
-
-		require_once dirname(__FILE__)."/classes/api.php";
-		$this->api = new API($this);
+		$this->render      = new Render( $this );
+		$this->meta_fields = new MetaFields( $this );
+		$this->shortcode   = new Shortcode( $this );
+		$this->ajax        = new Ajax( $this );
+		$this->gutenberg   = new Gutenberg( $this );
 
 	}
 
-	/**
-	 * @var null|Plugin $instance
-	 */
 	private static $instance = null;
-	static function instance(){
-		if(self::$instance == null) self::$instance = new Plugin();
+
+	/**
+	 * @return Plugin $instance
+	 */
+	static function instance(): Plugin {
+		if ( self::$instance == null ) {
+			self::$instance = new Plugin();
+		}
+
 		return self::$instance;
 	}
 
 	// ------------------------------------------------------------
 	// deprecations
 	// ------------------------------------------------------------
+	/**
+	 * @deprecated use HANDLE_API_JS for consistent naming
+	 */
+	const API_JS_HANDLE = "media-license-js";
 	/**
 	 * @deprecated use FILTER_EDIT_CAPTION instead
 	 */
@@ -139,7 +140,8 @@ class Plugin {
 	const FILTER_EDIT_LICENSE_NUM_ARGS = 1;
 
 }
+
 Plugin::instance();
 
-require_once dirname(__FILE__)."/public-functions.php";
+require_once dirname( __FILE__ ) . "/public-functions.php";
 

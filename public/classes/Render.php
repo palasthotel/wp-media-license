@@ -40,7 +40,7 @@ class Render {
 		$paths = apply_filters(Plugin::FILTER_TEMPLATE_PATHS, array());
 
 		// add default templates at last position
-		$paths[] = $this->plugin->dir . 'templates';
+		$paths[] = $this->plugin->path . 'templates';
 
 		// find templates
 		foreach ($paths as $path){

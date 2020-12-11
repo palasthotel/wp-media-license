@@ -12,7 +12,7 @@ namespace Palasthotel\MediaLicense;
 /**
  * @property Plugin plugin
  */
-class API {
+class Ajax {
 
 	const AJAX_ACTION = "media-license";
 
@@ -31,10 +31,10 @@ class API {
 
 	function register(){
 		wp_register_script(
-			Plugin::API_JS_HANDLE,
+			Plugin::HANDLE_API_JS,
 			$this->plugin->url."/js/api.js",
 			array("jquery"),
-			filemtime($this->plugin->dir."/js/api.js"),
+			filemtime( $this->plugin->path . "/js/api.js"),
 			true
 		);
 		$obj =  array(
@@ -44,11 +44,11 @@ class API {
 			),
 			"autoload" => apply_filters(Plugin::FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE, true),
 		);
-		wp_localize_script(Plugin::API_JS_HANDLE, "MediaLicense_API", $obj);
+		wp_localize_script(Plugin::HANDLE_API_JS, "MediaLicense_API", $obj);
 	}
 
 	function enqueue_script(){
-		wp_enqueue_script(Plugin::API_JS_HANDLE);
+		wp_enqueue_script(Plugin::HANDLE_API_JS);
 	}
 
 	function ajax(){
