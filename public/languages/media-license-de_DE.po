@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Media License\n"
-"POT-Creation-Date: 2020-06-24 14:48+0200\n"
-"PO-Revision-Date: 2020-06-24 14:49+0200\n"
+"POT-Creation-Date: 2020-12-11 12:08+0100\n"
+"PO-Revision-Date: 2020-12-11 12:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: media-license.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -20,43 +20,53 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: inc/creative-common.php:40
+#: classes/BlockX/ListOfLicenses.php:26
+msgid "List of media licenses"
+msgstr "Liste der Medienlizenzen"
+
+#: classes/BlockX/ListOfLicenses.php:38
+msgid "Collects information about all media licenses used in this post."
+msgstr ""
+"Sammelt Informationen über alle in diesem Beitrag verwendeten "
+"Medienlizenzen."
+
+#: classes/CreativeCommon.php:41
 msgid "-- No license information --"
 msgstr "-- Keine Lizenzinformationen --"
 
-#: inc/creative-common.php:45
+#: classes/CreativeCommon.php:46
 msgid "All rights reserved"
 msgstr "Alle Rechte vorbehalten"
 
-#: inc/creative-common.php:161
+#: classes/CreativeCommon.php:162
 msgid "Public Domain"
 msgstr ""
 
-#: inc/creative-common.php:206
+#: classes/CreativeCommon.php:206
 msgid "Creative Commons License logo"
 msgstr "Creative Commons Lizenzlogo"
 
-#: inc/meta-fields.php:70
+#: classes/MetaFields.php:83
 msgid "License"
 msgstr "Lizenz"
 
-#: inc/meta-fields.php:73
+#: classes/MetaFields.php:86
 msgid "Add license to caption if provided"
 msgstr "Füge Lizenz and die Bildunterschrift an."
 
-#: inc/meta-fields.php:81
+#: classes/MetaFields.php:94
 msgid "Author"
 msgstr "Autor"
 
-#: inc/meta-fields.php:84
+#: classes/MetaFields.php:97
 msgid "Add author to caption if provided"
 msgstr "Füge Autor an die Bildunterschrift an, wenn vorhanden."
 
-#: inc/meta-fields.php:91
+#: classes/MetaFields.php:104
 msgid "Author URL"
 msgstr "URL des Autors"
 
-#: inc/meta-fields.php:94
+#: classes/MetaFields.php:107
 msgid "Link author if url is provided"
 msgstr "Autor wird verlinkt, wenn URL angegeben ist"
 
