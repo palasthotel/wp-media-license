@@ -48,6 +48,7 @@ class Plugin {
 	const FILTER_ADD_FIELDS = "media_license_add_fields";
 	const FILTER_EDIT_LICENSE = "media_license_edit_licenses";
 	const FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE = "media_license_autoload_async_image_license";
+	const FILTER_BLOCK_LIST_OF_LICENSES_IMAGE_IDS = "media_license_block_list_of_licenses_image_ids";
 
 	/**
 	 * meta field key names
