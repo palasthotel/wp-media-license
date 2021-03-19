@@ -46,12 +46,12 @@ const ListOfLicenses = ({block: id})=>{
             }
         },300);
         return ()=> clearTimeout(timeout);
-    }, [globalImageIds])
+    }, [globalImageIds]);
 
     return <div>
         <window.BlockXComponents.ServerSideRenderQueue
             block={block.blockId}
-            content={block.content}
+            attributes={block.attributes}
         />
     </div>
 }
