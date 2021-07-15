@@ -3,11 +3,11 @@
  * Plugin Name: Media License
  * Plugin URI: https://github.com/palasthotel/media-license
  * Description: Advanced caption with license for media files
- * Version: 1.4.1
+ * Version: 1.4.3
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock)
  * Author URI: http://www.palasthotel.de
  * Requires at least: 4.0
- * Tested up to: 5.5.3
+ * Tested up to: 5.7.2
  * License: http://www.gnu.org/licenses/gpl-2.0.html GPLv2
  * @copyright Copyright (c) 2014, Palasthotel
  * @package Palasthotel\MediaLicense
@@ -26,9 +26,10 @@ if ( ! defined( 'WPINC' ) ) {
  * @property string url
  * @property MetaFields meta_fields
  * @property Shortcode shortcode
- * @property Ajax $ajax
+ * @property Assets $assets
  * @property Render render
  * @property Gutenberg gutenberg
+ * @property Rest rest
  */
 class Plugin {
 
@@ -88,7 +89,8 @@ class Plugin {
 		$this->render      = new Render( $this );
 		$this->meta_fields = new MetaFields( $this );
 		$this->shortcode   = new Shortcode( $this );
-		$this->ajax        = new Ajax( $this );
+		$this->assets      = new Assets( $this );
+		$this->rest        = new Rest($this);
 		$this->gutenberg   = new Gutenberg( $this );
 
 	}
