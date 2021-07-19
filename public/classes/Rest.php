@@ -29,6 +29,7 @@ class Rest {
 					}
 				],
 			],
+			'permission_callback' => '__return_true',
 		) );
 	}
 
