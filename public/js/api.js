@@ -97,7 +97,10 @@
 
 			const $originalCaption = $figure.find("figcaption");
 
+			console.debug("ML",$originalCaption);
+
 			if ($figure.find("figcaption").length === 0) {
+				console.debug("ML", "figcaption  not found");
 				var $caption = $("<figcaption>" + caption + "</figcaption>").addClass("wp-caption-text media-license__figcaption");
 				// image is wrapped with link
 				if ($img.parent("a").length === 1) {
@@ -106,7 +109,7 @@
 					$img.after($caption);
 				}
 			} else if($originalCaption.text() !== $(caption).text()){
-
+				console.debug("ML", "figcaption found but no equal!", $originalCaption.text(), $(caption).text());
 				const $wrappedOriginal = $("<span>" + $originalCaption.html() + "</span>").addClass("media-license__local-figcaption")
 				$originalCaption.addClass("media-license__figcaption")
 					.empty()
