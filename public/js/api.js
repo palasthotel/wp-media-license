@@ -174,9 +174,8 @@
 			var _ids = attachment_ids.splice(0, 10);
 			$.ajax({
 				method: "GET",
-				url: api.ajaxurl,
+				url: api.resturl,
 				data: {
-					action: api.params.action,
 					ids: _ids,
 				},
 			}).done(function (result) {

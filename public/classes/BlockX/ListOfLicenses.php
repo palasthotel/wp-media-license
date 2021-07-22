@@ -49,6 +49,7 @@ class ListOfLicenses extends _BlockType {
 		if(!isset($content->imageIds) || !is_array($content->imageIds)){
 			$content->imageIds = [];
 		}
+		$content->imageIds = apply_filters(Plugin::FILTER_BLOCK_LIST_OF_LICENSES_IMAGE_IDS, $content->imageIds);
 		$content->captions = [];
 		foreach ($content->imageIds as $imageId){
 			$content->captions[$imageId] = media_license_get_caption($imageId);

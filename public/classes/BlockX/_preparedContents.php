@@ -1,6 +1,6 @@
 <?php
 
-namespace Palasthotel\WordPress\BlockX\Blocks;
+namespace Palasthotel\MediaLicense\BlockX;
 
 use stdClass;
 

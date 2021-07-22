@@ -2,9 +2,9 @@
 Contributors: palasthotel, edwardbock, kroppenstedt
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
-Requires at least: 4.0
-Tested up to: 5.5.3
-Stable tag: 1.4.1
+Requires at least: 5.0
+Tested up to: 5.8
+Stable tag: 1.4.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -32,6 +32,16 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.4.4 =
+* Bugfix: Missing permission callback for rest route
+
+= 1.4.3 =
+* Optimization: moved wp-ajax to rest endpoint for better caching
+
+= 1.4.2 =
+* Optimization: list of licenses blockx update
+* Bugfix: empty post excerpt fix
 
 = 1.4.1 =
  * Bugfix: Enqueue script fix

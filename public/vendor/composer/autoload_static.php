@@ -21,13 +21,7 @@ class ComposerStaticInit92728b71495e2d4deb92d2f20935abda
     );
 
     public static $classMap = array (
-        'Palasthotel\\MediaLicense\\Ajax' => __DIR__ . '/../..' . '/classes/Ajax.php',
-        'Palasthotel\\MediaLicense\\BlockX\\ListOfLicenses' => __DIR__ . '/../..' . '/classes/BlockX/ListOfLicenses.php',
-        'Palasthotel\\MediaLicense\\CreativeCommon' => __DIR__ . '/../..' . '/classes/CreativeCommon.php',
-        'Palasthotel\\MediaLicense\\Gutenberg' => __DIR__ . '/../..' . '/classes/Gutenberg.php',
-        'Palasthotel\\MediaLicense\\MetaFields' => __DIR__ . '/../..' . '/classes/MetaFields.php',
-        'Palasthotel\\MediaLicense\\Render' => __DIR__ . '/../..' . '/classes/Render.php',
-        'Palasthotel\\MediaLicense\\Shortcode' => __DIR__ . '/../..' . '/classes/shortcode.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
