@@ -76,6 +76,7 @@
 				$figure = $img.parent().parent();
 			} else {
 				$img.wrap($figure);
+				$figure = $img.closest("figure");
 			}
 
 			$figure.addClass("media-license__figure")
