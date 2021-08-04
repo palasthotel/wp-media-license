@@ -3,7 +3,7 @@
  * Plugin Name: Media License
  * Plugin URI: https://github.com/palasthotel/media-license
  * Description: Advanced caption with license for media files
- * Version: 1.4.4
+ * Version: 1.4.5
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock)
  * Author URI: http://www.palasthotel.de
  * Requires at least: 4.0
