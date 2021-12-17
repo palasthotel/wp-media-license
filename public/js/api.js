@@ -1,19 +1,16 @@
-/**
- * Created by edward on 31.05.17.
- */
 'use strict';
 
-(function ($, api) {
+(function (api) {
 
 	/**
 	 * load license information to core image elements
 	 */
 	api.load_licenses = function () {
-		var map = {};
-		var ids = [];
-		$("img").each(function (i, img) {
+		const map = {};
+		const ids = [];
 
-			var id = api.get_image_id(img);
+		document.querySelectorAll("img").forEach((img)=>{
+			const id = api.get_image_id(img);
 			if (id) {
 				// always check caption
 				ids.push(id);
@@ -28,99 +25,95 @@
 
 		/**
 		 * build dom from results
-		 * @param result
+		 * @param captions
 		 * @private
 		 */
-		function _got_licenses(result) {
+		function _got_licenses(captions) {
 
-			if (result.error) {
-				console.error(result);
-				return;
-			}
+			for (const id in captions) {
+				if (!captions.hasOwnProperty(id)){
+					continue;
+				}
+				for (const i in map[id]) {
+					if (!map[id].hasOwnProperty(i)) {
+						continue;
+					}
 
-
-			if (typeof result.captions === typeof []) {
-
-				for (var id in result.captions) {
-					if (!result.captions.hasOwnProperty(id)) continue;
-					for (var i in map[id]) {
-						if (!map[id].hasOwnProperty(i)) continue;
-
-						var caption = result.captions[id];
-						if (caption.length > 0) {
-							var element = map[id][i];
-							process_image(element, caption);
-						}
+					const caption = captions[id];
+					if (caption.length > 0) {
+						const element = map[id][i];
+						process_image(element, caption);
 					}
 				}
-
-			} else {
-				console.error("captions was no array", result);
 			}
+
 		}
 
 		/**
 		 * process image element with caption
-		 * @param element
+		 * @param {Element} img
 		 * @param caption
 		 */
-		function process_image(element, caption) {
-
-			var $img = $(element);
-			var $figure = $("<figure></figure>");
+		function process_image(img, caption) {
 
 			// check parent -
-			if($img.parent("figure").length === 1){
-				$figure = $img.parent();
-			} else if($img.parent("a").length === 1 && $img.parent().parent("figure").length === 1){
-				$figure = $img.parent().parent();
+			let figure;
+			if(img.parentNode.nodeName === "FIGURE"){
+				figure = img.parentNode;
+			} else if(img.parentNode.nodeName === "A" && img.parentNode.parentNode.nodeName ==="FIGURE"){
+				figure = img.parentNode.parentNode;
 			} else {
-				$img.wrap($figure);
-				$figure = $img.closest("figure");
+				figure = document.createElement("figure");
+				img.parentNode.insertBefore(figure, img);
+				figure.append(img);
 			}
 
-			$figure.addClass("media-license__figure")
+			figure.classList.add("media-license__figure");
 			// ✅ $figure now exists
 
 			// take over alignment
-			if ($img.hasClass("alignright")) {
-				$figure.addClass("alignright");
-				$img.removeClass("alignright");
+			if (img.classList.contains("alignright")) {
+				figure.classList.add("alignright");
+				img.classList.remove("alignright");
 			}
-			if ($img.hasClass("alignleft")) {
-				$figure.addClass("alignleft");
-				$img.removeClass("alignleft");
+			if (img.classList.contains("alignleft")) {
+				figure.classList.add("alignleft");
+				img.classList.remove("alignleft");
 			}
-			if ($img.hasClass("aligncenter")) {
-				$figure.addClass("aligncenter");
-				$img.removeClass("aligncenter");
-			}
-
-			const $originalCaption = $figure.find("figcaption");
-
-			if ($figure.find("figcaption").length === 0) {
-				var $caption = $("<figcaption>" + caption + "</figcaption>").addClass("wp-caption-text media-license__figcaption");
-				// image is wrapped with link
-				if ($img.parent("a").length === 1) {
-					$img.next("figure").append($caption);
-				} else {
-					$img.after($caption);
-				}
-			} else if($originalCaption.text() !== $(caption).text()){
-
-				const $wrappedOriginal = $("<span>" + $originalCaption.html() + "</span>").addClass("media-license__local-figcaption")
-				$originalCaption.addClass("media-license__figcaption")
-					.empty()
-					.append($wrappedOriginal)
-					.append(caption);
+			if (img.classList.contains("aligncenter")) {
+				figure.classList.add("aligncenter");
+				img.classList.remove("aligncenter");
 			}
 
-			if($figure.find(".media-license__local-figcaption").length > 0){
-				$figure.addClass("has-local-caption");
+			const originalCaption = figure.querySelector("figcaption");
+
+			if (!originalCaption) {
+				const captionElement = document.createElement("figcaption");
+				captionElement.classList.add("wp-caption-text","media-license__figcaption");
+				captionElement.innerHTML = caption;
+				figure.appendChild(captionElement);
+			} else if(
+				originalCaption.innerText !== caption
+			){
+
+				const wrappedOriginal = document.createElement("span");
+				wrappedOriginal.innerHTML = originalCaption.innerHTML;
+				wrappedOriginal.classList.add("media-license__local-figcaption");
+
+				originalCaption.classList.add("media-license__figcaption");
+				originalCaption.innerHTML = "";
+				originalCaption.append(wrappedOriginal);
+				originalCaption.innerHTML = originalCaption.innerHTML + caption;
 			}
-			if($figure.find(".media-license__caption").length > 0){
-				$figure.addClass("has-caption")
+
+			if(figure.querySelector(".media-license__figcaption")){
+				figure.classList.add("has-caption");
 			}
+
+			if(figure.querySelector(".media-license__local-figcaption")){
+				figure.classList.add("has-local-caption");
+			}
+
 
 		}
 
@@ -146,50 +139,35 @@
 	 * @return {{then, trigger}} register a callback with then method. could be called several times.
 	 */
 	api.get_licenses = function (attachment_ids) {
-
-		var promise = function () {
-			var _cbs = [];
-
-			function _then(cb) {
-				_cbs.push(cb);
-			}
-
-			function _trigger(result) {
-				for (var i = 0; i < _cbs.length; i++) {
-					_cbs[i](result);
-				}
-			}
-
-			return {
-				then: _then,
-				trigger: _trigger,
-			}
-		}();
-
-
+		const chunks = [];
 		while (attachment_ids.length) {
 			// get 10 attachment captions per call
-			var _ids = attachment_ids.splice(0, 10);
-			$.ajax({
-				method: "GET",
-				url: api.resturl,
-				data: {
-					ids: _ids,
-				},
-			}).done(function (result) {
-				promise.trigger(result);
-			});
+			chunks.push(attachment_ids.splice(0, 10));
 		}
-
-		return promise;
+		return Promise.all(chunks.map(ids=>{
+			return fetch(api.resturl+"?"+ids.map(id=> "ids[]="+id).join("&"));
+		})).then(responses => {
+			return Promise.all(responses.map(response => response.json()));
+		}).then(results => {
+			const captions = {};
+			for (const result of results) {
+				if(result.error){
+					console.error("Got error in media license captions response", result);
+					continue;
+				}
+				for (const postId in result.captions) {
+					captions[postId] = result.captions[postId];
+				}
+			}
+			return captions;
+		});
 	};
 
 	if (api.autoload) {
-		// auto load license
-		$(function () {
+		document.addEventListener("DOMContentLoaded", function() {
 			api.load_licenses();
 		});
 	}
 
 
-})(jQuery, MediaLicense_API);
+})(MediaLicense_API);
