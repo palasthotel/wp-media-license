@@ -87,13 +87,16 @@
 
 			const originalCaption = figure.querySelector("figcaption");
 
+			const captionHelper = document.createElement("div");
+			captionHelper.innerHTML = caption;
+
 			if (!originalCaption) {
 				const captionElement = document.createElement("figcaption");
 				captionElement.classList.add("wp-caption-text","media-license__figcaption");
 				captionElement.innerHTML = caption;
 				figure.appendChild(captionElement);
 			} else if(
-				originalCaption.innerText !== caption
+				originalCaption.innerText !== captionHelper.innerText
 			){
 
 				const wrappedOriginal = document.createElement("span");
@@ -104,6 +107,14 @@
 				originalCaption.innerHTML = "";
 				originalCaption.append(wrappedOriginal);
 				originalCaption.innerHTML = originalCaption.innerHTML + caption;
+
+				const testOriginal = figure.querySelector(".media-license__local-figcaption");
+				const testAppended = figure.querySelector(".media-license__caption");
+				if(
+					testOriginal && testAppended && testOriginal.innerText === testAppended.innerText
+				){
+					figure.classList.add("has-duplicate-captions");
+				}
 			}
 
 			if(figure.querySelector(".media-license__figcaption")){
