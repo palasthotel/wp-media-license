@@ -8,7 +8,6 @@ use Palasthotel\MediaLicense\Plugin;
 use Palasthotel\WordPress\BlockX\Blocks\_BlockType;
 use Palasthotel\WordPress\BlockX\Model\BlockId;
 use Palasthotel\WordPress\BlockX\Model\ContentStructure;
-use Palasthotel\WordPress\BlockX\Model\Dependencies;
 use Palasthotel\WordPress\BlockX\Widgets\Hidden;
 use stdClass;
 
@@ -39,9 +38,8 @@ class ListOfLicenses extends _BlockType {
 		return $args;
 	}
 
-	public function enqueueEditorAssets( Dependencies $dependencies ) {
-		parent::enqueueEditorAssets( $dependencies );
-		$dependencies->addHandle(Plugin::HANDLE_GUTENBERG_JS);
+	public function script(): string {
+		return Plugin::HANDLE_GUTENBERG_JS;
 	}
 
 	public function prepare( stdClass $content ): stdClass {

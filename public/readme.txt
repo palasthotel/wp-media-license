@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock, kroppenstedt
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 5.0
-Tested up to: 5.8.2
-Stable tag: 1.5.1
+Tested up to: 5.9.2
+Stable tag: 1.5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -33,7 +33,10 @@ Yes you can with the filter function "media_license_add_fields".
 
 == Changelog ==
 
-= 1.5.1
+= 1.5.2 =
+* Bugfix: ListOfLicenses block work with 1.4 and later
+
+= 1.5.1 =
 * Optimization: New "has-duplicate-caption" class in frontend if local and image captions are the same
 
 = 1.5.0
