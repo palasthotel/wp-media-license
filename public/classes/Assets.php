@@ -29,7 +29,7 @@ class Assets {
 		wp_register_script(
 			Plugin::HANDLE_API_JS,
 			$this->plugin->url."/js/api.js",
-			array("jquery"),
+			[],
 			filemtime( $this->plugin->path . "/js/api.js"),
 			true
 		);
