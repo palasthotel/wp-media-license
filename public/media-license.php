@@ -30,6 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
  * @property Render render
  * @property Gutenberg gutenberg
  * @property Rest rest
+ * @property Headless $headless
  */
 class Plugin {
 
@@ -92,6 +93,8 @@ class Plugin {
 		$this->assets      = new Assets( $this );
 		$this->rest        = new Rest($this);
 		$this->gutenberg   = new Gutenberg( $this );
+
+		$this->headless = new Headless($this);
 
 	}
 
