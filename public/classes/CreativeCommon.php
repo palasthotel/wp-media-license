@@ -141,17 +141,17 @@ class CreativeCommon {
 		 * CC-BY-NC-ND
 		 */
 		$licenses['cc-by-nc-nd'] = array(
-			'label'     => 'CC-BY-NC-SA 2.0',
+			'label'     => 'CC-BY-NC-ND 2.0',
 			'cc_path'      => 'by-nc-nd/2.0',
 		);
 
 		$licenses['cc-by-nc-nd-3'] = array(
-			'label'     => 'CC-BY-NC-SA 3.0',
+			'label'     => 'CC-BY-NC-ND 3.0',
 			'cc_path'      => 'by-nc-nd/3.0',
 		);
 
 		$licenses['cc-by-nc-nd-4'] = array(
-			'label'     => 'CC-BY-NC-SA 4.0',
+			'label'     => 'CC-BY-NC-ND 4.0',
 			'cc_path'      => 'by-nc-nd/4.0',
 		);
 
