@@ -38,6 +38,11 @@ class MetaFields {
 		 * save custom meta field values
 		 */
 		add_action( 'edit_attachment', array($this, 'edit_attachment'));
+
+		/**
+		 * copy license info if image was edited
+		 */
+		add_filter('wp_edited_image_metadata', [$this, 'wp_edited_image_metadata'], 10, 3);
 	}
 
 	/**
@@ -166,6 +171,17 @@ class MetaFields {
 			}
 		}
 
+	}
+
+	public function wp_edited_image_metadata( $new_image_meta, $new_attachment_id, $attachment_id){
+
+		foreach($this->getMetaFields() as $meta_key => $field_definition){
+			$value = get_post_meta( $attachment_id, $meta_key, true );
+			update_post_meta($new_attachment_id, $meta_key, $value);
+			$new_image_meta["image_meta"][$meta_key] = $value;
+		}
+
+		return $new_image_meta;
 	}
 
 }
