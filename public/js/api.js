@@ -136,6 +136,8 @@
 	 */
 	api.get_image_id = function (img_element) {
 		var matches = null;
+		var exception = img_element.closest(".donotcaption");
+		if ( exception !== null ) return false;
 		if (matches = /wp-image-([0-9]+)/g.exec(img_element.className)) {
 			return parseInt(matches[1]);
 		}
