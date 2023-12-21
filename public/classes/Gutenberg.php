@@ -21,7 +21,7 @@ class Gutenberg {
 		$info = include $this->plugin->path . "/js/gutenberg/media-license.asset.php";
 		wp_enqueue_script(
 			Plugin::HANDLE_GUTENBERG_JS,
-			$this->plugin->url."/js/gutenberg/media-license.js",
+			$this->plugin->getUrl("/js/gutenberg/media-license.js"),
 			$info["dependencies"],
 			$info["version"]
 		);

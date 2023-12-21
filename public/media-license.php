@@ -20,6 +20,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+require_once dirname( __FILE__ ) . "/vendor/autoload.php";
+
 /**
  * Class MediaLicense
  * @property string $path
@@ -32,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
  * @property Rest rest
  * @property Headless $headless
  */
-class Plugin {
+class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 
 	const DOMAIN = 'media-license';
 
@@ -68,24 +70,12 @@ class Plugin {
 	/**
 	 * MediaLicenses constructor.
 	 */
-	private function __construct() {
+	public function onCreate(): void {
 
-		/**
-		 * plugin directory
-		 */
-		$this->path = plugin_dir_path( __FILE__ );
-		$this->url  = plugin_dir_url( __FILE__ );
-
-		/**
-		 * load translations
-		 */
-		load_plugin_textdomain(
+		$this->loadTextdomain(
 			self::DOMAIN,
-			false,
-			plugin_basename( dirname( __FILE__ ) ) . '/languages'
+			"languages"
 		);
-
-		require_once dirname( __FILE__ ) . "/vendor/autoload.php";
 
 		$this->render      = new Render( $this );
 		$this->meta_fields = new MetaFields( $this );
@@ -96,19 +86,6 @@ class Plugin {
 
 		$this->headless = new Headless($this);
 
-	}
-
-	private static $instance = null;
-
-	/**
-	 * @return Plugin $instance
-	 */
-	static function instance(): Plugin {
-		if ( self::$instance == null ) {
-			self::$instance = new Plugin();
-		}
-
-		return self::$instance;
 	}
 
 	// ------------------------------------------------------------

@@ -28,9 +28,9 @@ class Assets {
 	function register(){
 		wp_register_script(
 			Plugin::HANDLE_API_JS,
-			$this->plugin->url."/js/api.js",
+			$this->plugin->getUrl("/js/api.js"),
 			[],
-			filemtime( $this->plugin->path . "/js/api.js"),
+			filemtime( $this->plugin->getPath( "/js/api.js")),
 			true
 		);
 		$obj =  array(
