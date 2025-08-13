@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock, kroppenstedt
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 5.0
-Tested up to: 6.4.2
-Stable tag: 1.6.2
+Tested up to: 6.8.1
+Stable tag: 1.6.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -32,6 +32,9 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.6.3 =
+* Fix: fix deprecation warnings
 
 = 1.6.2 =
 * Fix: prevent double slashes in url path
