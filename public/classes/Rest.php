@@ -14,7 +14,9 @@ class Rest {
 	 *
 	 * @param Plugin $plugin
 	 */
-	function __construct(Plugin $plugin) {
+    public Plugin $plugin;
+
+    function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
 		add_action( 'rest_api_init', [$this, 'init']);
 	}

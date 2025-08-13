@@ -19,7 +19,9 @@ class Assets {
 	 *
 	 * @param Plugin $plugin
 	 */
-	function __construct(Plugin $plugin) {
+    public Plugin $plugin;
+
+    function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
 		add_action('init', array($this, 'register'), 1);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_script'));

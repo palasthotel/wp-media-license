@@ -70,6 +70,15 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	/**
 	 * MediaLicenses constructor.
 	 */
+
+    public Render $render;
+    public MetaFields $meta_fields;
+    public Shortcode $shortcode;
+    public Assets $assets;
+    public Rest $rest;
+    public Gutenberg $gutenberg;
+    public Headless $headless;
+
 	public function onCreate(): void {
 
 		$this->loadTextdomain(

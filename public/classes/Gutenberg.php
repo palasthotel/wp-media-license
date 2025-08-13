@@ -10,6 +10,7 @@ use Palasthotel\MediaLicense\BlockX\ListOfLicenses;
  * @property Plugin plugin
  */
 class Gutenberg {
+    public Plugin $plugin;
 	public function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
 		add_action( 'enqueue_block_editor_assets', [$this, "enqueue_block_editor_assets"]);

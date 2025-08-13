@@ -13,6 +13,9 @@ class Render {
 	 *
 	 * @param Plugin $plugin
 	 */
+
+    public Plugin $plugin;
+    public null|array $sub_dirs;
 	function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
 		$this->sub_dirs = null;

@@ -13,7 +13,9 @@ class Shortcode {
 	 *
 	 * @param Plugin $plugin
 	 */
-	function __construct(Plugin $plugin) {
+    public Plugin $plugin;
+
+    function __construct(Plugin $plugin) {
 
 		$this->plugin = $plugin;
 
