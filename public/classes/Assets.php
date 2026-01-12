@@ -31,7 +31,7 @@ class Assets {
 		wp_register_script(
 			Plugin::HANDLE_API_JS,
 			$this->plugin->getUrl("/js/api.js"),
-			[],
+			['jquery'],
 			filemtime( $this->plugin->getPath( "/js/api.js")),
 			true
 		);
