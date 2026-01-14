@@ -3,6 +3,7 @@
  */
 'use strict';
 
+// IIFE Immediately Invoked Function Expression is an anonymus function that is executed immediately 
 (function ($, api) {
 
 	/**
@@ -24,7 +25,13 @@
 			}
 		});
 
-		api.get_licenses(ids).then(_got_licenses);
+        // get_licenses runs immediately since it is an IIFE
+        // _got_licenses is the registered callback that runs for every result of the get_licenses calls
+        // since get_licenses batches ids of 10
+         
+        // fix duplication problem by removing duplicats
+        const sanitizedIds = Array.from(new Set(ids));
+		api.get_licenses(sanitizedIds).then(_got_licenses);
 
 		/**
 		 * build dom from results
@@ -43,6 +50,7 @@
 
 				for (var id in result.captions) {
 					if (!result.captions.hasOwnProperty(id)) continue;
+                    // this loop processes all img that share the same id
 					for (var i in map[id]) {
 						if (!map[id].hasOwnProperty(i)) continue;
 
@@ -64,6 +72,8 @@
 		 * @param element
 		 * @param caption
 		 */
+        // todo: change this so it handles img inside of wp-blocks without wrapping, but with
+        // adding appropriate data-attributes
 		function process_image(element, caption) {
 
 			var $img = $(element);
@@ -149,6 +159,7 @@
 	 */
 	api.get_licenses = function (attachment_ids) {
 
+        // this is also a immediately invoked function expression
 		var promise = function () {
 			var _cbs = [];
 
