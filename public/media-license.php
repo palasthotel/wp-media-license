@@ -36,7 +36,18 @@ require_once dirname( __FILE__ ) . "/vendor/autoload.php";
  */
 class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 
-	const DOMAIN = 'media-license';
+	const DOMAIN = 'media_license';
+    const DISPLAY_NAME = 'Media License';
+
+    /**
+     * Settings page
+     */
+    const SETTINGS_PAGE_SLUG = 'media-license-settings';
+    const SETTINGS_OPTIONS_GROUP = 'media_license_settings_group';
+    const SETTINGS_OPTION_NAME = 'media_license_settings';
+    const SETTINGS_SECTION_MAIN = 'media_license_main';
+    const SETTINGS_FIELD_ENABLE_BLOCK_DATA_ATTRIBUTES = 'enable_block_data_attribute';
+    const SETTINGS_FIELD_EXCLUDE_BLOCK_DATA_ATTRIBUTES_PREFIX = 'disable_data_attributes_for_';
 
 	/**
 	 * theme template parts
@@ -78,6 +89,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
     public Rest $rest;
     public Gutenberg $gutenberg;
     public Headless $headless;
+    public AdminPage $admin_page;
 
 	public function onCreate(): void {
 
@@ -92,8 +104,8 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 		$this->assets      = new Assets( $this );
 		$this->rest        = new Rest($this);
 		$this->gutenberg   = new Gutenberg( $this );
-
-		$this->headless = new Headless($this);
+        $this->admin_page  = new AdminPage( $this );
+        $this->headless    = new Headless( $this );
 
 	}
 

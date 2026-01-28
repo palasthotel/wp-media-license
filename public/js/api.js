@@ -77,6 +77,14 @@
 		function process_image(element, caption) {
 
 			var $img = $(element);
+            // jquery converts the data-attribute 'data-media-license-block-flag' to 'mediaLicenseBlockFlag'
+            if (
+                $img.data("mediaLicenseBlockFlag") === "is-block" &&
+                !$img.data("mediaLicenseBlockExclude")
+            ) {
+                add_media_license_as_data_attribute(element, caption);
+                return;
+            }
 			var $figure = $("<figure></figure>");
 
 			// check parent -
@@ -138,6 +146,9 @@
 
 	};
 
+    function add_media_license_as_data_attribute(element, caption) {
+        element.setAttribute('data-media-license-caption', caption); 
+    }
 
 	/**
 	 * get attachment id from wp-image-{id} class
