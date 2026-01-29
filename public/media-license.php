@@ -46,8 +46,9 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
     const SETTINGS_OPTIONS_GROUP = 'media_license_settings_group';
     const SETTINGS_OPTION_NAME = 'media_license_settings';
     const SETTINGS_SECTION_MAIN = 'media_license_main';
-    const SETTINGS_FIELD_ENABLE_BLOCK_DATA_ATTRIBUTES = 'enable_block_data_attribute';
-    const SETTINGS_FIELD_EXCLUDE_BLOCK_DATA_ATTRIBUTES_PREFIX = 'disable_data_attributes_for_';
+    const SETTINGS_SECTION_OVERWRITE = 'media_license_overwrite';
+    const SETTINGS_FIELD_BLOCKS_MAIN = 'main_block_setting';
+    const SETTINGS_FIELD_COLLECT = 'collect_data_attributes';
 
 	/**
 	 * theme template parts

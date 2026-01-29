@@ -9,8 +9,6 @@ class AdminPage
     // this is a list of all the settings fields for all the gutenberg blocks
     private array $individual_block_settings_field_list;
 
-    // todo: better names for better UX (how the checkboxes look)
-
     public function __construct(Plugin $plugin)
     {
         $this->plugin = $plugin;
@@ -47,48 +45,50 @@ class AdminPage
         );
 
         add_settings_field(
-            $this->plugin::SETTINGS_FIELD_ENABLE_BLOCK_DATA_ATTRIBUTES,
-            'Enable data attributes for gutenberg blocks',
+            $this->plugin::SETTINGS_FIELD_BLOCKS_MAIN,
+            'Choose main block option',
+            [$this, 'render_main_block_options'],
+            $this->plugin::SETTINGS_PAGE_SLUG,
+            $this->plugin::SETTINGS_SECTION_MAIN,
+        );
+
+        add_settings_field(
+            $this->plugin::SETTINGS_FIELD_COLLECT,
+            'Collect data-attribute data in footer',
             [$this, 'render_checkbox'],
             $this->plugin::SETTINGS_PAGE_SLUG,
             $this->plugin::SETTINGS_SECTION_MAIN,
-            ['key' => $this->plugin::SETTINGS_FIELD_ENABLE_BLOCK_DATA_ATTRIBUTES]
+            ['key' => $this->plugin::SETTINGS_FIELD_COLLECT]
         );
 
-        $block_types = \WP_Block_Type_Registry::get_instance()->get_all_registered();
-        // array keys are names like: core/paragraph, core/image, myplugin/foo
-        $block_names = array_keys( $block_types );
-
-        foreach ($block_names as $block) {
-
-            // $block looks like: core/accordion-panel
-            // todo: are / and - problems here since we use this in the db as in id?
-            // todo: write helper function to generate the fieldname so I can reuse it
-            $field_name = $this->plugin::SETTINGS_FIELD_EXCLUDE_BLOCK_DATA_ATTRIBUTES_PREFIX . $block;
-            $this->individual_block_settings_field_list[] = $field_name;
-            
-            add_settings_field(
-                $field_name,
-                $block,
-                [$this, 'render_checkbox'],
-                $this->plugin::SETTINGS_PAGE_SLUG,
-                $this->plugin::SETTINGS_SECTION_MAIN,
-                ['key' => $field_name],
-            );
-        }
-
+        add_settings_section(
+            $this->plugin::SETTINGS_SECTION_OVERWRITE,
+            'Overwrites via "media_license_individual_block_settings" hook', // __('General', $this->plugin::DOMAIN)
+            [$this, 'render_overwrite_section'],
+            $this->plugin::SETTINGS_PAGE_SLUG,
+        );
     }
 
     public function sanitize_settings($input): array
     {
         $out = [];
 
-        $out[$this->plugin::SETTINGS_FIELD_ENABLE_BLOCK_DATA_ATTRIBUTES] =
-            ! empty($input[$this->plugin::SETTINGS_FIELD_ENABLE_BLOCK_DATA_ATTRIBUTES]) ? 1 : 0;
+        $out[$this->plugin::SETTINGS_FIELD_COLLECT] =
+            ! empty($input[$this->plugin::SETTINGS_FIELD_COLLECT]) ? 1 : 0;
 
-        foreach ($this->individual_block_settings_field_list as $field) {
-            $out[$field] =
-                ! empty($input[$field]) ? 1 : 0;
+        $allowed_main_block_options = [
+            'legacy',
+            'data-attribute',
+            'collect'
+        ];
+
+        if (
+            isset($input[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN]) &&
+            in_array($input[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN], $allowed_main_block_options, true)
+        ) {
+            $out[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN] = sanitize_text_field($input[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN]);
+        } else {
+            $out[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN] = 'legacy';
         }
 
         return $out;
@@ -117,20 +117,79 @@ class AdminPage
         // echo '<p>Configure Media License</p>';
     }
 
-    // todo: add other label here
+    public function render_overwrite_section()
+    {
+    ?>
+        <p>
+            The central block option can be overwritten for individual blocks.
+        </p>
+
+        <p>
+            Use the <code>media_license_individual_block_settings</code> filter to do this.
+        </p>
+
+        <p><strong>Example:</strong></p>
+
+        <pre><code>
+        add_filter(
+            'media_license_individual_block_settings',
+            fn( $blocks ) => $blocks + [ 'core/cover' => 'collect' ],
+            10,
+            2
+        );
+        </code></pre>
+
+        <p><strong>Currently active settings:</strong></p>
+        <?php
+        $settings = get_option($this->plugin::SETTINGS_OPTION_NAME);
+        $central_block_setting = $settings[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN] ?? 'legacy';
+        $individual_block_settings = apply_filters('media_license_individual_block_settings', [], $central_block_setting);
+
+        if (empty($individual_block_settings)) :
+        ?>
+            <p><em>No individual block overrides are active.</em></p>
+        <?php
+        else :
+        ?>
+            <ul>
+                <?php foreach ($individual_block_settings as $block_name => $setting) : ?>
+                    <li>
+                        <code><?php echo esc_html($block_name); ?></code>
+                        → <strong><?php echo esc_html($setting); ?></strong>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php
+        endif;
+    }
+
     public function render_checkbox($args): void
     {
         $key = $args['key'];
 
         $settings = get_option($this->plugin::SETTINGS_OPTION_NAME, []);
         $enabled  = ! empty($settings[$key]);
-?>
-            <input
-                type="checkbox"
-                name="<?php echo esc_attr($this->plugin::SETTINGS_OPTION_NAME); ?>[<?php echo esc_attr($key); ?>]"
-                value="1"
-                <?php checked(true, $enabled); ?>
-            />
+        ?>
+        <input
+            type="checkbox"
+            name="<?php echo esc_attr($this->plugin::SETTINGS_OPTION_NAME); ?>[<?php echo esc_attr($key); ?>]"
+            value="1"
+            <?php checked(true, $enabled); ?> />
+    <?php
+    }
+
+    public function render_main_block_options(): void
+    {
+        $key = $this->plugin::SETTINGS_FIELD_BLOCKS_MAIN;
+        $settings = get_option($this->plugin::SETTINGS_OPTION_NAME);
+        $current_value = $settings[$key] ?? 'legacy';
+    ?>
+        <select
+            name="<?php echo esc_attr($this->plugin::SETTINGS_OPTION_NAME); ?>[<?php echo esc_attr($key); ?>]">
+            <option value='legacy' <?php selected('legacy', $current_value) ?>>Legacy</option>
+            <option value='data-attribute' <?php selected('data-attribute', $current_value) ?>>Data-attribute</option>
+            <option value='collect' <?php selected('collect', $current_value) ?>>Data-attribute + Collect</option>
+        </select>
 <?php
     }
 }

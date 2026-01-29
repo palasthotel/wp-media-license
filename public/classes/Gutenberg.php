@@ -51,16 +51,22 @@ class Gutenberg
      * */
     public function add_data_attribute_to_blockmarkup(string $block_content, array $block): string
     {
+        $settings = get_option($this->plugin::SETTINGS_OPTION_NAME);
+        $central_block_setting = $settings[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN] ?? 'legacy';
+        // settings: toogle sammeln theme / plugin
+        //
+        // im footer div erstellen
+        $individual_block_settings = apply_filters('media_license_individual_block_settings', [], $central_block_setting);
 
         $blockname = $block['blockName'];
-
-        $settings = get_option($this->plugin::SETTINGS_OPTION_NAME);
-        $enable = (bool) ($settings[$this->plugin::SETTINGS_FIELD_ENABLE_BLOCK_DATA_ATTRIBUTES] ?? false);
-        $exclude_key = $this->plugin::SETTINGS_FIELD_EXCLUDE_BLOCK_DATA_ATTRIBUTES_PREFIX . $blockname;
-        $exlude_block = (bool) ($settings[$exclude_key] ?? false);
+        // gutenberg blocks can be nested. So we have to lock the specific block rules somehow after we apply them.
+        // if we don't do that, other blocks can overwrite the rule again, since we loop through all img, contained in 
+        // a block below
+        $has_overwritten_setting = array_key_exists($blockname, $individual_block_settings);
+        $block_setting = $has_overwritten_setting ? $individual_block_settings[$blockname] : $central_block_setting;
 
         // return early if data-attributes are not activated for blocks
-        if (!$enable) {
+        if ($block_setting === 'legacy' && !$has_overwritten_setting) {
             return $block_content;
         }
 
@@ -75,12 +81,33 @@ class Gutenberg
         $tags = new \WP_HTML_Tag_Processor($block_content);
 
         $changed = false;
+        // blocks can contain multiple imgs
         while ($tags->next_tag('img')) {
-            $tags->set_attribute('data-media-license-block-flag', 'is-block');
-            // exclude specific blocks set in admin-settings-page 
-            if ($exlude_block) {
-                $tags->set_attribute('data-media-license-block-exclude', 'true');
+
+            // return if a block already got set by its own overwrite rule
+            // we need this so nested block don't overwrite unwanted
+            if (!$has_overwritten_setting && $tags->get_attribute('data-media-license-block-lock-setting')) {
+                return $block_content;
             }
+
+            if ($block_setting === 'data-attribute') {
+                $tags->set_attribute('data-media-license-block-use-data-attribute', 'true');
+            }
+
+            if ($block_setting === 'collect') {
+                $tags->set_attribute('data-media-license-block-use-data-attribute', 'true');
+                $tags->set_attribute('data-media-license-block-collect', 'true');
+            }
+
+            if ($block_setting === 'legacy') {
+                $tags->remove_attribute('data-media-license-block-use-data-attribute');
+                $tags->remove_attribute('data-media-license-block-collect');
+            }
+
+            if ($has_overwritten_setting) {
+                $tags->set_attribute('data-media-license-block-lock-setting', 'true');
+            }
+
             $changed = true;
         }
 

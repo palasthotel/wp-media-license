@@ -72,16 +72,11 @@
 		 * @param element
 		 * @param caption
 		 */
-        // todo: change this so it handles img inside of wp-blocks without wrapping, but with
-        // adding appropriate data-attributes
 		function process_image(element, caption) {
 
 			var $img = $(element);
             // jquery converts the data-attribute 'data-media-license-block-flag' to 'mediaLicenseBlockFlag'
-            if (
-                $img.data("mediaLicenseBlockFlag") === "is-block" &&
-                !$img.data("mediaLicenseBlockExclude")
-            ) {
+            if ($img.data("mediaLicenseBlockUseDataAttribute")) {
                 add_media_license_as_data_attribute(element, caption);
                 return;
             }
