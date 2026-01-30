@@ -189,8 +189,6 @@
             return
         }
 
-        container.style.display = 'none';
-
         // Build footer HTML
         const html = collectedItems
             .map((item) => {

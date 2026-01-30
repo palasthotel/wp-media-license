@@ -1,5 +1,5 @@
 #media-license-footer-container {
-    display: grid;
+    display: none;
     justify-content: center;
     gap: 2rem;
 }
