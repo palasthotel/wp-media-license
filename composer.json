@@ -1,4 +1,7 @@
 {
+  "name": "palasthotel/media-license",
+  "description": "Add licenses to images",
+  "type": "wordpress-plugin",
   "autoload": {
     "psr-4": {
       "Palasthotel\\MediaLicense\\": "classes"
