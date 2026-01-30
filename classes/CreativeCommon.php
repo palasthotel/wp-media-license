@@ -181,7 +181,7 @@ class CreativeCommon {
 	 * @return bool
 	 */
 	public function hasLicensePath(){
-		return ($this->license != null && $this->license['cc_path'] != '');
+		return (is_array($this->license) && array_key_exists('cc_path', $this->license) && $this->license['cc_path'] != '');
 	}
 
 	/**
