@@ -33,6 +33,9 @@ Yes you can with the filter function "media_license_add_fields".
 
 == Changelog ==
 
+= 1.6.4 =
+* Feature: Add Gutenberg block options
+
 = 1.6.3 =
 * Fix: fix deprecation warnings
 

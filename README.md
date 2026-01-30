@@ -36,18 +36,48 @@ _$media_license_url_ ===> License url.
 
 Available filters for media license plugin.
 
-### Provide custom template path
+### Disable default frontend styles
 
-Add the following filter in your custom plugins code and provide a path that exists in your plugin.
+Add the following filter in your code
+
+
+```php
+add_filter(Plugin::FILTER_ENABLE_FRONTEND_STYLES, fn () => true);
+```
+
+### Add overwrite settings for individual Gutenberg blocks
+
+Add the following filter in your code
+
 
 ```php
 if(class_exists("\Palasthotel\MediaLicense\Plugin")){
-	add_filter(\Palasthotel\MediaLicense\Plugin::FILTER_TEMPLATE_PATHS, function($paths){
-		$paths[] = dirname(__FILE__)."/templates";
-		return $paths;
+    add_filter(\Palasthotel\MediaLicense\Plugin::FILTER_ENABLE_FRONTEND_STYLES, fn () => true);
+}
+```
+
+### Provide custom template path
+
+Add the following filter in your custom plugins code
+
+```php
+if(class_exists("\Palasthotel\MediaLicense\Plugin")){
+	add_filter(\Palasthotel\MediaLicense\Plugin::FILTER_INDIVIDUAL_BLOCK_SETTINGS, function($settings, $central_setting){
+        $settings['core/cover'] = 'collect';
+        return $settings;
 	});
 }
 ```
+
+**Parameters:**
+
+_$settings_ ==> Array of all active individual block settings.
+
+_$central_setting ==> central settings that is set for all blocks.
+
+**Return**
+
+_$settings_ ===> Manipulate the $settings and return the result
 
 ### Manipulate caption text
 
