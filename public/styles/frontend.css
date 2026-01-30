@@ -1,0 +1,16 @@
+#media-license-footer-container {
+    display: grid;
+    justify-content: center;
+    gap: 2rem;
+}
+.media-license-footer__entry {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    gap: 1rem;
+}
+.media-license-footer__entry__image {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+}

@@ -56,7 +56,7 @@ class Gutenberg
         // settings: toogle sammeln theme / plugin
         //
         // im footer div erstellen
-        $individual_block_settings = apply_filters('media_license_individual_block_settings', [], $central_block_setting);
+        $individual_block_settings = apply_filters(Plugin::FILTER_INDIVIDUAL_BLOCK_SETTINGS, [], $central_block_setting);
 
         $blockname = $block['blockName'];
         // gutenberg blocks can be nested. So we have to lock the specific block rules somehow after we apply them.

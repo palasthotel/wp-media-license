@@ -22,18 +22,6 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once dirname( __FILE__ ) . "/vendor/autoload.php";
 
-/**
- * Class MediaLicense
- * @property string $path
- * @property string url
- * @property MetaFields meta_fields
- * @property Shortcode shortcode
- * @property Assets $assets
- * @property Render render
- * @property Gutenberg gutenberg
- * @property Rest rest
- * @property Headless $headless
- */
 class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 
 	const DOMAIN = 'media_license';
@@ -65,6 +53,8 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	const FILTER_EDIT_LICENSE = "media_license_edit_licenses";
 	const FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE = "media_license_autoload_async_image_license";
 	const FILTER_BLOCK_LIST_OF_LICENSES_IMAGE_IDS = "media_license_block_list_of_licenses_image_ids";
+    const FILTER_ENABLE_FRONTEND_STYLES = 'media_license_enable_frontend_styles';
+    const FILTER_INDIVIDUAL_BLOCK_SETTINGS =  'media_license_individual_block_settings';
 
 	/**
 	 * meta field key names
@@ -79,6 +69,11 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	const HANDLE_API_JS = "media-license-js";
 	const HANDLE_GUTENBERG_JS = "media-license-gutenberg";
 
+    /**
+     * hanlde of CSS asset
+     */
+    const HANDLE_FRONTEND_CSS = 'media-license-frontend';
+
 	/**
 	 * MediaLicenses constructor.
 	 */
@@ -91,6 +86,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
     public Gutenberg $gutenberg;
     public Headless $headless;
     public AdminPage $admin_page;
+    public Footer $footer;
 
 	public function onCreate(): void {
 
@@ -107,6 +103,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 		$this->gutenberg   = new Gutenberg( $this );
         $this->admin_page  = new AdminPage( $this );
         $this->headless    = new Headless( $this );
+        $this->footer      = new Footer( $this );
 
 	}
 

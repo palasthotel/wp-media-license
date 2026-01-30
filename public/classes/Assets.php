@@ -44,5 +44,16 @@ class Assets {
 
 	function enqueue_script(){
 		wp_enqueue_script(Plugin::HANDLE_API_JS);
+
+        $enable_frontend_styling = apply_filters(Plugin::FILTER_ENABLE_FRONTEND_STYLES, true);
+
+        if ($enable_frontend_styling) {
+            wp_enqueue_style(
+                Plugin::HANDLE_FRONTEND_CSS,
+                $this->plugin->getUrl('/styles/frontend.css'),
+                [],
+                filemtime($this->plugin->getPath('/styles/frontend.css'))
+            );
+        }
 	}
 }
