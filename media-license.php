@@ -3,7 +3,7 @@
  * Plugin Name: Media License
  * Plugin URI: https://github.com/palasthotel/media-license
  * Description: Advanced caption with license for media files
- * Version: 1.6.4
+ * Version: 1.6.5
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock, Lucas Regalar)
  * Author URI: http://www.palasthotel.de
  * Requires at least: 4.0
@@ -51,8 +51,8 @@ if (!$centralAutoloader || !$managedByCentralAutoloader) {
         return;
     }
 }
-if (defined('WP_DEBUG') && WP_DEBUG) {
-    error_log('[ProLitteris] centralAutoloader=' . ($centralAutoloader ? '1' : '0')
+if (defined('PH_CENTRAL_AUTOLOADER_DEBUG') && PH_CENTRAL_AUTOLOADER_DEBUG) {
+    error_log('[MediaLicense] centralAutoloader=' . ($centralAutoloader ? '1' : '0')
         . ' classExists=' . (class_exists('\Composer\InstalledVersions', false) ? '1' : '0')
         . ' installPath=' . ($installPath ?? '(none)')
         . ' managed=' . ($managedByCentralAutoloader ? '1' : '0'));
