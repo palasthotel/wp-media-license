@@ -16,14 +16,14 @@ if [[ -z "$PKG_VERSION" ]]; then
 fi
 
 # 2) readme.txt Stable tag
-README_VERSION="$(grep -E '^Stable tag:' ./public/readme.txt | head -n1 | sed -E 's/^Stable tag:[[:space:]]*//')"
+README_VERSION="$(grep -E '^Stable tag:' ./readme.txt | head -n1 | sed -E 's/^Stable tag:[[:space:]]*//')"
 if [[ -z "$README_VERSION" ]]; then
   echo "ERROR: Konnte 'Stable tag:' nicht in readme.txt finden" >&2
   exit 1
 fi
 
 # 3) Plugin.php Version (typisch in Plugin-Headern; wir nehmen die erste passende Zeile)
-PLUGIN_VERSION="$(grep -E '^[[:space:]]*\*?[[:space:]]*Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' ./public/media-license.php \
+PLUGIN_VERSION="$(grep -E '^[[:space:]]*\*?[[:space:]]*Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' ./media-license.php \
   | head -n1 \
   | sed -E 's/.*Version:[[:space:]]*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')"
 
