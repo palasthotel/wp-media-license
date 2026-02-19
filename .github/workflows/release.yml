@@ -94,7 +94,7 @@ jobs:
           ls -la
           VERSION=${VERSION}
           mkdir -p trunk tags/$VERSION
-          rsync -a --delete \
+          rsync -aL --delete \
           --exclude='svn/' \
           --exclude='.git/' \
           --exclude='.github/' \
@@ -110,7 +110,7 @@ jobs:
           --exclude='webpack.gutenberg.js' \
           --exclude='*.zip' \
           ../ ./trunk/
-          rsync -a --delete trunk/ "tags/$VERSION/"
+          rsync -aL --delete trunk/ "tags/$VERSION/"
           svn add --force . || true
           svn status | awk '/^!/{print $2}' | while IFS= read -r file; do
             [ -n "$file" ] || continue
