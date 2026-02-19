@@ -1,6 +1,6 @@
 {
   "name": "media-license",
-  "version": "1.0.0",
+  "version": "1.6.4",
   "scripts": {
     "watch": "wp-scripts start --config webpack.gutenberg.js",
     "build": "wp-scripts build --config webpack.gutenberg.js"
