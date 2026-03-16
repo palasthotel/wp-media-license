@@ -166,7 +166,18 @@ class MetaFields {
 
 			foreach ($this->getMetaFields() as $meta_key => $field_definition){
 				if( isset($attachment_meta[$meta_key]) ){
-					update_post_meta($attachment_id, $meta_key, sanitize_text_field($attachment_meta[$meta_key]) );
+					$value = $attachment_meta[$meta_key];
+
+					if (
+						isset($field_definition['sanitize']) &&
+						$field_definition['sanitize'] === 'html'
+					) {
+						$value = wp_kses_post($value);
+					} else {
+						$value = sanitize_text_field($value);
+					}
+
+					update_post_meta($attachment_id, $meta_key, $value );
 				}
 			}
 		}
