@@ -4,7 +4,7 @@ Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 5.0
 Tested up to: 6.8.1
-Stable tag: 1.6.5
+Stable tag: 1.6.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -30,6 +30,9 @@ Yes you can with the filter function "media_license_add_fields".
 == Screenshots ==
 
 
+== Changelog ==
+= 1.6.6 =
+* Feature: Add html-sanitization option to add_fields hook
 
 == Changelog ==
 = 1.6.5 =
