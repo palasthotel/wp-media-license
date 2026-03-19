@@ -104,6 +104,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	 */
 	const HANDLE_API_JS = "media-license-js";
 	const HANDLE_GUTENBERG_JS = "media-license-gutenberg";
+	const HANDLE_ADMIN_TEXTAREA_JS = "media-license-admin-textarea";
 
     /**
      * hanlde of CSS asset
@@ -182,4 +183,3 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 Plugin::instance();
 
 require_once dirname( __FILE__ ) . "/public-functions.php";
-

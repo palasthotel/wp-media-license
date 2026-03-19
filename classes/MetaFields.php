@@ -142,6 +142,14 @@ class MetaFields {
 						$fd['html'].= "<option value='{$_value}' ".(($_value == $value)? "selected='selected'": "").">{$label}</option>";
 					}
 					break;
+				case "textarea":
+					if ($this->use_textarea_toolbar($fd)) {
+						$fd['input'] = 'html';
+						$fd['html'] = $this->get_textarea_editor_markup($post->ID, $meta_key, (empty($value)) ? '' : $value);
+					} else {
+						$fd['value'] = (empty($value))? '': $value;
+					}
+					break;
 				default:
 					$fd['value'] = (empty($value))? '': $value;
 					break;
@@ -152,6 +160,39 @@ class MetaFields {
 		}
 
 		return $form_fields;
+	}
+
+	private function use_textarea_toolbar($field_definition){
+		return isset($field_definition['sanitize']) && 'html' === $field_definition['sanitize'];
+	}
+
+	private function get_textarea_editor_markup($post_id, $meta_key, $value){
+		$field_name = "attachments[{$post_id}][{$meta_key}]";
+		$field_id = "attachments-{$post_id}-{$meta_key}";
+		$preview_id = $field_id . '-preview';
+		$buttons = [
+			['tag' => 'strong', 'label' => __('Bold', 'media_license')],
+			['tag' => 'em', 'label' => __('Italic', 'media_license')],
+			['tag' => 'link', 'label' => __('Link', 'media_license')],
+		];
+
+		$html = "<div class='media-license-textarea-editor'>";
+		$html .= "<div class='media-license-textarea-toolbar' data-target='" . esc_attr($field_id) . "'>";
+		foreach ($buttons as $button) {
+			$html .= "<button type='button' class='button button-small media-license-textarea-button' data-tag='" . esc_attr($button['tag']) . "'>" . esc_html($button['label']) . "</button> ";
+		}
+		$html .= "</div>";
+		$html .= "<div class='media-license-textarea-link-form' data-target='" . esc_attr($field_id) . "' hidden>";
+		$html .= "<label>" . esc_html(__('Link URL', 'media_license')) . " <input type='url' class='regular-text media-license-textarea-link-input' value='https://' placeholder='https://' /></label> ";
+		$html .= "<button type='button' class='button button-small media-license-textarea-link-apply'>" . esc_html(__('Apply', 'media_license')) . "</button> ";
+		$html .= "<button type='button' class='button button-small media-license-textarea-link-cancel'>" . esc_html(__('Cancel', 'media_license')) . "</button>";
+		$html .= "</div>";
+		$html .= "<textarea id='" . esc_attr($field_id) . "' name='" . esc_attr($field_name) . "'>" . esc_textarea($value) . "</textarea>";
+		$html .= "<p><strong>" . esc_html(__('Preview', 'media_license')) . "</strong></p>";
+		$html .= "<div id='" . esc_attr($preview_id) . "' class='media-license-textarea-preview' data-source='" . esc_attr($field_id) . "'></div>";
+		$html .= "</div>";
+
+		return $html;
 	}
 
 	/**

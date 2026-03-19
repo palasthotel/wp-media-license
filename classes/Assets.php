@@ -25,6 +25,7 @@ class Assets {
 		$this->plugin = $plugin;
 		add_action('init', array($this, 'register'), 1);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_script'));
+		add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_script'));
 	}
 
 	function register(){
@@ -40,6 +41,14 @@ class Assets {
 			"autoload" => apply_filters(Plugin::FILTER_AUTOLOAD_ASYNC_IMAGE_LICENSE, true),
 		);
 		wp_localize_script(Plugin::HANDLE_API_JS, "MediaLicense_API", $obj);
+
+		wp_register_script(
+			Plugin::HANDLE_ADMIN_TEXTAREA_JS,
+			$this->plugin->getUrl('/js/admin-textarea-toolbar.js'),
+			[],
+			filemtime($this->plugin->getPath('/js/admin-textarea-toolbar.js')),
+			true
+		);
 	}
 
 	function enqueue_script(){
@@ -53,7 +62,15 @@ class Assets {
                 $this->plugin->getUrl('/styles/frontend.css'),
                 [],
                 filemtime($this->plugin->getPath('/styles/frontend.css'))
-            );
-        }
+			);
+		}
+	}
+
+	function enqueue_admin_script($hook_suffix){
+		if (!in_array($hook_suffix, ['upload.php', 'post.php', 'post-new.php', 'media-upload.php', 'media_page_media-license-settings'], true)) {
+			return;
+		}
+
+		wp_enqueue_script(Plugin::HANDLE_ADMIN_TEXTAREA_JS);
 	}
 }
