@@ -4,7 +4,7 @@ Donate link: http://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 5.0
 Tested up to: 6.8.1
-Stable tag: 1.6.6
+Stable tag: 1.6.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -31,6 +31,9 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+= 1.6.7 =
+* Feature: Add rich text editor tools to textarea input
+
 = 1.6.6 =
 * Feature: Add html-sanitization option to add_fields hook
 
