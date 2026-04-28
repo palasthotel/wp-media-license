@@ -12,6 +12,7 @@
         var map = {}
         var ids = []
         $('img').each(function (i, img) {
+			// note: 1. scans all img elements and looks for a wp-image-id css class
             var id = api.get_image_id(img)
             if (id) {
                 // always check caption
@@ -120,12 +121,12 @@
                 } else {
                     $img.after($caption)
                 }
-            } else if ($originalCaption.text() !== $(caption).text()) {
+            } else if ($originalCaption.text() !== $('<div>').html(caption).text()) {
                 console.debug(
                     'ML',
                     'figcaption found but no equal!',
                     $originalCaption.text(),
-                    $(caption).text()
+                    $('<div>').html(caption).text()
                 )
                 const $wrappedOriginal = $(
                     '<span>' + $originalCaption.html() + '</span>'
@@ -235,6 +236,7 @@
      * @param attachment_ids
      * @return {{then, trigger}} register a callback with then method. could be called several times.
      */
+	// note: calls captions() in classes/REST.php
     api.get_licenses = function (attachment_ids) {
         // this is also a immediately invoked function expression
         var promise = (function () {
