@@ -121,21 +121,45 @@
                 } else {
                     $img.after($caption)
                 }
-            } else if ($originalCaption.text() !== $('<div>').html(caption).text()) {
+            } else if (
+                $originalCaption.text() !== $('<div>').html(caption).text()
+            ) {
                 console.debug(
                     'ML',
-                    'figcaption found but no equal!',
+                    'figcaption found but not equal!',
                     $originalCaption.text(),
                     $('<div>').html(caption).text()
                 )
-                const $wrappedOriginal = $(
-                    '<span>' + $originalCaption.html() + '</span>'
-                ).addClass('media-license__local-figcaption')
-                $originalCaption
-                    .addClass('media-license__figcaption')
-                    .empty()
-                    .append($wrappedOriginal)
-                    .append(caption)
+
+                const originalText = $originalCaption.text().trim()
+                const captionFullText = $('<div>')
+                    .html(caption)
+                    .text()
+                    .trimStart()
+
+                if (captionFullText.startsWith(originalText)) {
+                    // Case 3A: same caption, license was added — replace without wrapping
+                    $originalCaption
+                        .addClass('media-license__figcaption')
+                        .html(caption)
+                } else {
+                    // Case 3B: genuinely different captions — keep block caption, append only license info
+                    const $captionDiv = $('<div>').html(caption)
+                    // Strip the attachment caption: remove the caption span (plugin template)
+                    // and any root-level text nodes (theme template)
+                    $captionDiv.find('.media-license__caption').remove()
+                    $captionDiv
+                        .contents()
+                        .filter(function () {
+                            return this.nodeType === 3
+                        })
+                        .remove()
+                    const licenseHtml = $captionDiv.html()
+
+                    $originalCaption
+                        .addClass('media-license__figcaption')
+                        .append(licenseHtml)
+                }
             }
 
             if ($figure.find('.media-license__local-figcaption').length > 0) {
