@@ -42,6 +42,11 @@ class Rest {
 	public function captions(\WP_REST_Request $request){
 		$ids = $request->get_param("ids");
 
+		// The frontend requests captions for the images on one page, never more than a
+		// handful - cap it so a crafted ids array cannot force hundreds of
+		// media_license_get_caption() lookups per request.
+		$ids = array_slice($ids, 0, 100);
+
 		$map = array();
 
 		for($i = 0; $i < count($ids); $i++){

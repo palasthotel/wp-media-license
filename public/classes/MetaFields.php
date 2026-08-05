@@ -139,7 +139,9 @@ class MetaFields {
 						$_value = $selection["value"];
 						$label = $selection['label'];
 						$fd['input'] = 'html';
-						$fd['html'].= "<option value='{$_value}' ".(($_value == $value)? "selected='selected'": "").">{$label}</option>";
+						// $_value/$label come from the media_license_add_fields filter, a
+						// public extension point - never trust them as already-safe markup.
+						$fd['html'].= "<option value='" . esc_attr($_value) . "' ".(($_value == $value)? "selected='selected'": "").">" . esc_html($label) . "</option>";
 					}
 					break;
 				case "textarea":
