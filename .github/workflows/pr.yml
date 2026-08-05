@@ -1,0 +1,88 @@
+name: PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    name: PHP syntax check (${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["7.4", "8.2", "8.3", "8.4"]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      # public/vendor holds only the generated autoloader, and public/dist is not in
+      # the repository at all - the pipeline builds it.
+      - name: Lint PHP files
+        run: |
+          find . -name '*.php' \
+            -not -path './public/vendor/*' \
+            -not -path './public/dist/*' \
+            -not -path './node_modules/*' \
+            -print0 | xargs -0 -r -n1 php -l
+
+  assets:
+    name: Editor assets (build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # Assert the build produced the files the plugin enqueues, so a renamed or
+      # dropped entry point surfaces here instead of as a 404 in wp-admin.
+      - name: Assert the build produced the enqueued assets
+        run: |
+          for f in media-license.js media-license.asset.php; do
+            test -f "public/dist/$f" || { echo "::error::public/dist/$f was not built"; exit 1; }
+          done
+
+  pack:
+    name: Pack plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Pack
+        run: bash bin/pack.sh
+
+      - name: Assert the payload is clean
+        run: |
+          test -f build/media-license/vendor/autoload.php
+          test -f build/media-license/media-license.php
+          test -f build/media-license/dist/media-license.js
+          test ! -e build/media-license/composer.json
+          test ! -e build/media-license/composer.lock
+          test ! -e build/media-license/src
