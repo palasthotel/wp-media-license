@@ -8,6 +8,6 @@ module.exports = {
 		'media-license': path.resolve(__dirname, './src/gutenberg.js'),
 	},
 	output: {
-		path: path.resolve(__dirname, './js/gutenberg/.'),
+		path: path.resolve(__dirname, './public/dist/.'),
 	},
 }
