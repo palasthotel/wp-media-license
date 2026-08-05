@@ -1,12 +1,13 @@
 === Media License ===
-Contributors: palasthotel, edwardbock, kroppenstedt
+Contributors: palasthotel, edwardbock, kroppenstedt, janaeggebrecht
 Donate link: http://palasthotel.de/
 Tags: media, extension, license
-Requires at least: 5.0
-Tested up to: 6.8.1
+Requires at least: 6.6
+Tested up to: 7.0.2
+Requires PHP: 8.0
 Stable tag: 1.6.9
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl
+License: GPL-3.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Extend your media files with license information.
 
@@ -44,7 +45,6 @@ Yes you can with the filter function "media_license_add_fields".
 = 1.6.6 =
 * Feature: Add html-sanitization option to add_fields hook
 
-== Changelog ==
 = 1.6.5 =
 * Feature: Add PH_CENTRAL_AUTOLOADER_DEBUG constant
 

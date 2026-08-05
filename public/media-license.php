@@ -6,9 +6,13 @@
  * Version: 1.6.9
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock, Lucas Regalar)
  * Author URI: http://www.palasthotel.de
- * Requires at least: 4.0
- * Tested up to: 6.4.2
- * License: http://www.gnu.org/licenses/gpl-2.0.html GPLv2
+ * Requires at least: 6.6
+ * Tested up to: 7.0.2
+ * Requires PHP: 8.0
+ * License: GPL-3.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
+ * Text Domain: media_license
+ * Domain Path: /languages
  * @copyright Copyright (c) 2023, Palasthotel
  * @package Palasthotel\MediaLicense
  */
