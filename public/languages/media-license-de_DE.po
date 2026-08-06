@@ -153,9 +153,17 @@ msgstr "Es sind keine individuellen Block-Überschreibungen aktiv."
 msgid "Image by %s"
 msgstr "Bild von %s"
 
-#: templates/blockx__media-license--list-of-licenses.php:10
+#: templates/blockx__media-license--list-of-licenses.php:19
 msgid "Licenses:"
 msgstr "Lizenzangaben:"
+
+#: templates/blockx__media-license--list-of-licenses.php:39
+msgid "Jump to the image in the article"
+msgstr "Zum Bild im Beitrag springen"
+
+#: templates/blockx__media-license--list-of-licenses__editor.php:18
+msgid "No licensed images in this post yet."
+msgstr "Noch keine Bilder mit Lizenzangaben in diesem Beitrag."
 
 #. Plugin Name of the plugin/theme
 msgid "Media License"

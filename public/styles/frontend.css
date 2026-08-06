@@ -11,6 +11,42 @@ figcaption.media-license__figcaption img.media-license__cc-badge,
     vertical-align: middle;
 }
 
+.media-license-list__summary {
+    cursor: pointer;
+    font-weight: 700;
+}
+/* Themes and the block stylesheet both set list-style on ul/li, so the marker
+   needs removing on the list and the items to actually disappear. */
+.media-license-list ul.media-license-list__items,
+.media-license-list ul.media-license-list__items > li {
+    list-style: none;
+    list-style-type: none;
+}
+.media-license-list ul.media-license-list__items {
+    margin: 0.5rem 0 0;
+    padding: 0;
+}
+.media-license-list__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 0.5rem;
+}
+.media-license-list__anchor {
+    display: block;
+    flex-shrink: 0;
+    line-height: 0;
+}
+/* Same reason as the badge rule above: without this the theme's figure/content
+   image rules can blow the thumbnail up to the full column width. object-fit
+   keeps it square even where the thumbnail size is not cropped. */
+.media-license-list__item img.media-license-list__thumbnail {
+    width: 64px;
+    height: auto;
+    max-width: none;
+    object-fit: cover;
+}
+
 #media-license-footer-container {
     display: none;
     justify-content: center;

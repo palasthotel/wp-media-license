@@ -48,6 +48,21 @@ used among a set of images. `FILTER_INDIVIDUAL_BLOCK_SETTINGS` (see Filters belo
 controls whether a given block type shows license info inline, only via a
 `data-attribute` for a theme to render, or collects it for that list block instead.
 
+It renders as a collapsed `<details>` accordion. Each entry is a small square
+thumbnail followed by the credit; entries without any license info are skipped, and a block
+that ends up with no entries at all renders nothing rather than an empty accordion.
+In the editor the accordion is open and an empty one shows a placeholder, so the
+block does not look broken on the canvas.
+
+The thumbnail links to the image's place in the article.
+`Gutenberg::add_image_anchors()` gives every content image carrying the editor's
+`wp-image-<id>` class an `id` of `media-license-image-<attachment id>` -
+`media_license_get_image_anchor()` builds the same value - and the list links to
+that. An `id` somebody else already set, such as an editor's own HTML anchor, is
+left alone, and thumbnails rendered by `wp_get_attachment_image()` never carry the
+`wp-image-<id>` class, so the list cannot link to itself. An image used twice in
+one post yields that id twice; browsers jump to the first occurrence.
+
 ## Templates
 
 You can copy the default templates from plugins "templates" folder to "%theme%/plugin-parts/*".

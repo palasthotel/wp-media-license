@@ -20,6 +20,46 @@ class Gutenberg
         add_filter('blockx_add_templates_paths', [$this, 'add_templates_paths']);
         add_filter('render_block', [$this, 'add_data_attribute_to_blockmarkup'], 10, 2);
         add_filter('render_block', [$this, 'mark_append_caption_optout'], 11, 2);
+        add_filter('render_block', [$this, 'add_image_anchors'], 12, 2);
+    }
+
+    /**
+     * Gives images in the content an id, so the list of licenses block can link
+     * back to where each image sits in the post.
+     *
+     * Only images carrying the wp-image-<id> class are touched, which is the
+     * class the editor writes for an attachment. Thumbnails rendered by
+     * wp_get_attachment_image() - the ones inside the list itself - do not get
+     * that class, so the list cannot link to itself.
+     *
+     * An image used twice in one post yields the same id twice. That is invalid
+     * strictly speaking, but browsers jump to the first occurrence, which is the
+     * behaviour we want anyway; deduplicating across render passes would risk
+     * dropping the id entirely when the_content runs more than once.
+     */
+    public function add_image_anchors(string $block_content, array $block): string
+    {
+        if (empty($block['blockName']) || !class_exists('\WP_HTML_Tag_Processor')) {
+            return $block_content;
+        }
+
+        $tags = new \WP_HTML_Tag_Processor($block_content);
+        $changed = false;
+        while ($tags->next_tag('img')) {
+            // Never overwrite an id somebody else set - an editor's own HTML
+            // anchor, or a theme's.
+            if ($tags->get_attribute('id')) {
+                continue;
+            }
+            $class = $tags->get_attribute('class');
+            if (!is_string($class) || !preg_match('/wp-image-(\d+)/', $class, $matches)) {
+                continue;
+            }
+            $tags->set_attribute('id', media_license_get_image_anchor((int) $matches[1]));
+            $changed = true;
+        }
+
+        return $changed ? $tags->get_updated_html() : $block_content;
     }
 
     /**

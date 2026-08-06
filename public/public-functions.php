@@ -10,6 +10,18 @@ function media_license_get_plugin(){
 }
 
 /**
+ * The id the list of licenses links to, and that Gutenberg::add_image_anchors()
+ * puts on the matching image in the post content.
+ *
+ * @param int $attachment_id
+ *
+ * @return string
+ */
+function media_license_get_image_anchor($attachment_id){
+	return Plugin::ANCHOR_PREFIX . intval($attachment_id);
+}
+
+/**
  * get caption with info template
  * @param $attachment_id
  *

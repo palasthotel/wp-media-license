@@ -89,6 +89,10 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
     const SETTINGS_FIELD_BLOCKS_MAIN = 'main_block_setting';
     const SETTINGS_FIELD_COLLECT = 'collect_data_attributes';
 
+    // Prefix for the anchor the list of licenses jumps to. Use
+    // media_license_get_image_anchor() rather than building it by hand.
+    const ANCHOR_PREFIX = 'media-license-image-';
+
     // Name of the block attribute the editor toggle writes. Unset means "append",
     // so existing content - which has no attribute at all - keeps behaving
     // exactly as before; only an explicit opt-out suppresses the license info.
