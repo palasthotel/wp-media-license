@@ -86,7 +86,10 @@
             ) {
                 $figure = $img.parent().parent()
             } else {
+                // jQuery clones $figure into the DOM here, so the original
+                // reference is left detached - re-point it at the live node.
                 $img.wrap($figure)
+                $figure = $img.parent()
             }
 
             $figure.addClass('media-license__figure')
@@ -115,12 +118,11 @@
                 var $caption = $(
                     '<figcaption>' + caption + '</figcaption>'
                 ).addClass('wp-caption-text media-license__figcaption')
-                // image is wrapped with link
-                if ($img.parent('a').length === 1) {
-                    $img.next('figure').append($caption)
-                } else {
-                    $img.after($caption)
-                }
+                // $figure is already the correct ancestor in every case
+                // above (bare img, img>figure, img>a>figure, or freshly
+                // wrapped) - appending to it directly works regardless of
+                // whether the image is wrapped in a link.
+                $figure.append($caption)
             } else if (
                 $originalCaption.text() !== $('<div>').html(caption).text()
             ) {
