@@ -12,7 +12,7 @@ $items = array_filter($content->captions, function ($caption) {
 ?>
 <?php // Open in the editor: a collapsed block reads as an empty one on the canvas. ?>
 <details class="media-license-list" open>
-	<summary class="media-license-list__summary"><?php esc_html_e('Licenses:', 'media-license'); ?></summary>
+	<summary class="media-license-list__summary"><?php esc_html_e('Licenses', 'media-license'); ?></summary>
 	<?php if (empty($items)) : ?>
 		<p class="media-license-list__empty">
 			<?php esc_html_e('No licensed images in this post yet.', 'media-license'); ?>

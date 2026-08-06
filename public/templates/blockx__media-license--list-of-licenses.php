@@ -16,7 +16,7 @@ if (empty($items)) {
 }
 ?>
 <details class="media-license-list">
-	<summary class="media-license-list__summary"><?php esc_html_e('Licenses:', 'media-license'); ?></summary>
+	<summary class="media-license-list__summary"><?php esc_html_e('Licenses', 'media-license'); ?></summary>
 	<ul class="media-license-list__items">
 		<?php foreach ($items as $imageId => $caption) : ?>
 			<li class="media-license-list__item">

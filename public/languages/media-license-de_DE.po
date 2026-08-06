@@ -154,8 +154,8 @@ msgid "Image by %s"
 msgstr "Bild von %s"
 
 #: templates/blockx__media-license--list-of-licenses.php:19
-msgid "Licenses:"
-msgstr "Lizenzangaben:"
+msgid "Licenses"
+msgstr "Lizenzangaben"
 
 #: templates/blockx__media-license--list-of-licenses.php:39
 msgid "Jump to the image in the article"
