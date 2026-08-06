@@ -11,7 +11,7 @@
  * Requires PHP: 8.0
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain: media_license
+ * Text Domain: media-license
  * Domain Path: /languages
  * @copyright Copyright (c) 2023, Palasthotel
  * @package Palasthotel\MediaLicense
@@ -64,7 +64,18 @@ if (defined('PH_CENTRAL_AUTOLOADER_DEBUG') && PH_CENTRAL_AUTOLOADER_DEBUG) {
 
 class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 
+	// The REST namespace and the Tools submenu slug, kept as-is so published
+	// endpoints and bookmarked URLs stay valid. This is NOT the text domain -
+	// that has to match the plugin slug, see TEXT_DOMAIN below.
 	const DOMAIN = 'media_license';
+
+	// WordPress looks for languages/<text domain>-<locale>.mo, and language packs
+	// from wordpress.org are built against the plugin slug. With 'media_license'
+	// here nothing ever matched the shipped media-license-*.mo files, so no
+	// translation loaded at all. Every __() call passes the literal, because
+	// make-pot and GlotPress only read literal domains.
+	const TEXT_DOMAIN = 'media-license';
+
     const DISPLAY_NAME = 'Media License';
 
     /**
@@ -77,6 +88,15 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
     const SETTINGS_SECTION_OVERWRITE = 'media_license_overwrite';
     const SETTINGS_FIELD_BLOCKS_MAIN = 'main_block_setting';
     const SETTINGS_FIELD_COLLECT = 'collect_data_attributes';
+
+    // Prefix for the anchor the list of licenses jumps to. Use
+    // media_license_get_image_anchor() rather than building it by hand.
+    const ANCHOR_PREFIX = 'media-license-image-';
+
+    // Name of the block attribute the editor toggle writes. Unset means "append",
+    // so existing content - which has no attribute at all - keeps behaving
+    // exactly as before; only an explicit opt-out suppresses the license info.
+    const BLOCK_ATTRIBUTE_APPEND = 'mediaLicenseAppendCaption';
 
 	/**
 	 * theme template parts
@@ -95,6 +115,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	const FILTER_BLOCK_LIST_OF_LICENSES_IMAGE_IDS = "media_license_block_list_of_licenses_image_ids";
     const FILTER_ENABLE_FRONTEND_STYLES = 'media_license_enable_frontend_styles';
     const FILTER_INDIVIDUAL_BLOCK_SETTINGS =  'media_license_individual_block_settings';
+    const FILTER_APPEND_CAPTION_BLOCK_TYPES = 'media_license_append_caption_block_types';
 
 	/**
 	 * meta field key names
@@ -132,7 +153,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	public function onCreate(): void {
 
 		$this->loadTextdomain(
-			self::DOMAIN,
+			self::TEXT_DOMAIN,
 			"languages"
 		);
 

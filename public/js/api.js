@@ -12,6 +12,12 @@
         var map = {}
         var ids = []
         $('img').each(function (i, img) {
+            // The block this image sits in switched the license info off - see
+            // Gutenberg::mark_append_caption_optout(). Skipping here also keeps
+            // the id out of the REST request.
+            if (img.getAttribute('data-media-license-skip')) {
+                return
+            }
 			// note: 1. scans all img elements and looks for a wp-image-id css class
             var id = api.get_image_id(img)
             if (id) {
@@ -86,7 +92,10 @@
             ) {
                 $figure = $img.parent().parent()
             } else {
+                // jQuery clones $figure into the DOM here, so the original
+                // reference is left detached - re-point it at the live node.
                 $img.wrap($figure)
+                $figure = $img.parent()
             }
 
             $figure.addClass('media-license__figure')
@@ -115,12 +124,11 @@
                 var $caption = $(
                     '<figcaption>' + caption + '</figcaption>'
                 ).addClass('wp-caption-text media-license__figcaption')
-                // image is wrapped with link
-                if ($img.parent('a').length === 1) {
-                    $img.next('figure').append($caption)
-                } else {
-                    $img.after($caption)
-                }
+                // $figure is already the correct ancestor in every case
+                // above (bare img, img>figure, img>a>figure, or freshly
+                // wrapped) - appending to it directly works regardless of
+                // whether the image is wrapped in a link.
+                $figure.append($caption)
             } else if (
                 $originalCaption.text() !== $('<div>').html(caption).text()
             ) {
@@ -156,9 +164,17 @@
                         .remove()
                     const licenseHtml = $captionDiv.html()
 
-                    $originalCaption
-                        .addClass('media-license__figcaption')
-                        .append(licenseHtml)
+                    if (licenseHtml.trim().length > 0) {
+                        // The block keeps its own caption, so the credit needs a
+                        // separator of its own here - the template's is a root text
+                        // node and was just stripped above.
+                        $originalCaption
+                            .addClass('media-license__figcaption')
+                            .append(
+                                '<span class="media-license__separator"> | </span>' +
+                                    licenseHtml
+                            )
+                    }
                 }
             }
 

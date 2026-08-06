@@ -1,8 +1,13 @@
-# Media License
+# Media License (WordPress-Plugin)
 
 Allows you to add media license info to your media files. Plugin is available at [WordPress.org](https://wordpress.org/plugins/media-license/)
 
-Captions are automatically added to images in post content. Elsewhere you can use [media_license_get_caption](#get-license-caption-by-attachment-id) function.
+On the front end, `public/js/api.js` scans the rendered page for `<img class="wp-image-{id}">` elements (the class core blocks like image and gallery add), fetches their captions from the REST API below, and inserts a `<figcaption>` - this requires JavaScript and that class, so it won't run for images without it (e.g. added via raw HTML or a block that doesn't set it) or with JS disabled. Elsewhere you can use the [media_license_get_caption](#get-license-caption-by-attachment-id) function.
+
+The credit reads `Image by <author>, <license>`, with either half dropped when it
+is not set. If the attachment has a caption of its own it goes first, separated by
+` | `; if the *block* already carries a caption, that one is kept and only the
+credit is appended after the same separator.
 
 ## REST API
 
@@ -13,11 +18,50 @@ that can't call the PHP function directly.
 
 ## Gutenberg
 
+### Append license info
+
+Image-bearing core blocks get an **Append license info** toggle in the block
+sidebar. It is on unless it is switched off, so content that predates the toggle -
+and any block nobody has touched - keeps appending the caption exactly as before.
+
+Switching it off writes `mediaLicenseAppendCaption: false` into the block. On
+render, `Gutenberg::mark_append_caption_optout()` puts a `data-media-license-skip`
+attribute on that block's images, and `public/js/api.js` leaves them alone: no
+`figcaption`, and the attachment id never enters the REST request either.
+
+Only the opt-out is stored. Turning the toggle back on clears the attribute rather
+than writing `true`, so a block that was never touched and one that was toggled
+twice serialize identically.
+
+The blocks that offer the toggle default to `core/image`, `core/gallery`,
+`core/media-text` and `core/cover`, and can be changed with
+`media_license_append_caption_block_types`.
+
+To switch the automatic captions off for a whole site instead, use the
+`media_license_autoload_async_image_license` filter (see Filters below).
+
+### List of licenses
+
 The **List of licenses** block (`public/classes/BlockX/ListOfLicenses.php`, part of
 the [BlockX](https://github.com/palasthotel/blockx) integration) lists every license
 used among a set of images. `FILTER_INDIVIDUAL_BLOCK_SETTINGS` (see Filters below)
 controls whether a given block type shows license info inline, only via a
 `data-attribute` for a theme to render, or collects it for that list block instead.
+
+It renders as a collapsed `<details>` accordion. Each entry is a small square
+thumbnail followed by the credit; entries without any license info are skipped, and a block
+that ends up with no entries at all renders nothing rather than an empty accordion.
+In the editor the accordion is open and an empty one shows a placeholder, so the
+block does not look broken on the canvas.
+
+The thumbnail links to the image's place in the article.
+`Gutenberg::add_image_anchors()` gives every content image carrying the editor's
+`wp-image-<id>` class an `id` of `media-license-image-<attachment id>` -
+`media_license_get_image_anchor()` builds the same value - and the list links to
+that. An `id` somebody else already set, such as an editor's own HTML anchor, is
+left alone, and thumbnails rendered by `wp_get_attachment_image()` never carry the
+`wp-image-<id>` class, so the list cannot link to itself. An image used twice in
+one post yields that id twice; browsers jump to the first occurrence.
 
 ## Templates
 

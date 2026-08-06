@@ -85,10 +85,10 @@ class MetaFields {
 			);
 		}
 		$fields[Plugin::META_LICENSE] = array(
-			'label' => __('License','media_license'),
+			'label' => __('License','media-license'),
 			'input' => 'select',
 			'value' => '',
-			'helps' => __('Add license to caption if provided','media_license'),
+			'helps' => __('Add license to caption if provided','media-license'),
 			'selections' => $selections,
 		);
 
@@ -96,20 +96,20 @@ class MetaFields {
 		 * author field
 		 */
 		$fields[Plugin::META_AUTHOR] = array(
-			'label' => __('Author','media_license'),
+			'label' => __('Author','media-license'),
 			'input' => 'text',
 			'value' => '',
-			'helps' => __('Add author to caption if provided','media_license'),
+			'helps' => __('Add author to caption if provided','media-license'),
 		);
 
 		/**
 		 * url field
 		 */
 		$fields[Plugin::META_URL] = array(
-			'label' => __('Author URL','media_license'),
+			'label' => __('Author URL','media-license'),
 			'input' => 'text',
 			'value' => '',
-			'helps' => __('Link author if url is provided','media_license'),
+			'helps' => __('Link author if url is provided','media-license'),
 		);
 
 		return $fields;
@@ -173,9 +173,9 @@ class MetaFields {
 		$field_id = "attachments-{$post_id}-{$meta_key}";
 		$preview_id = $field_id . '-preview';
 		$buttons = [
-			['tag' => 'strong', 'label' => __('Bold', 'media_license')],
-			['tag' => 'em', 'label' => __('Italic', 'media_license')],
-			['tag' => 'link', 'label' => __('Link', 'media_license')],
+			['tag' => 'strong', 'label' => __('Bold', 'media-license')],
+			['tag' => 'em', 'label' => __('Italic', 'media-license')],
+			['tag' => 'link', 'label' => __('Link', 'media-license')],
 		];
 
 		$html = "<div class='media-license-textarea-editor'>";
@@ -185,12 +185,12 @@ class MetaFields {
 		}
 		$html .= "</div>";
 		$html .= "<div class='media-license-textarea-link-form' data-target='" . esc_attr($field_id) . "' hidden>";
-		$html .= "<label>" . esc_html(__('Link URL', 'media_license')) . " <input type='url' class='regular-text media-license-textarea-link-input' value='https://' placeholder='https://' /></label> ";
-		$html .= "<button type='button' class='button button-small media-license-textarea-link-apply'>" . esc_html(__('Apply', 'media_license')) . "</button> ";
-		$html .= "<button type='button' class='button button-small media-license-textarea-link-cancel'>" . esc_html(__('Cancel', 'media_license')) . "</button>";
+		$html .= "<label>" . esc_html(__('Link URL', 'media-license')) . " <input type='url' class='regular-text media-license-textarea-link-input' value='https://' placeholder='https://' /></label> ";
+		$html .= "<button type='button' class='button button-small media-license-textarea-link-apply'>" . esc_html(__('Apply', 'media-license')) . "</button> ";
+		$html .= "<button type='button' class='button button-small media-license-textarea-link-cancel'>" . esc_html(__('Cancel', 'media-license')) . "</button>";
 		$html .= "</div>";
 		$html .= "<textarea id='" . esc_attr($field_id) . "' name='" . esc_attr($field_name) . "'>" . esc_textarea($value) . "</textarea>";
-		$html .= "<p><strong>" . esc_html(__('Preview', 'media_license')) . "</strong></p>";
+		$html .= "<p><strong>" . esc_html(__('Preview', 'media-license')) . "</strong></p>";
 		$html .= "<div id='" . esc_attr($preview_id) . "' class='media-license-textarea-preview' data-source='" . esc_attr($field_id) . "'></div>";
 		$html .= "</div>";
 
