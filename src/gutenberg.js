@@ -1,4 +1,5 @@
 import ListOfLicenses from "./components/ListOfLicenses";
+import "./appendCaptionToggle";
 
 window.BlockXComponents = {
     ...(window.BlockXComponents || {}),

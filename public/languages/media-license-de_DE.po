@@ -98,6 +98,18 @@ msgstr "Abbrechen"
 msgid "Preview"
 msgstr "Vorschau"
 
+#: classes/Gutenberg.php:75
+msgid "Media license"
+msgstr "Medienlizenz"
+
+#: classes/Gutenberg.php:76
+msgid "Append license info"
+msgstr "Lizenzangaben anhängen"
+
+#: classes/Gutenberg.php:77
+msgid "Shows the license and author below the image on the front end."
+msgstr "Zeigt Lizenz und Urheber im Frontend unter dem Bild an."
+
 #: classes/AdminPage.php:42
 msgid "General"
 msgstr "Allgemein"

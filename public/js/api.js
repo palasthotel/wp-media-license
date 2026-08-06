@@ -12,6 +12,12 @@
         var map = {}
         var ids = []
         $('img').each(function (i, img) {
+            // The block this image sits in switched the license info off - see
+            // Gutenberg::mark_append_caption_optout(). Skipping here also keeps
+            // the id out of the REST request.
+            if (img.getAttribute('data-media-license-skip')) {
+                return
+            }
 			// note: 1. scans all img elements and looks for a wp-image-id css class
             var id = api.get_image_id(img)
             if (id) {

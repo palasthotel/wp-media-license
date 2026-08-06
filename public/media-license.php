@@ -89,6 +89,11 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
     const SETTINGS_FIELD_BLOCKS_MAIN = 'main_block_setting';
     const SETTINGS_FIELD_COLLECT = 'collect_data_attributes';
 
+    // Name of the block attribute the editor toggle writes. Unset means "append",
+    // so existing content - which has no attribute at all - keeps behaving
+    // exactly as before; only an explicit opt-out suppresses the license info.
+    const BLOCK_ATTRIBUTE_APPEND = 'mediaLicenseAppendCaption';
+
 	/**
 	 * theme template parts
 	 */
@@ -106,6 +111,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	const FILTER_BLOCK_LIST_OF_LICENSES_IMAGE_IDS = "media_license_block_list_of_licenses_image_ids";
     const FILTER_ENABLE_FRONTEND_STYLES = 'media_license_enable_frontend_styles';
     const FILTER_INDIVIDUAL_BLOCK_SETTINGS =  'media_license_individual_block_settings';
+    const FILTER_APPEND_CAPTION_BLOCK_TYPES = 'media_license_append_caption_block_types';
 
 	/**
 	 * meta field key names

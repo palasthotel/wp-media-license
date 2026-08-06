@@ -19,6 +19,35 @@ class Gutenberg
         add_action('blockx_collect', [$this, 'collect']);
         add_filter('blockx_add_templates_paths', [$this, 'add_templates_paths']);
         add_filter('render_block', [$this, 'add_data_attribute_to_blockmarkup'], 10, 2);
+        add_filter('render_block', [$this, 'mark_append_caption_optout'], 11, 2);
+    }
+
+    /**
+     * Marks images whose block opted out of the appended license info, so the
+     * frontend script can skip them. Only an explicit opt-out is written: a block
+     * without the attribute - which is all existing content - keeps appending, so
+     * updating the plugin changes nothing that is already published.
+     */
+    public function mark_append_caption_optout(string $block_content, array $block): string
+    {
+        $explicit = $block['attrs'][$this->plugin::BLOCK_ATTRIBUTE_APPEND] ?? null;
+
+        if (is_null($explicit) || $explicit) {
+            return $block_content;
+        }
+
+        if (empty($block['blockName']) || !class_exists('\WP_HTML_Tag_Processor')) {
+            return $block_content;
+        }
+
+        $tags = new \WP_HTML_Tag_Processor($block_content);
+        $changed = false;
+        while ($tags->next_tag('img')) {
+            $tags->set_attribute('data-media-license-skip', 'true');
+            $changed = true;
+        }
+
+        return $changed ? $tags->get_updated_html() : $block_content;
     }
 
     public function enqueue_block_editor_assets()
@@ -36,6 +65,30 @@ class Gutenberg
             $this->plugin->getUrl("/dist/media-license.js"),
             $info["dependencies"],
             $info["version"]
+        );
+        wp_localize_script(
+            Plugin::HANDLE_GUTENBERG_JS,
+            "MediaLicenseEditor",
+            [
+                "blocks" => $this->get_append_caption_block_types(),
+                "i18n" => [
+                    "panel_title" => __('Media license', 'media-license'),
+                    "append_caption" => __('Append license info', 'media-license'),
+                    "append_caption_help" => __('Shows the license and author below the image on the front end.', 'media-license'),
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Block types that get the "append license info" toggle. Only blocks that
+     * render an image of their own are worth offering it on.
+     */
+    public function get_append_caption_block_types(): array
+    {
+        return apply_filters(
+            Plugin::FILTER_APPEND_CAPTION_BLOCK_TYPES,
+            ['core/image', 'core/gallery', 'core/media-text', 'core/cover']
         );
     }
 

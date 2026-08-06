@@ -13,6 +13,30 @@ that can't call the PHP function directly.
 
 ## Gutenberg
 
+### Append license info
+
+Image-bearing core blocks get an **Append license info** toggle in the block
+sidebar. It is on unless it is switched off, so content that predates the toggle -
+and any block nobody has touched - keeps appending the caption exactly as before.
+
+Switching it off writes `mediaLicenseAppendCaption: false` into the block. On
+render, `Gutenberg::mark_append_caption_optout()` puts a `data-media-license-skip`
+attribute on that block's images, and `public/js/api.js` leaves them alone: no
+`figcaption`, and the attachment id never enters the REST request either.
+
+Only the opt-out is stored. Turning the toggle back on clears the attribute rather
+than writing `true`, so a block that was never touched and one that was toggled
+twice serialize identically.
+
+The blocks that offer the toggle default to `core/image`, `core/gallery`,
+`core/media-text` and `core/cover`, and can be changed with
+`media_license_append_caption_block_types`.
+
+To switch the automatic captions off for a whole site instead, use the
+`media_license_autoload_async_image_license` filter (see Filters below).
+
+### List of licenses
+
 The **List of licenses** block (`public/classes/BlockX/ListOfLicenses.php`, part of
 the [BlockX](https://github.com/palasthotel/blockx) integration) lists every license
 used among a set of images. `FILTER_INDIVIDUAL_BLOCK_SETTINGS` (see Filters below)
