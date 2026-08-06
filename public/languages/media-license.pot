@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-06T22:19:42+00:00\n"
+"POT-Creation-Date: 2026-08-06T22:23:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: media-license\n"
@@ -165,6 +165,13 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: templates/media-license-caption.tpl.php:45
-msgid " by "
+#: templates/blockx__media-license--list-of-licenses.php:10
+#: templates/blockx__media-license--list-of-licenses__editor.php:10
+msgid "Licenses:"
+msgstr ""
+
+#. translators: %s: name of the author, possibly wrapped in a link
+#: templates/media-license-caption.tpl.php:57
+#, php-format
+msgid "Image by %s"
 msgstr ""

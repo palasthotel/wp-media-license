@@ -148,9 +148,14 @@ msgstr "Aktuell aktive Einstellungen:"
 msgid "No individual block overrides are active."
 msgstr "Es sind keine individuellen Block-Überschreibungen aktiv."
 
-#: templates/media-license-caption.tpl.php:41
-msgid " by "
-msgstr " von "
+#. translators: %s: name of the author, possibly wrapped in a link
+#: templates/media-license-caption.tpl.php:56
+msgid "Image by %s"
+msgstr "Bild von %s"
+
+#: templates/blockx__media-license--list-of-licenses.php:10
+msgid "Licenses:"
+msgstr "Lizenzangaben:"
 
 #. Plugin Name of the plugin/theme
 msgid "Media License"

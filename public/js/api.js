@@ -164,9 +164,17 @@
                         .remove()
                     const licenseHtml = $captionDiv.html()
 
-                    $originalCaption
-                        .addClass('media-license__figcaption')
-                        .append(licenseHtml)
+                    if (licenseHtml.trim().length > 0) {
+                        // The block keeps its own caption, so the credit needs a
+                        // separator of its own here - the template's is a root text
+                        // node and was just stripped above.
+                        $originalCaption
+                            .addClass('media-license__figcaption')
+                            .append(
+                                '<span class="media-license__separator"> | </span>' +
+                                    licenseHtml
+                            )
+                    }
                 }
             }
 

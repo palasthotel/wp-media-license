@@ -4,6 +4,11 @@ Allows you to add media license info to your media files. Plugin is available at
 
 On the front end, `public/js/api.js` scans the rendered page for `<img class="wp-image-{id}">` elements (the class core blocks like image and gallery add), fetches their captions from the REST API below, and inserts a `<figcaption>` - this requires JavaScript and that class, so it won't run for images without it (e.g. added via raw HTML or a block that doesn't set it) or with JS disabled. Elsewhere you can use the [media_license_get_caption](#get-license-caption-by-attachment-id) function.
 
+The credit reads `Image by <author>, <license>`, with either half dropped when it
+is not set. If the attachment has a caption of its own it goes first, separated by
+` | `; if the *block* already carries a caption, that one is kept and only the
+credit is appended after the same separator.
+
 ## REST API
 
 A read-only `GET media_license/v1/captions` route (`public/classes/Rest.php`) takes
