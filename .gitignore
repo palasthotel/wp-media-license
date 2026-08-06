@@ -1,2 +1,8 @@
 *.DS_Store
 /node_modules
+# compiled editor assets - built by the pipeline, never committed
+/public/dist
+# pack staging directory
+/build
+*.zip
+/resource/debug.log

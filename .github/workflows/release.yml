@@ -2,8 +2,20 @@
 name: Build and release to WordPress.org
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
+  # Manual re-run for a release whose deploy failed. A tag ruleset stops tags from
+  # being moved, and re-running a tag event replays the workflow file as it was at
+  # that tag - so a fix to this file can only be picked up by dispatching it from a
+  # branch. It deploys the content of the ref you select;
+  # bin/version-checker.sh aborts before anything is published if they disagree.
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to deploy, without the leading v (e.g. 1.7.0)"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -13,18 +25,17 @@ jobs:
     name: Build and deploy to WordPress.org
     runs-on: ubuntu-latest
     env:
-      RELEASE_TAG: ${{ github.event.release.tag_name }}
+      RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', github.event.inputs.version) || github.ref_name }}
     steps:
       - name: Notify on start
         run: |
-          echo "Starting release process for tag $RELEASE_TAG..."  
+          echo "Starting release process for tag $RELEASE_TAG..."
           echo "This may take a few minutes. Please wait."
 
       - name: Normalize release tag
         shell: bash
         run: |
           VERSION=${RELEASE_TAG#v}
-          VERSION=${VERSION#V}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Show release version
@@ -34,20 +45,18 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Check version numbers
-        run: |
-          chmod +x .github/workflows/scripts/version-checker.sh
-          ./.github/workflows/scripts/version-checker.sh
+        run: bash bin/version-checker.sh
 
       - name: Install SVN
         run: |
-          sudo apt-get update  
-          sudo apt-get install -y subversion  
+          sudo apt-get update
+          sudo apt-get install -y subversion
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
-          tools: composer, wp-cli
+          php-version: "8.2"
+          tools: composer
 
       - name: Setup node
         uses: actions/setup-node@v6
@@ -60,22 +69,20 @@ jobs:
       - name: Build
         run: npm run build
 
-      # This step generates a media-license.zip file in the root of the repository, we should delete it after uploading it as an artifact to avoid confusion.
       - name: Pack plugin
         id: pack_plugin
-        run: npm run pack
+        run: bash bin/pack.sh
 
       - name: Upload release asset
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         continue-on-error: true
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./media-license.zip
-          asset_name: media-license.zip
-          asset_content_type: application/zip
+          # Explicit, because on a dispatch run github.ref is a branch and the
+          # action would otherwise not find the release.
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: ./media-license.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cleanup packaged artifact
         if: always()
@@ -92,28 +99,24 @@ jobs:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         run: |
-          ls -la
           cd svn
-          ls -la
-          VERSION=${VERSION}
+          rm -rf trunk/* tags/$VERSION || true
           mkdir -p trunk tags/$VERSION
-          rsync -aL --delete \
-          --exclude='svn/' \
-          --exclude='.git/' \
-          --exclude='.github/' \
-          --exclude='bin/' \
-          --exclude='node_modules/' \
-          --exclude='resource/' \
-          --exclude='src/' \
-          --exclude='.gitignore' \
-          --exclude='.wp-env.json' \
-          --exclude='package-lock.json' \
-          --exclude='package.json' \
-          --exclude='README.md' \
-          --exclude='webpack.gutenberg.js' \
-          --exclude='*.zip' \
-          ../ ./trunk/
-          rsync -aL --delete trunk/ "tags/$VERSION/"
+          # -L resolves symlinks. cp is platform-dependent here - GNU cp keeps
+          # them while descending, BSD cp resolves them - and SVN refuses a commit
+          # that puts a symlink where it versions a regular file.
+          # build/media-license/ is what bin/pack.sh staged and zipped, so the
+          # GitHub release asset and the SVN trunk are identical - and it is the copy
+          # the composer manifests were dropped from.
+          rsync -rL ../build/media-license/ trunk/
+          rsync -rL trunk/ "tags/$VERSION/"
+          # assets/ holds the media for the wordpress.org plugin page (banner,
+          # icon, screenshots). It is not part of the download, and the
+          # repository is the source of truth for it — hence --delete.
+          if [ -d ../assets ]; then
+            mkdir -p assets
+            rsync -rL --delete ../assets/ assets/
+          fi
           svn add --force . || true
           svn status | awk '/^!/{print $2}' | while IFS= read -r file; do
             [ -n "$file" ] || continue
@@ -129,5 +132,4 @@ jobs:
       - name: Notify on success
         if: success()
         run: |
-         echo "Plugin successfully deployed to WordPress.org and GitHub!"  
-         echo "Version ${RELEASE_TAG} is now live!"
+          echo "Plugin with version ${RELEASE_TAG} successfully deployed to WordPress.org!"

@@ -13,8 +13,15 @@ use stdClass;
 
 class ListOfLicenses extends _BlockType {
 
+	// Block namespaces are validated against /^[a-z0-9-]+\/[a-z0-9-]+$/ - no underscores -
+	// so Plugin::DOMAIN ("media_license") can't be used here directly, it fails that
+	// check silently (WP_Block_Type_Registry::register() logs a doing_it_wrong and
+	// returns false, so the block is simply never registered). This also matches the
+	// key src/gutenberg.js already registers its editor component under.
+	const BLOCK_NAMESPACE = "media-license";
+
 	public function id(): BlockId {
-		return BlockId::build(Plugin::DOMAIN, "list-of-licenses");
+		return BlockId::build(self::BLOCK_NAMESPACE, "list-of-licenses");
 	}
 
 	public function category(): string {

@@ -18,7 +18,11 @@ $output = "";
  * if there is a caption save it to output
  */
 if ( "" != $caption ) {
-	$output = "<span class='media-license__caption'>" . strip_tags($caption) . "</span>";
+	// These fields are attachment postmeta, saved through sanitize_text_field() -
+	// which strips tags but does not escape quotes - so a value like
+	// x" onmouseover="alert(1) still needs esc_url()/esc_html() here, at the point
+	// it is echoed into an attribute or text node.
+	$output = "<span class='media-license__caption'>" . esc_html( wp_strip_all_tags( $caption ) ) . "</span>";
 }
 
 /**
@@ -33,12 +37,12 @@ if ( "" != $media_license_author )
 	$post_link = "";
 	if($media_license_url != "")
 	{
-		$pre_link = "<a href=\"{$media_license_url}\" >";
+		$pre_link = "<a href=\"" . esc_url( $media_license_url ) . "\" >";
 		$post_link = "</a>";
 	}
 
 	$output .= "<span class='media-license__author'>";
-	$output .= __(" by ", "media-license" ) . $pre_link . $media_license_author . $post_link . " ";
+	$output .= __(" by ", "media-license" ) . $pre_link . esc_html( $media_license_author ) . $post_link . " ";
 	$output .= "</span>";
 }
 

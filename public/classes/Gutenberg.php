@@ -23,10 +23,17 @@ class Gutenberg
 
     public function enqueue_block_editor_assets()
     {
-        $info = include $this->plugin->path . "/js/gutenberg/media-license.asset.php";
+        // dist/ is built by the pipeline and is not in the repository. If it is missing
+        // (a source checkout that was never built), there is simply no Gutenberg block
+        // rather than a fatal.
+        $asset = $this->plugin->path . "/dist/media-license.asset.php";
+        if (!file_exists($asset)) {
+            return;
+        }
+        $info = include $asset;
         wp_enqueue_script(
             Plugin::HANDLE_GUTENBERG_JS,
-            $this->plugin->getUrl("/js/gutenberg/media-license.js"),
+            $this->plugin->getUrl("/dist/media-license.js"),
             $info["dependencies"],
             $info["version"]
         );

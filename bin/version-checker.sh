@@ -4,7 +4,7 @@ set -euo pipefail
 VERSION="${VERSION:-}"
 
 if [[ -z "$VERSION" ]]; then
-  echo "ERROR: VERSION ist nicht gesetzt (z.B. VERSION=2.0.2)" >&2
+  echo "ERROR: VERSION ist nicht gesetzt (z.B. VERSION=1.7.0)" >&2
   exit 1
 fi
 
@@ -16,19 +16,19 @@ if [[ -z "$PKG_VERSION" ]]; then
 fi
 
 # 2) readme.txt Stable tag
-README_VERSION="$(grep -E '^Stable tag:' ./readme.txt | head -n1 | sed -E 's/^Stable tag:[[:space:]]*//')"
+README_VERSION="$(grep -E '^Stable tag:' ./public/readme.txt | head -n1 | sed -E 's/^Stable tag:[[:space:]]*//')"
 if [[ -z "$README_VERSION" ]]; then
   echo "ERROR: Konnte 'Stable tag:' nicht in readme.txt finden" >&2
   exit 1
 fi
 
-# 3) Plugin.php Version (typisch in Plugin-Headern; wir nehmen die erste passende Zeile)
-PLUGIN_VERSION="$(grep -E '^[[:space:]]*\*?[[:space:]]*Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' ./media-license.php \
+# 3) media-license.php Version (typisch in Plugin-Headern; wir nehmen die erste passende Zeile)
+PLUGIN_VERSION="$(grep -E '^[[:space:]]*\*?[[:space:]]*Version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+' ./public/media-license.php \
   | head -n1 \
   | sed -E 's/.*Version:[[:space:]]*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')"
 
 if [[ -z "$PLUGIN_VERSION" ]]; then
-  echo "ERROR: Konnte 'Version:' nicht in Plugin.php finden" >&2
+  echo "ERROR: Konnte 'Version:' nicht in media-license.php finden" >&2
   exit 1
 fi
 
@@ -47,7 +47,7 @@ check_eq () {
 
 check_eq "package.json version" "$PKG_VERSION"
 check_eq "readme.txt Stable tag" "$README_VERSION"
-check_eq "Plugin.php Version" "$PLUGIN_VERSION"
+check_eq "media-license.php Version" "$PLUGIN_VERSION"
 
 if [[ "$fail" -ne 0 ]]; then
   echo "Release-Version-Check fehlgeschlagen." >&2

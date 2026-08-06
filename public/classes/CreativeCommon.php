@@ -192,7 +192,7 @@ class CreativeCommon {
 	 */
 	public function getLink($content, $classes = array()){
 		if(!$this->hasLicensePath()) return $content;
-		return '<a class="'.implode(" ", $classes).'" rel="license" target="_blank" href="'.$this->getUrl() . '">' . $content . '</a>';
+		return '<a class="'.esc_attr(implode(" ", $classes)).'" rel="license" target="_blank" href="'.esc_url($this->getUrl()) . '">' . $content . '</a>';
 	}
 
 	/**
@@ -203,7 +203,7 @@ class CreativeCommon {
 	 */
 	public function getImage( $classes = array()){
 		if(!$this->hasLicensePath()) return '';
-		return '<img class="'.implode(" ", $classes).'" alt="'.__("Creative Commons License logo", Plugin::DOMAIN).'" src="'.$this->getImageUrl().'" />';
+		return '<img class="'.esc_attr(implode(" ", $classes)).'" alt="'.esc_attr__("Creative Commons License logo", Plugin::DOMAIN).'" src="'.esc_url($this->getImageUrl()).'" />';
 	}
 
 	/**
