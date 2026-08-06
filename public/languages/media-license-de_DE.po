@@ -40,7 +40,7 @@ msgstr "Alle Rechte vorbehalten"
 
 #: classes/CreativeCommon.php:162
 msgid "Public Domain"
-msgstr ""
+msgstr "Gemeinfrei"
 
 #: classes/CreativeCommon.php:206
 msgid "Creative Commons License logo"
@@ -70,6 +70,72 @@ msgstr "URL des Autors"
 msgid "Link author if url is provided"
 msgstr "Autor wird verlinkt, wenn URL angegeben ist"
 
+#: classes/MetaFields.php:176
+msgid "Bold"
+msgstr "Fett"
+
+#: classes/MetaFields.php:177
+msgid "Italic"
+msgstr "Kursiv"
+
+#: classes/MetaFields.php:178
+msgid "Link"
+msgstr "Link"
+
+#: classes/MetaFields.php:188
+msgid "Link URL"
+msgstr "Link-URL"
+
+#: classes/MetaFields.php:189
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: classes/MetaFields.php:190
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: classes/MetaFields.php:193
+msgid "Preview"
+msgstr "Vorschau"
+
+#: classes/AdminPage.php:42
+msgid "General"
+msgstr "Allgemein"
+
+#: classes/AdminPage.php:49
+msgid "Choose main block option"
+msgstr "Zentrale Block-Einstellung wählen"
+
+#: classes/AdminPage.php:57
+msgid "Collect data-attribute data in footer"
+msgstr "Data-Attribut-Daten im Footer sammeln"
+
+#: classes/AdminPage.php:66
+msgid "Overwrites via \"media_license_individual_block_settings\" hook"
+msgstr "Überschreibungen über den Hook \"media_license_individual_block_settings\""
+
+#: classes/AdminPage.php:124
+msgid "The central block option can be overwritten for individual blocks."
+msgstr ""
+"Die zentrale Block-Einstellung kann für einzelne Blöcke überschrieben werden."
+
+#. translators: %s: name of the filter hook, wrapped in a code tag
+#: classes/AdminPage.php:130
+msgid "Use the %s filter to do this."
+msgstr "Verwende dafür den Filter %s."
+
+#: classes/AdminPage.php:137
+msgid "Example:"
+msgstr "Beispiel:"
+
+#: classes/AdminPage.php:149
+msgid "Currently active settings:"
+msgstr "Aktuell aktive Einstellungen:"
+
+#: classes/AdminPage.php:156
+msgid "No individual block overrides are active."
+msgstr "Es sind keine individuellen Block-Überschreibungen aktiv."
+
 #: templates/media-license-caption.tpl.php:41
 msgid " by "
 msgstr " von "
@@ -87,8 +153,12 @@ msgid "Advanced caption with license for media files"
 msgstr "Erweiterte Bildunterschrift mit Lizenz und Autor"
 
 #. Author of the plugin/theme
-msgid "Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock)"
-msgstr "Palasthotel <rezeption@palasthotel.de> (in Person: Edward Bock)"
+msgid ""
+"Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock, Lucas "
+"Regalar)"
+msgstr ""
+"Palasthotel <rezeption@palasthotel.de> (in Person: Edward Bock, Lucas "
+"Regalar)"
 
 #. Author URI of the plugin/theme
 msgid "http://www.palasthotel.de"

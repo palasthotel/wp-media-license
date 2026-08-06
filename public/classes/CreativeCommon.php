@@ -38,12 +38,12 @@ class CreativeCommon {
 		$licenses = array();
 
 		$licenses['nil'] = array(
-			'label'     => __('-- No license information --', Plugin::DOMAIN),
+			'label'     => __('-- No license information --', 'media-license'),
 			'cc_path'      => '',
 		);
 
 		$licenses['copyright'] = array(
-			'label'     => __('All rights reserved', Plugin::DOMAIN),
+			'label'     => __('All rights reserved', 'media-license'),
 			'cc_path'      => '',
 		);
 
@@ -159,7 +159,7 @@ class CreativeCommon {
 		 * public domain
 		 */
 		$licenses['public-domain'] = array(
-			'label'     => __('Public Domain', Plugin::DOMAIN),
+			'label'     => __('Public Domain', 'media-license'),
 			'cc_path'      => '',
 		);
 
@@ -209,7 +209,7 @@ class CreativeCommon {
 		// hundred pixels tall. The class gives frontend.css something specific
 		// enough to override that with.
 		array_unshift( $classes, "media-license__cc-badge" );
-		return '<img class="'.esc_attr(implode(" ", $classes)).'" width="80" height="15" alt="'.esc_attr__("Creative Commons License logo", Plugin::DOMAIN).'" src="'.esc_url($this->getImageUrl()).'" />';
+		return '<img class="'.esc_attr(implode(" ", $classes)).'" width="80" height="15" alt="'.esc_attr__("Creative Commons License logo", 'media-license').'" src="'.esc_url($this->getImageUrl()).'" />';
 	}
 
 	/**

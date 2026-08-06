@@ -39,14 +39,14 @@ class AdminPage
 
         add_settings_section(
             $this->plugin::SETTINGS_SECTION_MAIN,
-            'Allgemein', // __('General', $this->plugin::DOMAIN)
+            __('General', 'media-license'),
             [$this, 'render_settings_section'],
             $this->plugin::SETTINGS_PAGE_SLUG,
         );
 
         add_settings_field(
             $this->plugin::SETTINGS_FIELD_BLOCKS_MAIN,
-            'Choose main block option',
+            __('Choose main block option', 'media-license'),
             [$this, 'render_main_block_options'],
             $this->plugin::SETTINGS_PAGE_SLUG,
             $this->plugin::SETTINGS_SECTION_MAIN,
@@ -54,7 +54,7 @@ class AdminPage
 
         add_settings_field(
             $this->plugin::SETTINGS_FIELD_COLLECT,
-            'Collect data-attribute data in footer',
+            __('Collect data-attribute data in footer', 'media-license'),
             [$this, 'render_checkbox'],
             $this->plugin::SETTINGS_PAGE_SLUG,
             $this->plugin::SETTINGS_SECTION_MAIN,
@@ -63,7 +63,7 @@ class AdminPage
 
         add_settings_section(
             $this->plugin::SETTINGS_SECTION_OVERWRITE,
-            'Overwrites via "media_license_individual_block_settings" hook', // __('General', $this->plugin::DOMAIN)
+            __('Overwrites via "media_license_individual_block_settings" hook', 'media-license'),
             [$this, 'render_overwrite_section'],
             $this->plugin::SETTINGS_PAGE_SLUG,
         );
@@ -121,14 +121,20 @@ class AdminPage
     {
     ?>
         <p>
-            The central block option can be overwritten for individual blocks.
+            <?php esc_html_e('The central block option can be overwritten for individual blocks.', 'media-license'); ?>
         </p>
 
         <p>
-            Use the <code>media_license_individual_block_settings</code> filter to do this.
+            <?php
+            printf(
+                /* translators: %s: name of the filter hook, wrapped in a code tag */
+                esc_html__('Use the %s filter to do this.', 'media-license'),
+                '<code>media_license_individual_block_settings</code>'
+            );
+            ?>
         </p>
 
-        <p><strong>Example:</strong></p>
+        <p><strong><?php esc_html_e('Example:', 'media-license'); ?></strong></p>
 
         <pre><code>
         add_filter(
@@ -139,7 +145,7 @@ class AdminPage
         );
         </code></pre>
 
-        <p><strong>Currently active settings:</strong></p>
+        <p><strong><?php esc_html_e('Currently active settings:', 'media-license'); ?></strong></p>
         <?php
         $settings = get_option($this->plugin::SETTINGS_OPTION_NAME);
         $central_block_setting = $settings[$this->plugin::SETTINGS_FIELD_BLOCKS_MAIN] ?? 'legacy';
@@ -147,7 +153,7 @@ class AdminPage
 
         if (empty($individual_block_settings)) :
         ?>
-            <p><em>No individual block overrides are active.</em></p>
+            <p><em><?php esc_html_e('No individual block overrides are active.', 'media-license'); ?></em></p>
         <?php
         else :
         ?>

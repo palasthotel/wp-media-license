@@ -29,7 +29,7 @@ class ListOfLicenses extends _BlockType {
 	}
 
 	public function title(): string {
-		return __("List of media licenses", Plugin::DOMAIN);
+		return __("List of media licenses", 'media-license');
 	}
 
 	public function contentStructure(): ContentStructure {
@@ -41,7 +41,7 @@ class ListOfLicenses extends _BlockType {
 	public function registerBlockTypeArgs(): array {
 		$args = parent::registerBlockTypeArgs();
 		$args["icon"] = "images-alt2";
-		$args["description"] = __("Collects information about all media licenses used in this post.", Plugin::DOMAIN);
+		$args["description"] = __("Collects information about all media licenses used in this post.", 'media-license');
 		return $args;
 	}
 

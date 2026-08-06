@@ -11,7 +11,7 @@
  * Requires PHP: 8.0
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain: media_license
+ * Text Domain: media-license
  * Domain Path: /languages
  * @copyright Copyright (c) 2023, Palasthotel
  * @package Palasthotel\MediaLicense
@@ -64,7 +64,18 @@ if (defined('PH_CENTRAL_AUTOLOADER_DEBUG') && PH_CENTRAL_AUTOLOADER_DEBUG) {
 
 class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 
+	// The REST namespace and the Tools submenu slug, kept as-is so published
+	// endpoints and bookmarked URLs stay valid. This is NOT the text domain -
+	// that has to match the plugin slug, see TEXT_DOMAIN below.
 	const DOMAIN = 'media_license';
+
+	// WordPress looks for languages/<text domain>-<locale>.mo, and language packs
+	// from wordpress.org are built against the plugin slug. With 'media_license'
+	// here nothing ever matched the shipped media-license-*.mo files, so no
+	// translation loaded at all. Every __() call passes the literal, because
+	// make-pot and GlotPress only read literal domains.
+	const TEXT_DOMAIN = 'media-license';
+
     const DISPLAY_NAME = 'Media License';
 
     /**
@@ -132,7 +143,7 @@ class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 	public function onCreate(): void {
 
 		$this->loadTextdomain(
-			self::DOMAIN,
+			self::TEXT_DOMAIN,
 			"languages"
 		);
 
