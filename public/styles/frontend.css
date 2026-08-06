@@ -1,3 +1,16 @@
+/* Themes stretch every image inside a figure to the content width - Twenty
+   Twenty-Four does it with .wp-block-image.alignwide img { width: 100% } - which
+   turns the fixed 80x15 Creative Commons badge into a several-hundred pixel tall
+   caption. Two classes plus two elements outweighs that rule. */
+figcaption.media-license__figcaption img.media-license__cc-badge,
+.media-license-footer__entry__information img.media-license__cc-badge {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 #media-license-footer-container {
     display: none;
     justify-content: center;
