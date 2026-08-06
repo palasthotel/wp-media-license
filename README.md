@@ -1,8 +1,8 @@
-# Media License
+# Media License (WordPress-Plugin)
 
 Allows you to add media license info to your media files. Plugin is available at [WordPress.org](https://wordpress.org/plugins/media-license/)
 
-Captions are automatically added to images in post content. Elsewhere you can use [media_license_get_caption](#get-license-caption-by-attachment-id) function.
+On the front end, `public/js/api.js` scans the rendered page for `<img class="wp-image-{id}">` elements (the class core blocks like image and gallery add), fetches their captions from the REST API below, and inserts a `<figcaption>` - this requires JavaScript and that class, so it won't run for images without it (e.g. added via raw HTML or a block that doesn't set it) or with JS disabled. Elsewhere you can use the [media_license_get_caption](#get-license-caption-by-attachment-id) function.
 
 ## REST API
 
