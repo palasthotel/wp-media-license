@@ -7,7 +7,7 @@
     "build": "wp-scripts build --config webpack.gutenberg.js",
     "pack": "bash bin/pack.sh"
   },
-  "dependencies": {
+  "devDependencies": {
     "@wordpress/block-editor": "^16.1.0",
     "@wordpress/components": "^38.0.0",
     "@wordpress/compose": "^8.5.0",
