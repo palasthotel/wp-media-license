@@ -24,7 +24,7 @@ Push to main
     │
     │    On PR to main
     └──▶ [pr.yml]
-             php -l on 7.4 / 8.2 / 8.3 / 8.4
+             php -l on 8.0 / 8.1 / 8.2 / 8.3 / 8.4
              build + "were the enqueued assets produced?"
              pack + "is the payload clean?"
 
