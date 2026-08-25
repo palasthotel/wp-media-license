@@ -2,6 +2,7 @@
   "name": "palasthotel/media-license",
   "description": "Add licenses to images",
   "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
   "autoload": {
     "psr-4": {
       "Palasthotel\\MediaLicense\\": "classes"
