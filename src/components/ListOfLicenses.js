@@ -1,12 +1,29 @@
 import {useSelect} from '@wordpress/data';
 import {useEffect} from "@wordpress/element";
-import isEqual from 'lodash/isEqual.js'
-import flatten from 'lodash/flatten.js'
 
 const useBlocks = (deps = [])=> useSelect( select =>{
     const store = select('core/block-editor');
     return store ? store.getBlocks() : [];
 }, deps);
+
+/**
+ * Replaces lodash isEqual. Everything compared here is a flat list of
+ * attachment ids, so an order sensitive element wise comparison is all that is
+ * needed - no reason to bundle a deep equality check for it.
+ *
+ * The identity check comes first so that two undefined sides count as equal,
+ * which is what isEqual did: block.dirtyState.imageIds and block.content.imageIds
+ * are both undefined until the block state has been initialized, and treating
+ * that as a difference would write content on every timeout.
+ *
+ * Object.is rather than === for the elements, because isEqual compares with
+ * SameValueZero and would call two NaN ids equal.
+ */
+const sameIds = (a, b)=>{
+    if(a === b) return true;
+    if(!Array.isArray(a) || !Array.isArray(b)) return false;
+    return a.length === b.length && a.every((id, i)=> Object.is(id, b[i]));
+};
 
 let globalImageIds = [];
 
@@ -27,11 +44,11 @@ const ListOfLicenses = ({block: id})=>{
 
 
     globalImageIds = [
-        ...new Set([...validImageBlocks.map(b=>b.attributes.id), ...flatten(validGalleryBlocks.map(b=>b.attributes.ids))]),
+        ...new Set([...validImageBlocks.map(b=>b.attributes.id), ...validGalleryBlocks.flatMap(b=>b.attributes.ids)]),
     ];
 
     useEffect(()=>{
-        if( !isEqual(globalImageIds, block.dirtyState.imageIds) ){
+        if( !sameIds(globalImageIds, block.dirtyState.imageIds) ){
             block.changeLocalState("imageIds",globalImageIds);
         }
     }, [globalImageIds]);
@@ -39,7 +56,7 @@ const ListOfLicenses = ({block: id})=>{
     useEffect(()=>{
         const timeout = setTimeout(()=>{
             // wait for change to apply
-            if(!isEqual(block.dirtyState.imageIds, block.content.imageIds)){
+            if(!sameIds(block.dirtyState.imageIds, block.content.imageIds)){
                 block.setContent({
                     imageIds: block.dirtyState.imageIds,
                 });
