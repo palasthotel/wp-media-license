@@ -12,7 +12,7 @@
     "@wordpress/block-editor": "^16.1.0",
     "@wordpress/blocks": "^15.25.0",
     "@wordpress/components": "^38.0.0",
-    "@wordpress/compose": "^8.5.0",
+    "@wordpress/compose": "^8.7.0",
     "@wordpress/data": "^10.52.0",
     "@wordpress/dom-ready": "^4.52.0",
     "@wordpress/edit-post": "^8.52.0",
