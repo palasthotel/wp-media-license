@@ -5,7 +5,7 @@ Tags: media, extension, license
 Requires at least: 6.6
 Tested up to: 7.0.2
 Requires PHP: 8.0
-Stable tag: 1.6.9
+Stable tag: 1.7.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -32,6 +32,25 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.7.0 =
+**Features**
+* accordion layout in block (8366f9b)
+* let a block switch off its appended license info (7770752)
+* render the credit as "Image by &lt;author&gt;, &lt;license&gt;" (0a448ef)
+* show the list of licenses as an accordion with thumbnails (79ecd52)
+
+**Bug Fixes**
+* append the license caption to the figure, not a nonexistent sibling (5720c5d)
+* build script typo (d0cf902)
+* drop PHP 7.4 from the PR lint matrix (b331306)
+* drop the colon from the list of licenses heading (2e6de78)
+* escape user-controlled caption fields before output (2baa226)
+* load the German translations at all (741a2f7)
+* raise the required WordPress/PHP versions and settle the license (f926ba8)
+* stop themes from stretching the Creative Commons badge (ae20d51)
+* use a valid block namespace for the List of licenses block (2fa14ab)
+
 = 1.6.9 =
 * Fix: Fix a bug where image captions are doubled
 * Fix: Fix a potential bug where overwritten image caption result in the new and old captions appended ot each other
