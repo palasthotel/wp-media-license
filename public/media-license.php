@@ -7,7 +7,7 @@
  * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock, Lucas Regalar)
  * Author URI: http://www.palasthotel.de
  * Requires at least: 6.6
- * Tested up to: 7.0.2
+ * Tested up to: 7.1.2
  * Requires PHP: 8.0
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
