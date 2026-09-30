@@ -1,20 +1,20 @@
 <?php return array(
     'root' => array(
-        'name' => '__root__',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '86da22113c0b013f2db2f95a27c89be58f1d331d',
-        'type' => 'library',
+        'name' => 'palasthotel/media-license',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '5f7ab9942f78e1157630072f4cb42362e4160b9d',
+        'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        '__root__' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '86da22113c0b013f2db2f95a27c89be58f1d331d',
-            'type' => 'library',
+        'palasthotel/media-license' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '5f7ab9942f78e1157630072f4cb42362e4160b9d',
+            'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
