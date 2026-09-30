@@ -14,8 +14,6 @@
 ### Bug Fixes
 
 * append the license caption to the figure, not a nonexistent sibling ([5720c5d](https://github.com/palasthotel/wp-media-license/commit/5720c5dab2e87242a7bb49be90ae379150172dd4))
-* build script typo ([d0cf902](https://github.com/palasthotel/wp-media-license/commit/d0cf90244f7c168e80ee52c1a7158f299fb08701))
-* drop PHP 7.4 from the PR lint matrix ([b331306](https://github.com/palasthotel/wp-media-license/commit/b331306bd00d583f5de721848689e2ce6e02f1e4))
 * drop the colon from the list of licenses heading ([2e6de78](https://github.com/palasthotel/wp-media-license/commit/2e6de7819e2899b2b7ab8217bbd05a55af0a2ab1))
 * escape user-controlled caption fields before output ([2baa226](https://github.com/palasthotel/wp-media-license/commit/2baa22646bce0589b44847f3fc1bf896e06c7759))
 * load the German translations at all ([741a2f7](https://github.com/palasthotel/wp-media-license/commit/741a2f7d0d560d3200220dc70133d50e66befdda))

@@ -42,8 +42,6 @@ Yes you can with the filter function "media_license_add_fields".
 
 **Bug Fixes**
 * append the license caption to the figure, not a nonexistent sibling (5720c5d)
-* build script typo (d0cf902)
-* drop PHP 7.4 from the PR lint matrix (b331306)
 * drop the colon from the list of licenses heading (2e6de78)
 * escape user-controlled caption fields before output (2baa226)
 * load the German translations at all (741a2f7)
