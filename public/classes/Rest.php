@@ -51,12 +51,33 @@ class Rest {
 
 		for($i = 0; $i < count($ids); $i++){
 			$id = intval($ids[$i]);
-			$map[$id] = media_license_get_caption($id);
+			$map[$id] = $this->can_read_caption($id) ? media_license_get_caption($id) : "";
 		}
 
 		return [
 			"error" => false,
 			"captions" => $map,
 		];
+	}
+
+	/**
+	 * The route is public and the ids come from the request, so it answers for
+	 * attachments only. media_license_get_caption() reads the excerpt of whatever
+	 * post it is given - for a private or draft post, or a password protected one,
+	 * that is content nobody without access to it should see.
+	 *
+	 * An attachment's own status is "inherit"; one that is private or in the trash
+	 * needs the right to read it.
+	 *
+	 * @param int $id
+	 *
+	 * @return bool
+	 */
+	private function can_read_caption(int $id): bool {
+		$post = get_post($id);
+		if ( ! ( $post instanceof \WP_Post ) || 'attachment' !== $post->post_type ) {
+			return false;
+		}
+		return 'inherit' === $post->post_status || current_user_can( 'read_post', $post->ID );
 	}
 }
