@@ -1,7 +1,18 @@
 {
   "name": "@palasthotel/media-license",
   "version": "1.7.0",
+  "private": true,
+  "description": "Adds license information to media files and their captions.",
   "license": "GPL-3.0-or-later",
+  "author": {
+    "name": "Palasthotel",
+    "email": "webmaster@palasthotel.de",
+    "url": "https://palasthotel.de"
+  },
+  "repository": "git+https://github.com/palasthotel/wp-media-license.git",
+  "bugs": {
+    "url": "https://github.com/palasthotel/wp-media-license/issues"
+  },
   "scripts": {
     "watch": "wp-scripts start --config webpack.gutenberg.js",
     "build": "wp-scripts build --config webpack.gutenberg.js",
