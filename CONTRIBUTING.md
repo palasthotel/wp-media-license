@@ -66,7 +66,6 @@ repository-only.
 | `public/composer.json`, `public/composer.lock` | the autoload config `public/vendor/` is generated from |
 | `src/` | Gutenberg block JavaScript source |
 | `resource/` | wp-env helpers |
-| `bin/` | release helper scripts |
 | `assets/` | media for the WordPress.org plugin page — not part of the download |
 
 ## Local setup
@@ -77,11 +76,16 @@ npm run build         # → public/dist/
 npx wp-env start      # http://localhost:8888, admin / password
 ```
 
-`bash bin/pack.sh` stages the payload in `build/media-license/` and zips it to
-`media-license.zip` — the same payload the release deploys. It needs `composer`,
-because the packed copy gets a freshly generated `--no-dev` autoloader and the
-composer files are dropped from it. Run `npm run build` first; the script refuses to
-pack an unbuilt payload.
+`npm run pack` stages the payload in `build/media-license/` and zips it to
+`media-license.zip` — the same payload the release deploys. It runs the shared script
+from [palasthotel/github-workflows](https://github.com/palasthotel/github-workflows),
+which has to be checked out next to this repository, and needs `composer`, because the
+packed copy gets a freshly generated `--no-dev` autoloader and the composer files are
+dropped from it. Run `npm run build` first.
+
+The main file `public/media-license.php` must keep its name. WordPress identifies an
+installed plugin by `<directory>/<main file>` and stores that pair in `active_plugins`;
+renaming it deactivates the plugin on every site at the next update.
 
 `public/dist/` is generated and gitignored. The release builds it, so there is nothing
 to commit and no stale asset to review.
@@ -99,6 +103,6 @@ entries alone.
 
 ## Checks
 
-Every PR runs `php -l` against PHP 7.4, 8.2, 8.3 and 8.4, builds the Gutenberg block
-and asserts the file the plugin enqueues was produced, and packs the plugin so a
-broken `bin/pack.sh` surfaces in the pull request rather than in a release.
+Every PR runs `php -l` against PHP 8.0 to 8.4, builds the Gutenberg block, packs the
+plugin and asserts that the payload holds every file the plugin enqueues and none of the
+repository-only ones, and checks the version carriers agree.

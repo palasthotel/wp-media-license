@@ -16,6 +16,10 @@ an `ids` array of attachment ids and returns each one's rendered caption - the s
 markup `media_license_get_caption()` produces, for headless or JS-driven front ends
 that can't call the PHP function directly.
 
+The route is public, so it answers for attachments only: an id that belongs to another
+post type, or to an attachment that is private or trashed and not readable by the
+requester, gets an empty caption.
+
 ## Gutenberg
 
 ### Append license info
@@ -251,8 +255,7 @@ repository-only.
 | `src/` | Gutenberg block JavaScript source |
 | `assets/` | media for the WordPress.org plugin page — not part of the download |
 | `media-license.php` | DEV wrapper, loads `public/media-license.php` when the repository is checked out into `wp-content/plugins/` |
-| `bin/` | release helper scripts |
-| `.github/workflows/` | CI/CD — see [.github/WORKFLOWS.md](.github/WORKFLOWS.md) |
+| `.github/workflows/` | CI/CD, calling the shared workflows — see [.github/WORKFLOWS.md](.github/WORKFLOWS.md) |
 
 ## Development
 
@@ -260,12 +263,14 @@ repository-only.
 npm ci
 npm run build      # → public/dist/
 npx wp-env start   # http://localhost:8888, admin / password
-bash bin/pack.sh   # → media-license.zip
+npm run pack       # → build/media-license/ and media-license.zip
 ```
 
 `public/dist/` is generated and gitignored — the release pipeline builds it. Run
-`npm run build` before `wp-env start` or `bin/pack.sh`; the pack script refuses to
-package an unbuilt payload.
+`npm run build` before `wp-env start` or `npm run pack`; the pull request check fails
+when the built files are missing from the payload. `npm run pack` runs the shared
+`pack.sh` from [palasthotel/github-workflows](https://github.com/palasthotel/github-workflows),
+which has to be checked out next to this repository.
 
 ## Releasing
 
@@ -277,7 +282,9 @@ and deployed to the WordPress.org SVN repository. Commit with
 fix: …   → patch    feat: …  → minor    feat!: … → major
 ```
 
-Details in [.github/WORKFLOWS.md](.github/WORKFLOWS.md), commit conventions in
+The workflows call the shared ones in
+[palasthotel/github-workflows](https://github.com/palasthotel/github-workflows); what is
+specific to this plugin is in [.github/WORKFLOWS.md](.github/WORKFLOWS.md), commit conventions in
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
