@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Media License
- * Plugin URI: https://github.com/palasthotel/media-license
+ * Plugin URI: https://github.com/palasthotel/wp-media-license
  * Description: Advanced caption with license for media files
  * Version: 1.7.0
- * Author: Palasthotel <rezeption@palasthotel.de> (in person: Edward Bock, Lucas Regalar)
- * Author URI: http://www.palasthotel.de
+ * Author: Palasthotel <webmaster@palasthotel.de>
+ * Author URI: https://palasthotel.de
  * Requires at least: 6.6
  * Tested up to: 7.1.2
  * Requires PHP: 8.0
