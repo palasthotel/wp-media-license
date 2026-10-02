@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\MediaLicense\Plugin;
 
 /**
