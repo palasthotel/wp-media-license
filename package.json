@@ -5,7 +5,7 @@
   "scripts": {
     "watch": "wp-scripts start --config webpack.gutenberg.js",
     "build": "wp-scripts build --config webpack.gutenberg.js",
-    "pack": "bash bin/pack.sh"
+    "pack": "SLUG=media-license bash ../github-workflows/wp-plugin/bin/pack.sh"
   },
   "devDependencies": {
     "@wordpress/block-editor": "^18.0.0",
