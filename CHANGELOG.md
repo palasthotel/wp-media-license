@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/palasthotel/wp-media-license/compare/v1.7.0...v1.8.0) (2026-10-02)
+
+
+### Features
+
+* load the frontend caption script without jQuery ([dab8a89](https://github.com/palasthotel/wp-media-license/commit/dab8a8993da7ec854aa31d2993c35b462d081fa1))
+
+
+### Bug Fixes
+
+* answer the captions endpoint for attachments only ([3e16dcf](https://github.com/palasthotel/wp-media-license/commit/3e16dcfc920d0554b8b61e24feb659889403bf84))
+
 ## [1.7.0](https://github.com/palasthotel/wp-media-license/compare/v1.6.9...v1.7.0) (2026-09-30)
 
 
