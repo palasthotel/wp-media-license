@@ -4,14 +4,14 @@
 'use strict'
 
 // IIFE Immediately Invoked Function Expression is an anonymus function that is executed immediately
-;(function ($, api) {
+;(function (api) {
     /**
      * load license information to core image elements
      */
     api.load_licenses = function () {
         var map = {}
         var ids = []
-        $('img').each(function (i, img) {
+        document.querySelectorAll('img').forEach(function (img) {
             // The block this image sits in switched the license info off - see
             // Gutenberg::mark_append_caption_optout(). Skipping here also keeps
             // the id out of the REST request.
@@ -74,117 +74,146 @@
          * @param caption
          */
         function process_image(element, caption) {
-            var $img = $(element)
-            // jquery converts the data-attribute 'data-media-license-block-flag' to 'mediaLicenseBlockFlag'
-            if ($img.data('mediaLicenseBlockUseDataAttribute')) {
+            var img = element
+            if (is_truthy_data(img.dataset.mediaLicenseBlockUseDataAttribute)) {
                 add_media_license_as_data_attribute(element, caption)
                 collect_block_data_attributes()
                 return
             }
-            var $figure = $('<figure></figure>')
 
-            // check parent -
-            if ($img.parent('figure').length === 1) {
-                $figure = $img.parent()
+            var figure
+            var parent = img.parentElement
+            if (parent && parent.matches('figure')) {
+                figure = parent
             } else if (
-                $img.parent('a').length === 1 &&
-                $img.parent().parent('figure').length === 1
+                parent &&
+                parent.matches('a') &&
+                parent.parentElement &&
+                parent.parentElement.matches('figure')
             ) {
-                $figure = $img.parent().parent()
+                figure = parent.parentElement
             } else {
-                // jQuery clones $figure into the DOM here, so the original
-                // reference is left detached - re-point it at the live node.
-                $img.wrap($figure)
-                $figure = $img.parent()
+                figure = document.createElement('figure')
+                img.parentNode.insertBefore(figure, img)
+                figure.appendChild(img)
             }
 
-            $figure.addClass('media-license__figure')
-            // ✅ $figure now exists
+            figure.classList.add('media-license__figure')
 
             // take over alignment
-            if ($img.hasClass('alignright')) {
-                $figure.addClass('alignright')
-                $img.removeClass('alignright')
-            }
-            if ($img.hasClass('alignleft')) {
-                $figure.addClass('alignleft')
-                $img.removeClass('alignleft')
-            }
-            if ($img.hasClass('aligncenter')) {
-                $figure.addClass('aligncenter')
-                $img.removeClass('aligncenter')
-            }
+            ;['alignright', 'alignleft', 'aligncenter'].forEach(function (align) {
+                if (img.classList.contains(align)) {
+                    figure.classList.add(align)
+                    img.classList.remove(align)
+                }
+            })
 
-            const $originalCaption = $figure.find('figcaption')
+            const originalCaptions = Array.from(figure.querySelectorAll('figcaption'))
 
-            console.debug('ML', $originalCaption)
+            console.debug('ML', originalCaptions)
 
-            if ($figure.find('figcaption').length === 0) {
+            if (originalCaptions.length === 0) {
                 console.debug('ML', 'figcaption  not found')
-                var $caption = $(
-                    '<figcaption>' + caption + '</figcaption>'
-                ).addClass('wp-caption-text media-license__figcaption')
-                // $figure is already the correct ancestor in every case
+                var figcaption = document.createElement('figcaption')
+                figcaption.innerHTML = caption
+                figcaption.classList.add('wp-caption-text', 'media-license__figcaption')
+                // figure is already the correct ancestor in every case
                 // above (bare img, img>figure, img>a>figure, or freshly
                 // wrapped) - appending to it directly works regardless of
                 // whether the image is wrapped in a link.
-                $figure.append($caption)
-            } else if (
-                $originalCaption.text() !== $('<div>').html(caption).text()
-            ) {
-                console.debug(
-                    'ML',
-                    'figcaption found but not equal!',
-                    $originalCaption.text(),
-                    $('<div>').html(caption).text()
-                )
+                figure.appendChild(figcaption)
+            } else {
+                const originalFullText = originalCaptions
+                    .map(function (el) {
+                        return el.textContent
+                    })
+                    .join('')
+                const captionText = html_to_text(caption)
 
-                const originalText = $originalCaption.text().trim()
-                const captionFullText = $('<div>')
-                    .html(caption)
-                    .text()
-                    .trimStart()
+                if (originalFullText !== captionText) {
+                    console.debug(
+                        'ML',
+                        'figcaption found but not equal!',
+                        originalFullText,
+                        captionText
+                    )
 
-                if (captionFullText.startsWith(originalText)) {
-                    // Case 3A: same caption, license was added — replace without wrapping
-                    $originalCaption
-                        .addClass('media-license__figcaption')
-                        .html(caption)
-                } else {
-                    // Case 3B: genuinely different captions — keep block caption, append only license info
-                    const $captionDiv = $('<div>').html(caption)
-                    // Strip the attachment caption: remove the caption span (plugin template)
-                    // and any root-level text nodes (theme template)
-                    $captionDiv.find('.media-license__caption').remove()
-                    $captionDiv
-                        .contents()
-                        .filter(function () {
-                            return this.nodeType === 3
+                    const originalText = originalFullText.trim()
+                    const captionFullText = captionText.trimStart()
+
+                    if (captionFullText.startsWith(originalText)) {
+                        // Case 3A: same caption, license was added — replace without wrapping
+                        originalCaptions.forEach(function (el) {
+                            el.classList.add('media-license__figcaption')
+                            el.innerHTML = caption
                         })
-                        .remove()
-                    const licenseHtml = $captionDiv.html()
+                    } else {
+                        // Case 3B: genuinely different captions — keep block caption, append only license info
+                        const captionDiv = document.createElement('div')
+                        captionDiv.innerHTML = caption
+                        // Strip the attachment caption: remove the caption span (plugin template)
+                        // and any root-level text nodes (theme template)
+                        captionDiv
+                            .querySelectorAll('.media-license__caption')
+                            .forEach(function (el) {
+                                el.remove()
+                            })
+                        Array.from(captionDiv.childNodes).forEach(function (node) {
+                            if (node.nodeType === 3) node.remove()
+                        })
+                        const licenseHtml = captionDiv.innerHTML
 
-                    if (licenseHtml.trim().length > 0) {
-                        // The block keeps its own caption, so the credit needs a
-                        // separator of its own here - the template's is a root text
-                        // node and was just stripped above.
-                        $originalCaption
-                            .addClass('media-license__figcaption')
-                            .append(
-                                '<span class="media-license__separator"> | </span>' +
-                                    licenseHtml
-                            )
+                        if (licenseHtml.trim().length > 0) {
+                            // The block keeps its own caption, so the credit needs a
+                            // separator of its own here - the template's is a root text
+                            // node and was just stripped above.
+                            originalCaptions.forEach(function (el) {
+                                el.classList.add('media-license__figcaption')
+                                el.insertAdjacentHTML(
+                                    'beforeend',
+                                    '<span class="media-license__separator"> | </span>' +
+                                        licenseHtml
+                                )
+                            })
+                        }
                     }
                 }
             }
 
-            if ($figure.find('.media-license__local-figcaption').length > 0) {
-                $figure.addClass('has-local-caption')
+            if (figure.querySelector('.media-license__local-figcaption')) {
+                figure.classList.add('has-local-caption')
             }
-            if ($figure.find('.media-license__caption').length > 0) {
-                $figure.addClass('has-caption')
+            if (figure.querySelector('.media-license__caption')) {
+                figure.classList.add('has-caption')
             }
         }
+    }
+
+    /**
+     * The values jQuery's .data() used to read as false: a missing or empty
+     * attribute, "false", "null" and "0". The plugin itself only ever writes "true".
+     * @param value
+     * @return {boolean}
+     */
+    function is_truthy_data(value) {
+        return (
+            typeof value === 'string' &&
+            value !== '' &&
+            value !== 'false' &&
+            value !== 'null' &&
+            Number(value) !== 0
+        )
+    }
+
+    /**
+     * the text content of an HTML string, without inserting it into the page
+     * @param html
+     * @return {string}
+     */
+    function html_to_text(html) {
+        const div = document.createElement('div')
+        div.innerHTML = html
+        return div.textContent
     }
 
     function add_media_license_as_data_attribute(element, caption) {
@@ -301,15 +330,28 @@
         while (attachment_ids.length) {
             // get 10 attachment captions per call
             var _ids = attachment_ids.splice(0, 10)
-            $.ajax({
-                method: 'GET',
-                url: api.resturl,
-                data: {
-                    ids: _ids,
-                },
-            }).done(function (result) {
-                promise.trigger(result)
+            // ids[]=1&ids[]=2, as jQuery serialized the array
+            var params = new URLSearchParams()
+            _ids.forEach(function (id) {
+                params.append('ids[]', id)
             })
+            // resturl carries a query string of its own with plain permalinks
+            // (?rest_route=/media_license/v1/captions)
+            var url =
+                api.resturl +
+                (api.resturl.indexOf('?') === -1 ? '?' : '&') +
+                params.toString()
+            fetch(url, { credentials: 'same-origin' })
+                .then(function (response) {
+                    if (!response.ok) throw new Error(response.status + ' ' + response.statusText)
+                    return response.json()
+                })
+                .then(function (result) {
+                    promise.trigger(result)
+                })
+                .catch(function (error) {
+                    console.error('ML', error)
+                })
         }
 
         return promise
@@ -317,8 +359,12 @@
 
     if (api.autoload) {
         // auto load license
-        $(function () {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                api.load_licenses()
+            })
+        } else {
             api.load_licenses()
-        })
+        }
     }
-})(jQuery, MediaLicense_API)
+})(MediaLicense_API)
