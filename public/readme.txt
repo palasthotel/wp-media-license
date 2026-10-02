@@ -5,7 +5,7 @@ Tags: media, extension, license
 Requires at least: 6.6
 Tested up to: 7.1.2
 Requires PHP: 8.0
-Stable tag: 1.7.0
+Stable tag: 1.8.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -32,6 +32,13 @@ Yes you can with the filter function "media_license_add_fields".
 
 
 == Changelog ==
+
+= 1.8.0 =
+**Features**
+* load the frontend caption script without jQuery (dab8a89)
+
+**Bug Fixes**
+* answer the captions endpoint for attachments only (3e16dcf)
 
 = 1.7.0 =
 **Features**
