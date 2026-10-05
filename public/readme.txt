@@ -3,7 +3,7 @@ Contributors: palasthotel, edwardbock, kroppenstedt, janaeggebrecht
 Donate link: https://palasthotel.de/
 Tags: media, extension, license
 Requires at least: 6.6
-Tested up to: 7.1.2
+Tested up to: 7.1
 Requires PHP: 8.0
 Stable tag: 1.8.0
 License: GPL-3.0-or-later
