@@ -24,43 +24,16 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// composer package name is defined in plugins composer.json
-const COMPOSER_PACKAGE = 'palasthotel/media-license';
-
-$centralAutoloader = (defined('PALASTHOTEL_COMPOSER_CENTRAL') && constant('PALASTHOTEL_COMPOSER_CENTRAL'))
-    || did_action('palasthotel/central_autoloader_loaded') > 0;
-
-$managedByCentralAutoloader = false;
-if ($centralAutoloader && class_exists('\Composer\InstalledVersions', true)) { //checks if autoloader exists
-    try {
-        if (\Composer\InstalledVersions::isInstalled(COMPOSER_PACKAGE)) { // this only checks for some version not the directory 
-            $installPath = \Composer\InstalledVersions::getInstallPath(COMPOSER_PACKAGE);
-            $managedByCentralAutoloader = $installPath && realpath($installPath) && realpath($installPath) === realpath(__DIR__); // check if the it is acutally THIS version and dir installed
-        }
-    } catch (\Throwable $e) {
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[' . COMPOSER_PACKAGE . '] InstalledVersions exception: ' . $e->getMessage());
-        }
-    }
+// the autoloader for the plugin's classes, generated from public/composer.json
+if ( ! is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
+	add_action( 'admin_notices', function () {
+		echo '<div class="notice notice-error"><p>'
+			. esc_html__( 'Media License: the autoloader is missing, run "composer install" in the plugin folder.', 'media-license' )
+			. '</p></div>';
+	} );
+	return;
 }
-
-if (!$centralAutoloader || !$managedByCentralAutoloader) {
-    $local = __DIR__ . '/vendor/autoload.php';
-    if (is_readable($local)) {
-        require_once $local;
-    } else {
-        add_action('admin_notices', function () {
-            echo '<div class="notice notice-error"><p>Bitte "composer install" im ' . COMPOSER_PACKAGE .  ' Plugin-Ordner ausführen.</p></div>';
-        });
-        return;
-    }
-}
-if (defined('PH_CENTRAL_AUTOLOADER_DEBUG') && PH_CENTRAL_AUTOLOADER_DEBUG) {
-    error_log('[MediaLicense] centralAutoloader=' . ($centralAutoloader ? '1' : '0')
-        . ' classExists=' . (class_exists('\Composer\InstalledVersions', false) ? '1' : '0')
-        . ' installPath=' . ($installPath ?? '(none)')
-        . ' managed=' . ($managedByCentralAutoloader ? '1' : '0'));
-}
+require_once __DIR__ . '/vendor/autoload.php';
 
 class Plugin extends \Palasthotel\MediaLicense\Components\Plugin {
 
