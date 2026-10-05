@@ -7,7 +7,6 @@
  * Author: Palasthotel <webmaster@palasthotel.de>
  * Author URI: https://palasthotel.de
  * Requires at least: 6.6
- * Tested up to: 7.1
  * Requires PHP: 8.0
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
