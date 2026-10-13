@@ -54,8 +54,6 @@
 
 	function updatePreview(textarea) {
 		var preview = document.querySelector('.media-license-textarea-preview[data-source="' + textarea.id + '"]');
-		var parser;
-		var parsed;
 		var wrapper;
 		var container;
 
@@ -63,9 +61,8 @@
 			return;
 		}
 
-		parser = new DOMParser();
-		parsed = parser.parseFromString('<div>' + textarea.value + '</div>', 'text/html');
-		wrapper = parsed.body.firstChild;
+		wrapper = document.createElement('div');
+		wrapper.textContent = textarea.value;
 		container = document.createElement('div');
 
 		appendSanitizedNodes(wrapper, container, document);
