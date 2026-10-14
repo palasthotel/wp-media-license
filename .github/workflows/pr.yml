@@ -15,7 +15,7 @@ jobs:
       slug: media-license
       dev-plugin-name: Media License (DEV)
       # Requires PHP: 8.0 - classes/Render.php declares a union type
-      php-versions: '["8.0", "8.1", "8.2", "8.3", "8.4"]'
+      php-versions: '["8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]'
       # public/dist is not in the repository; the pipeline builds it
       build-command: npm ci && npm run build
       # what the plugin enqueues, so a renamed entry point fails here instead of

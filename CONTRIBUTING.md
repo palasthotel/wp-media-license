@@ -107,6 +107,6 @@ submission scan rejects a patch number.
 
 ## Checks
 
-Every PR runs `php -l` against PHP 8.0 to 8.4, builds the Gutenberg block, packs the
+Every PR runs `php -l` against PHP 8.0 to 8.5, builds the Gutenberg block, packs the
 plugin and asserts that the payload holds every file the plugin enqueues and none of the
 repository-only ones, and checks the version carriers agree.
