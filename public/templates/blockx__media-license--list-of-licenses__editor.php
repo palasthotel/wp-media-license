@@ -36,7 +36,7 @@ $items = array_filter($content->captions, function ($caption) {
 						]
 					);
 					?>
-					<span class="media-license-list__caption"><?php echo $caption; ?></span>
+					<span class="media-license-list__caption"><?php echo wp_kses_post($caption); ?></span>
 				</li>
 			<?php endforeach; ?>
 		</ul>

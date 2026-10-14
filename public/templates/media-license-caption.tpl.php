@@ -85,4 +85,4 @@ $output .= $credit;
 /**
  * shout it out!
  */
-echo $output;
+echo wp_kses_post( $output );

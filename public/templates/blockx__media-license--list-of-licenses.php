@@ -40,11 +40,11 @@ if (empty($items)) {
 						'<a class="media-license-list__anchor" href="#%s" aria-label="%s">%s</a>',
 						esc_attr(media_license_get_image_anchor($imageId)),
 						esc_attr__('Jump to the image in the article', 'media-license'),
-						$thumbnail
+						$thumbnail // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup built and escaped by wp_get_attachment_image()
 					);
 				}
 				?>
-				<span class="media-license-list__caption"><?php echo $caption; ?></span>
+				<span class="media-license-list__caption"><?php echo wp_kses_post($caption); ?></span>
 			</li>
 		<?php endforeach; ?>
 	</ul>
