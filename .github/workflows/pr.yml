@@ -12,6 +12,9 @@ jobs:
   checks:
     uses: palasthotel/github-workflows/.github/workflows/wp-plugin-pr.yml@v1
     with:
+      # Plugin Check reports errors on this plugin - see https://github.com/palasthotel/wp-media-license/issues/89.
+      # Remove this line once they are fixed.
+      plugin-check: false
       slug: media-license
       dev-plugin-name: Media License (DEV)
       # Requires PHP: 8.0 - classes/Render.php declares a union type
