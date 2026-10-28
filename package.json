@@ -19,6 +19,7 @@
     "pack": "SLUG=media-license bash ../github-workflows/wp-plugin/bin/pack.sh"
   },
   "devDependencies": {
+    "@cyclonedx/webpack-plugin": "5.3.3",
     "@wordpress/block-editor": "^18.1.0",
     "@wordpress/components": "^42.0.0",
     "@wordpress/compose": "^8.9.0",
